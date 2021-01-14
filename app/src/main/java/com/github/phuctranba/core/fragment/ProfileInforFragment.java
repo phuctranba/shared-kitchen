@@ -65,7 +65,7 @@ public class ProfileInforFragment extends Fragment {
         text_followerCounter.setText(myApplication.getUserFollowers());
         text_likeCounter.setText(myApplication.getUserLikes());
         text_username.setText(myApplication.getUserName());
-        Picasso.get().load(Constant.SERVER_URL + myApplication.getuserAvata()).placeholder(R.drawable.avatar2).transform(new CircleTransform()).into(profileAvata);
+        Picasso.get().load(Constant.SERVER_URL + myApplication.getuserAvata()).placeholder(R.drawable.avatar).transform(new CircleTransform()).into(profileAvata);
 
         btn_your_recipe.setOnClickListener(new View.OnClickListener() {
             @Override

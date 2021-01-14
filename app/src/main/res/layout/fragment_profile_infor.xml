@@ -50,7 +50,7 @@
                     android:layout_height="120dp"
                     android:background="@drawable/profile_circular_border_imageview"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/avatar2" />
+                    android:src="@drawable/avatar" />
             </LinearLayout>
 
             <LinearLayout

@@ -80,7 +80,7 @@ public class ProfileActivity extends AppCompatActivity {
         userAvatar = findViewById(R.id.user_profile_photo);
 
         txtUsername.setText(myApplication.getUserName());
-        Picasso.get().load(Constant.SERVER_URL + myApplication.getuserAvata()).placeholder(R.drawable.avatar2).transform(new CircleTransform()).into(userAvatar);
+        Picasso.get().load(Constant.SERVER_URL + myApplication.getuserAvata()).placeholder(R.drawable.avatar).transform(new CircleTransform()).into(userAvatar);
         ratingBar = findViewById(R.id.rating_bar);
         lyt_not_found = findViewById(R.id.lyt_not_found);
         progressBar = findViewById(R.id.progressBar);
@@ -170,7 +170,7 @@ public class ProfileActivity extends AppCompatActivity {
         txtCountFollow.setText(itemUser.getFollowers());
         txtCountLike.setText(itemUser.getLikes());
         txtUsername.setText(itemUser.getName());
-        Picasso.get().load(Constant.SERVER_URL + itemUser.getAvatar()).placeholder(R.drawable.avatar2).transform(new CircleTransform()).into(userAvatar);
+        Picasso.get().load(Constant.SERVER_URL + itemUser.getAvatar()).placeholder(R.drawable.avatar).transform(new CircleTransform()).into(userAvatar);
         if (itemUser.isFollowed()) {
             btnFollow.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_unfollow, 0, 0, 0);
             btnFollow.setText(getString(R.string.unfollow));

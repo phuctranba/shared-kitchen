@@ -328,7 +328,7 @@ public class DetailActivity extends AppCompatActivity {
         text_username.setText(owner.getName());
         text_user_like_couter.setText(owner.getLikes());
         text_user_follower_counter.setText(owner.getFollowers());
-        Picasso.get().load(owner.getAvatar()).placeholder(R.drawable.avatar2).transform(new CircleTransform()).into(img_user_avata);
+        Picasso.get().load(owner.getAvatar()).placeholder(R.drawable.avatar).transform(new CircleTransform()).into(img_user_avata);
 //        ratingView.setRating(Float.parseFloat(objBean.getRecipeAvgRate()));
         Picasso.get().load(objBean.getRecipeImage()).placeholder(R.mipmap.ic_launcher).into(imageView);
 
