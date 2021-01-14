@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#fa4b51</color>
+    <color name="colorPrimaryDark">#c7144b</color>
+    <color name="colorAccent">#fa4b51</color>
+
+    <color name="bg">#F9F9F9</color>
+    <color name="white">#FFFFFF</color>
+    <color name="white2">#FCFCFC</color>
+    <color name="white_light">#c8c8c8</color>
+    <color name="black">#313131</color>
+    <color name="pink">#AD1457</color>
+    <color name="orange">#fa4b51</color>
+    <color name="red">#FC1920</color>
+    <color name="transparent">#00000000</color>
+    <color name="gray">#414141</color>
+    <color name="gray_light">#616161</color>
+    <color name="detail_text">#666666</color>
+    <color name="text">#666666</color>
+    <color name="line_color">#EBEBEB</color>
+    <color name="search_bg">#E47994</color>
+    <color name="gray_line">#ffffff</color>
+    <color name="navigation_default">#505050</color>
+    <color name="navigation_checked">#fa4b51</color>
+    <color name="profile_text">#EEEEEE</color>
+
+    <color name="switch_activated">#fa4b51</color>
+    <color name="switch_normal">#888D9F</color>
+
+    <color name="about_title">#353535</color>
+    <color name="about_text">#8b8b8b</color>
+
+    <color name="dialog_color">#c7144b</color>
+    <color name="dialog_text">#353535</color>
+    <color name="dialog_white_text">#FFFFFF</color>
+
+    <color name="rate_dialog_header">#c7144b</color>
+    <color name="review_dialog_header">#c7144b</color>
+    <color name="review_bg">#F2F2F2</color>
+    <color name="review_list_bg_1">#E5E5E5</color>
+    <color name="review_list_bg_2">#F2F2F2</color>
+    <color name="yr_approved">#1EF124</color>
+    <color name="yr_pending">#686868</color>
+    <color name="yr_reject">#FF0000</color>
+    <color name="yr_retry">#FFE500</color>
+    <color name="start_blue">#2AF6FF</color>
+    <color name="end_blue">#69F6FF</color>
+
+</resources>

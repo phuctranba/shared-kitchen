@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.github.phuctranba.sharedkitchen">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:name="com.github.phuctranba.sharedkitchen.MyApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
+        tools:replace="android:icon">
+        <activity android:name="com.github.phuctranba.sharedkitchen.YoutubePlayActivity" />
+        <activity android:name="com.github.phuctranba.sharedkitchen.ChangePasswordActivity" />
+        <activity android:name="com.github.phuctranba.sharedkitchen.PrivacyActivity" />
+        <activity android:name="com.github.phuctranba.core.fragment.SubCategoryFragment" />
+        <activity android:name="com.github.phuctranba.sharedkitchen.SearchActivity" />
+        <activity android:name="com.github.phuctranba.sharedkitchen.ProfileEditActivity" />
+        <activity android:name="com.github.phuctranba.sharedkitchen.DetailActivity" />
+        <activity
+            android:name="com.github.phuctranba.sharedkitchen.ForgotPasswordActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name="com.github.phuctranba.sharedkitchen.ProfileActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name="com.github.phuctranba.sharedkitchen.AboutUsActivity" />
+        <activity android:name="com.github.phuctranba.sharedkitchen.SplashActivity" />
+        <activity
+            android:name="com.github.phuctranba.sharedkitchen.SignUpActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name="com.github.phuctranba.sharedkitchen.SignInActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.github.phuctranba.sharedkitchen.MainActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:windowSoftInputMode="adjustPan" />
+
+        <meta-data
+            android:name="com.onesignal.NotificationOpened.DEFAULT"
+            android:value="DISABLE" />
+        <meta-data
+            android:name="com.onesignal.NotificationAccentColor.DEFAULT"
+            android:value="FFfa4b51" />
+    </application>
+
+</manifest>
