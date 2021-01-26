@@ -69,10 +69,7 @@ public class MainActivity extends AppCompatActivity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
-    /**
-     * ActionBarDrawerToggle: Đi kèm với ActionBar, điều khiển đóng mở DrawerLayout.
-     * Xem thêm tại: https://yellowcodebooks.com/2017/08/28/android-bai-25-xay-dung-navigation-drawer/
-     */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         textUsername = hView.findViewById(R.id.header_name);
         textUsername.setText(MyApp.getUserName());
         headerAvata = hView.findViewById(R.id.header_avatar);
-        Picasso.get().load(MyApp.getuserAvata()).placeholder(R.drawable.place_holder_small).transform(new CircleTransform()).into(headerAvata);
+//        Picasso.get().load(MyApp.getuserAvata()).placeholder(R.drawable.place_holder_small).transform(new CircleTransform()).into(headerAvata);
 
         toolbar.post(new Runnable() {
             @Override

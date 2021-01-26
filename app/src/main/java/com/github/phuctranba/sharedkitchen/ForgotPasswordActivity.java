@@ -13,9 +13,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Email;
@@ -34,16 +39,13 @@ public class ForgotPasswordActivity extends AppCompatActivity implements Validat
     @Email(message = "Vui lòng nhập email hợp lệ")
     EditText edtEmail;
 
-    String strEmail, strMessage;
+    String strEmail;
     private Validator validator;
     Button btnSubmit;
     JsonUtils jsonUtils;
     Toolbar toolbar;
+    FirebaseAuth mauth;
 
-    /**
-     * Tùy chỉnh phông chữ
-     * Xem thêm tại https://github.com/InflationX/Calligraphy
-     */
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
@@ -56,7 +58,7 @@ public class ForgotPasswordActivity extends AppCompatActivity implements Validat
         JsonUtils.setStatusBarGradiant(ForgotPasswordActivity.this);
 
         jsonUtils = new JsonUtils(this);
-
+        mauth = FirebaseAuth.getInstance();
         setupActionbar();
 
         edtEmail = findViewById(R.id.editText_fp);
@@ -76,10 +78,6 @@ public class ForgotPasswordActivity extends AppCompatActivity implements Validat
         validator.setValidationListener(this);
     }
 
-    /**
-     * Thiết lập actionbar
-     * Tham khảo thêm tại: https://xuanthulab.net/toolbar-actionbar-trong-lap-trinh-android.html
-     * */
     private void setupActionbar(){
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.forgot_password));
@@ -94,9 +92,10 @@ public class ForgotPasswordActivity extends AppCompatActivity implements Validat
 
     @Override
     public void onValidationSucceeded() {
-        strEmail = edtEmail.getText().toString();
         if (JsonUtils.isNetworkAvailable(ForgotPasswordActivity.this)) {
-            new MyTaskForgot(strEmail).execute();
+            ResetPassword();
+        }else {
+            showToast(getString(R.string.network_msg));
         }
     }
 
@@ -115,120 +114,63 @@ public class ForgotPasswordActivity extends AppCompatActivity implements Validat
         }
     }
 
-    @SuppressLint("StaticFieldLeak")
-    private class MyTaskForgot extends AsyncTask<String, Void, String> {
-
-        String email;
-
-        private MyTaskForgot(String email) {
-            this.email = email;
-        }
-
+    private void ResetPassword(){
+        strEmail = edtEmail.getText().toString();
         ProgressDialog pDialog;
+        pDialog = new ProgressDialog(ForgotPasswordActivity.this);
+        pDialog.setMessage(getString(R.string.reseting));
+        pDialog.setCancelable(false);
+        pDialog.show();
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            pDialog = new ProgressDialog(ForgotPasswordActivity.this);
-            pDialog.setMessage(getString(R.string.loading));
-            pDialog.setCancelable(false);
-            pDialog.show();
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            return "";
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-
-            if (null != pDialog && pDialog.isShowing()) {
-                pDialog.dismiss();
-            }
-
-//            if (null == result || result.length() == 0) {
-//                showToast(getString(R.string.no_data));
-//
-//            } else {
-//
-//                try {
-//                    JSONObject mainJson = new JSONObject(result);
-//                    JSONArray jsonArray = mainJson.getJSONArray(Constant.ARRAY_NAME);
-//                    JSONObject objJson;
-//                    for (int i = 0; i < jsonArray.length(); i++) {
-//                        objJson = jsonArray.getJSONObject(i);
-//                        if (objJson.has("status")) {
-//                            showToast(getString(R.string.no_data));
-//                        } else {
-//                            strMessage = objJson.getString(Constant.MSG);
-//                            Constant.GET_SUCCESS_MSG = objJson.getInt(Constant.SUCCESS);
-//                        }
-//                    }
-//
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-            strMessage = "Gửi email xác nhận thành công!";
-            Constant.GET_SUCCESS_MSG = 1;
-            setResult();
-//            }
-        }
-    }
-
-    public void setResult() {
-
-        if (Constant.GET_SUCCESS_MSG == 0) {
-            edtEmail.setText("");
-            edtEmail.requestFocus();
-            final PrettyDialog dialog = new PrettyDialog(this);
-            dialog.setTitle(getString(R.string.dialog_error))
-                    .setTitleColor(R.color.dialog_text)
-                    .setMessage(strMessage)
-                    .setMessageColor(R.color.dialog_text)
-                    .setAnimationEnabled(false)
-                    .setIcon(R.drawable.pdlg_icon_close, R.color.dialog_color, new PrettyDialogCallback() {
-                        @Override
-                        public void onClick() {
-                            dialog.dismiss();
+        mauth.sendPasswordResetEmail(strEmail)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        final PrettyDialog dialog = new PrettyDialog(ForgotPasswordActivity.this);
+                        pDialog.dismiss();
+                        if (task.isSuccessful()) {
+                            dialog.setTitle(getString(R.string.dialog_success))
+                                    .setTitleColor(R.color.dialog_text)
+                                    .setMessage(getString(R.string.dialog_reset_success))
+                                    .setMessageColor(R.color.dialog_text)
+                                    .setAnimationEnabled(false)
+                                    .setIcon(R.drawable.pdlg_icon_success, R.color.dialog_color_success, new PrettyDialogCallback() {
+                                        @Override
+                                        public void onClick() {
+                                            dialog.dismiss();
+                                            onBackPressed();
+                                        }
+                                    })
+                                    .addButton(getString(R.string.dialog_ok), R.color.dialog_white_text, R.color.dialog_color_success, new PrettyDialogCallback() {
+                                        @Override
+                                        public void onClick() {
+                                            dialog.dismiss();
+                                            onBackPressed();
+                                        }
+                                    });
+                        }else {
+                            dialog.setTitle(getString(R.string.dialog_error))
+                                    .setTitleColor(R.color.dialog_text)
+                                    .setMessage(getString(R.string.dialog_reset_fail))
+                                    .setMessageColor(R.color.dialog_text)
+                                    .setAnimationEnabled(false)
+                                    .setIcon(R.drawable.pdlg_icon_close, R.color.dialog_color_fail, new PrettyDialogCallback() {
+                                        @Override
+                                        public void onClick() {
+                                            dialog.dismiss();
+                                        }
+                                    })
+                                    .addButton(getString(R.string.dialog_ok), R.color.dialog_white_text, R.color.dialog_color_fail, new PrettyDialogCallback() {
+                                        @Override
+                                        public void onClick() {
+                                            dialog.dismiss();
+                                        }
+                                    });
                         }
-                    })
-                    .addButton(getString(R.string.dialog_ok), R.color.dialog_white_text, R.color.dialog_color, new PrettyDialogCallback() {
-                        @Override
-                        public void onClick() {
-                            dialog.dismiss();
-                        }
-                    });
-            dialog.setCancelable(false);
-            dialog.show();
-        } else {
-            final PrettyDialog dialog = new PrettyDialog(this);
-            dialog.setTitle(getString(R.string.dialog_success))
-                    .setTitleColor(R.color.dialog_text)
-                    .setMessage(strMessage)
-                    .setMessageColor(R.color.dialog_text)
-                    .setAnimationEnabled(false)
-                    .setIcon(R.drawable.pdlg_icon_success, R.color.dialog_color, new PrettyDialogCallback() {
-                        @Override
-                        public void onClick() {
-                            dialog.dismiss();
-                        }
-                    })
-                    .addButton(getString(R.string.dialog_ok), R.color.dialog_white_text, R.color.dialog_color, new PrettyDialogCallback() {
-                        @Override
-                        public void onClick() {
-                            dialog.dismiss();
-                            Intent intent_co = new Intent(ForgotPasswordActivity.this, SignInActivity.class);
-                            intent_co.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(intent_co);
-                            finish();
-                        }
-                    });
-            dialog.setCancelable(false);
-            dialog.show();
-
-        }
+                        dialog.setCancelable(false);
+                        dialog.show();
+                    }
+                });
     }
 
     public void showToast(String msg) {

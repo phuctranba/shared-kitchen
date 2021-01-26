@@ -32,7 +32,15 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name="com.github.phuctranba.sharedkitchen.AboutUsActivity" />
-        <activity android:name="com.github.phuctranba.sharedkitchen.SplashActivity" />
+        <activity
+            android:name="com.github.phuctranba.sharedkitchen.SplashActivity"
+            android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name="com.github.phuctranba.sharedkitchen.SignUpActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -40,13 +48,7 @@
         <activity
             android:name="com.github.phuctranba.sharedkitchen.SignInActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:windowSoftInputMode="adjustPan">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name="com.github.phuctranba.sharedkitchen.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"

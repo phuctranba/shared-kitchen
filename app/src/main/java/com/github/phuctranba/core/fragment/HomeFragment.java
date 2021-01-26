@@ -71,10 +71,7 @@ public class HomeFragment extends Fragment {
     EditText edt_search;
     MyApplication myApplication;
 
-    /**
-     * PrettyDialog: custom lại dialog cơ bản, opensoure trên github.
-     * Xem thêm tại: https://github.com/mjn1369/PrettyDialog
-     */
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -82,57 +79,12 @@ public class HomeFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
         setHasOptionsMenu(true);
 
-//        Map với view
-        mScrollView = rootView.findViewById(R.id.scrollView);
-        mProgressBar = rootView.findViewById(R.id.progressBar);
-
-        mCatView = rootView.findViewById(R.id.rv_latest_cat);
-        btnCat = rootView.findViewById(R.id.btn_latest_cat);
-
-        mLatestView = rootView.findViewById(R.id.rv_latest_recipe);
-        btnLatest = rootView.findViewById(R.id.btn_latest_recipe);
-
-        mMostView = rootView.findViewById(R.id.rv_latest_recipe_popular);
-        btnMost = rootView.findViewById(R.id.btn_latest_recipe_most);
-
-        mViewPager = rootView.findViewById(R.id.viewPager);
-        mViewPager.useScale();
-        mViewPager.removeAlpha();
-
-        edt_search = rootView.findViewById(R.id.edt_search);
-
-        myApplication = MyApplication.getAppInstance();
-
-        mSliderList = new ArrayList<>();
-        mPopularList = new ArrayList<>();
-        mCatList = new ArrayList<>();
-        mNewestList = new ArrayList<>();
-        mAdapter = new CustomViewPagerAdapter();
-
-//        Xoay ngang
-        mCatView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        mCatView.setLayoutManager(layoutManager);
-        mCatView.setFocusable(false);
-        mCatView.setNestedScrollingEnabled(false);
-
-        mLatestView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager_cat = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        mLatestView.setLayoutManager(layoutManager_cat);
-        mLatestView.setFocusable(false);
-        mLatestView.setNestedScrollingEnabled(false);
-
-        mMostView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager_most = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        mMostView.setLayoutManager(layoutManager_most);
-        mMostView.setFocusable(false);
-        mMostView.setNestedScrollingEnabled(false);
-
+        Init(rootView);
 
 //        Fetch data từ server
-        if (JsonUtils.isNetworkAvailable(requireActivity())) {
-            new Home().execute(Constant.URL_HOME_TOP6_FAV_RECIPE, Constant.URL_FARTHER_CATEGORY, String.format(Constant.URL_NEW_RECIPE, myApplication.getUserId()), String.format(Constant.URL_POPULAR_RECIPE, myApplication.getUserId()));
-        }
+//        if (JsonUtils.isNetworkAvailable(requireActivity())) {
+//            new Home().execute(Constant.URL_HOME_TOP6_FAV_RECIPE, Constant.URL_FARTHER_CATEGORY, String.format(Constant.URL_NEW_RECIPE, myApplication.getUserId()), String.format(Constant.URL_POPULAR_RECIPE, myApplication.getUserId()));
+//        }
 
 //        Thêm sự kiện khi chạm, thực thi RecyclerTouchListener.ClickListener
         mCatView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), mCatView, new RecyclerTouchListener.ClickListener() {
@@ -227,6 +179,55 @@ public class HomeFragment extends Fragment {
         });
 
         return rootView;
+    }
+
+    void Init(View rootView){
+
+//        Map với view
+        mScrollView = rootView.findViewById(R.id.scrollView);
+        mProgressBar = rootView.findViewById(R.id.progressBar);
+
+        mCatView = rootView.findViewById(R.id.rv_latest_cat);
+        btnCat = rootView.findViewById(R.id.btn_latest_cat);
+
+        mLatestView = rootView.findViewById(R.id.rv_latest_recipe);
+        btnLatest = rootView.findViewById(R.id.btn_latest_recipe);
+
+        mMostView = rootView.findViewById(R.id.rv_latest_recipe_popular);
+        btnMost = rootView.findViewById(R.id.btn_latest_recipe_most);
+
+        mViewPager = rootView.findViewById(R.id.viewPager);
+        mViewPager.useScale();
+        mViewPager.removeAlpha();
+
+        edt_search = rootView.findViewById(R.id.edt_search);
+
+        myApplication = MyApplication.getAppInstance();
+
+        mSliderList = new ArrayList<>();
+        mPopularList = new ArrayList<>();
+        mCatList = new ArrayList<>();
+        mNewestList = new ArrayList<>();
+        mAdapter = new CustomViewPagerAdapter();
+
+//        Xoay ngang
+        mCatView.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        mCatView.setLayoutManager(layoutManager);
+        mCatView.setFocusable(false);
+        mCatView.setNestedScrollingEnabled(false);
+
+        mLatestView.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager_cat = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        mLatestView.setLayoutManager(layoutManager_cat);
+        mLatestView.setFocusable(false);
+        mLatestView.setNestedScrollingEnabled(false);
+
+        mMostView.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager_most = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        mMostView.setLayoutManager(layoutManager_most);
+        mMostView.setFocusable(false);
+        mMostView.setNestedScrollingEnabled(false);
     }
 
     @Override

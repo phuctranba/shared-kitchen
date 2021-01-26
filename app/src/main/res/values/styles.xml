@@ -38,4 +38,12 @@
         <item name="android:windowAnimationStyle">@android:style/Animation</item>
     </style>
 
+
+    <style name="SplashTheme" parent ="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_screenbackground</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+
 </resources>

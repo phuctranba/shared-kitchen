@@ -32,7 +32,9 @@
     <color name="about_title">#353535</color>
     <color name="about_text">#8b8b8b</color>
 
-    <color name="dialog_color">#c7144b</color>
+    <color name="dialog_color">#c39438</color>
+    <color name="dialog_color_fail">#fa4b51</color>
+    <color name="dialog_color_success">#4BB543</color>
     <color name="dialog_text">#353535</color>
     <color name="dialog_white_text">#FFFFFF</color>
 

@@ -118,7 +118,7 @@
                 android:layout_height="50dp"
                 android:background="@null"
                 android:hint="@string/password_login"
-                android:inputType="textEmailAddress"
+                android:inputType="textPassword"
                 android:singleLine="true"
                 android:textColor="@color/colorPrimaryDark"
                 android:textColorHint="@color/colorPrimaryDark"
@@ -143,12 +143,12 @@
             android:textColorHint="@color/colorPrimaryDark">
 
             <EditText
-                android:id="@+id/editText_phoneNo_register"
+                android:id="@+id/editText_repassword_register"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@null"
-                android:hint="@string/phone_login"
-                android:inputType="textEmailAddress"
+                android:hint="@string/repassword_login"
+                android:inputType="textPassword"
                 android:singleLine="true"
                 android:textColor="@color/colorPrimaryDark"
                 android:textColorHint="@color/colorPrimaryDark"

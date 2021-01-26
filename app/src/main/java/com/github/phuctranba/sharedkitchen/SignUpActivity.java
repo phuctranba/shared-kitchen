@@ -13,11 +13,21 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import com.github.phuctranba.core.item.ItemUser;
+import com.github.phuctranba.core.util.MySharedPreferences;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.JsonObject;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
+import com.mobsandgeeks.saripaar.annotation.ConfirmPassword;
 import com.mobsandgeeks.saripaar.annotation.Email;
 import com.mobsandgeeks.saripaar.annotation.Length;
 import com.mobsandgeeks.saripaar.annotation.Password;
@@ -31,13 +41,14 @@ import java.util.List;
 import libs.mjn.prettydialog.PrettyDialog;
 import libs.mjn.prettydialog.PrettyDialogCallback;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 import com.github.phuctranba.core.util.Constant;
 import com.github.phuctranba.core.util.JsonUtils;
 
 public class SignUpActivity extends AppCompatActivity implements Validator.ValidationListener {
 
-    @Length(sequence = 2, min = 6, max = 30, trim = true, message = "Vui lòng điền tên đăng nhập, từ 6 đến 30 ký tự")
-    @Pattern(regex = "[A-Za-z0-9]{6,30}", message = "Tên đăng nhập chỉ chứa số và chữ")
+    @Length(sequence = 2, min = 6, max = 30, trim = true, message = "Vui lòng điền tên hiển thị, từ 6 đến 30 ký tự")
+    @Pattern(regex = "[A-Za-z]{6,30}", message = "Tên đăng nhập chỉ chứa chữ")
     EditText edtUsername;
 
     @Email(message = "Vui lòng nhập email hợp lệ")
@@ -47,17 +58,16 @@ public class SignUpActivity extends AppCompatActivity implements Validator.Valid
     @Password(message = "Nhập mật khẩu hợp lệ gồm cả chữ và số", scheme = Password.Scheme.ALPHA_NUMERIC)
     EditText edtPassword;
 
-    @Length(message = "Vui lòng nhập số điện thoại hợp lệ", min = 0, max = 14)
-    EditText edtMobile;
+    @ConfirmPassword
+    EditText edtRePassword;
 
     Button btnSignUp;
-
-    String strUsername, strEmail, strPassword, strMobi, strMessage;
+    FirebaseAuth mauth;
+    String strUsername, strEmail, strPassword;
 
     private Validator validator;
 
     TextView txtLogin;
-    JsonUtils jsonUtils;
 
     /**
      * Tùy chỉnh phông chữ
@@ -74,14 +84,8 @@ public class SignUpActivity extends AppCompatActivity implements Validator.Valid
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_sign_up);
         JsonUtils.setStatusBarGradiant(SignUpActivity.this);
+        Init();
 
-        edtUsername = findViewById(R.id.editText_name_register);
-        edtEmail = findViewById(R.id.editText_email_register);
-        edtPassword = findViewById(R.id.editText_password_register);
-        edtMobile = findViewById(R.id.editText_phoneNo_register);
-
-        btnSignUp = findViewById(R.id.button_submit);
-        txtLogin = findViewById(R.id.textView_login_register);
         btnSignUp.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -108,15 +112,21 @@ public class SignUpActivity extends AppCompatActivity implements Validator.Valid
 
     }
 
+    void Init() {
+        mauth = FirebaseAuth.getInstance();
+        edtUsername = findViewById(R.id.editText_name_register);
+        edtEmail = findViewById(R.id.editText_email_register);
+        edtPassword = findViewById(R.id.editText_password_register);
+        edtRePassword = findViewById(R.id.editText_repassword_register);
+
+        btnSignUp = findViewById(R.id.button_submit);
+        txtLogin = findViewById(R.id.textView_login_register);
+    }
+
     @Override
     public void onValidationSucceeded() {
-        strUsername = edtUsername.getText().toString().replace(" ", "%20");
-        strEmail = edtEmail.getText().toString();
-        strPassword = edtPassword.getText().toString();
-        strMobi = edtMobile.getText().toString();
-
         if (JsonUtils.isNetworkAvailable(SignUpActivity.this)) {
-            new MyTaskRegister(strUsername, strEmail, strPassword, strMobi).execute(Constant.URL_SIGNUP);
+            Signup();
         } else {
             showToast(getString(R.string.network_msg));
         }
@@ -128,7 +138,6 @@ public class SignUpActivity extends AppCompatActivity implements Validator.Valid
             View view = error.getView();
             String message = error.getCollatedErrorMessage(this);
 
-            // Display error messages ;)
             if (view instanceof EditText) {
                 ((EditText) view).setError(message);
             } else {
@@ -137,122 +146,90 @@ public class SignUpActivity extends AppCompatActivity implements Validator.Valid
         }
     }
 
-    @SuppressLint("StaticFieldLeak")
-    private class MyTaskRegister extends AsyncTask<String, Void, String> {
-
-        JsonObject jsonObject = new JsonObject();
-
-        private MyTaskRegister(String username, String email, String password, String mobi) {
-//            JsonObject jsObj = (JsonObject) new Gson().toJsonTree(new API());
-            jsonObject.addProperty("username", username);
-            jsonObject.addProperty("email", email);
-            jsonObject.addProperty("password", password);
-            jsonObject.addProperty("phone", mobi);
-        }
+    private void Signup() {
 
         ProgressDialog pDialog;
+        pDialog = new ProgressDialog(SignUpActivity.this);
+        pDialog.setMessage(getString(R.string.signuping));
+        pDialog.setCancelable(false);
+        pDialog.show();
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            pDialog = new ProgressDialog(SignUpActivity.this);
-            pDialog.setMessage(getString(R.string.loading));
-            pDialog.setCancelable(false);
-            pDialog.show();
-        }
 
-        @Override
-        protected String doInBackground(String... params) {
-            String result = JsonUtils.postJSONString(params[0], jsonObject);
-            return result;
-        }
+        strUsername = edtUsername.getText().toString().replace(" ", "%20");
+        strEmail = edtEmail.getText().toString();
+        strPassword = edtPassword.getText().toString();
 
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-//            Bóc tách kết quả sau khi đăng ký
-            if (null != pDialog && pDialog.isShowing()) {
-                pDialog.dismiss();
-            }
-            if (null == result || result.length() == 0) {
-                showToast(getString(R.string.no_data));
-            } else {
+        mauth.createUserWithEmailAndPassword(strEmail, strPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    final ItemUser user = new ItemUser(strUsername, false, strEmail);
+                    final PrettyDialog dialog = new PrettyDialog(SignUpActivity.this);
 
-                try {
-                    JSONObject mainJson = new JSONObject(result);
-                    int code = mainJson.getInt(Constant.CODE);
-                    if (code == 1){
-                        strMessage = mainJson.getString(Constant.SUCCESS_MSG);
-                        Constant.GET_SUCCESS_MSG = Constant.SUCCESS_CODE;
-                    }else if (code == 2){
-                        strMessage = mainJson.getString(Constant.ERROR_MSG_0);
-                        Constant.GET_SUCCESS_MSG = Constant.ERROR_CODE;
-                    }
+                    FirebaseDatabase.getInstance().getReference("users")
+                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                            .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                                MySharedPreferences.setPrefUser(SignUpActivity.this, user);
+
+                                pDialog.dismiss();
+
+                                dialog.setTitle(getString(R.string.dialog_success))
+                                        .setTitleColor(R.color.dialog_text)
+                                        .setMessage(getString(R.string.dialog_signup_success))
+                                        .setMessageColor(R.color.dialog_text)
+                                        .setAnimationEnabled(false)
+                                        .setIcon(R.drawable.pdlg_icon_success, R.color.dialog_color_success, new PrettyDialogCallback() {
+                                            @Override
+                                            public void onClick() {
+                                                dialog.dismiss();
+                                                ActivityCompat.finishAffinity(SignUpActivity.this);
+                                                Intent i = new Intent(SignUpActivity.this, MainActivity.class);
+                                                startActivity(i);
+                                                finish();
+                                            }
+                                        })
+                                        .addButton(getString(R.string.dialog_ok), R.color.dialog_white_text, R.color.dialog_color_success, new PrettyDialogCallback() {
+                                            @Override
+                                            public void onClick() {
+                                                dialog.dismiss();
+                                                ActivityCompat.finishAffinity(SignUpActivity.this);
+                                                Intent i = new Intent(SignUpActivity.this, MainActivity.class);
+                                                startActivity(i);
+                                                finish();
+                                            }
+                                        });
+                            } else {
+                                pDialog.dismiss();
+
+                                dialog.setTitle(getString(R.string.dialog_error))
+                                        .setTitleColor(R.color.dialog_text)
+                                        .setMessage(getString(R.string.dialog_signup_fail))
+                                        .setMessageColor(R.color.dialog_text)
+                                        .setAnimationEnabled(false)
+                                        .setIcon(R.drawable.pdlg_icon_close, R.color.dialog_color_fail, new PrettyDialogCallback() {
+                                            @Override
+                                            public void onClick() {
+                                                dialog.dismiss();
+                                            }
+                                        })
+                                        .addButton(getString(R.string.dialog_ok), R.color.dialog_white_text, R.color.dialog_color_fail, new PrettyDialogCallback() {
+                                            @Override
+                                            public void onClick() {
+                                                dialog.dismiss();
+                                            }
+                                        });
+                            }
+                            dialog.setCancelable(false);
+                            dialog.show();
+                        }
+                    });
                 }
-
-                setResult();
-//            }
-
             }
-        }
-
-        public void setResult() {
-
-            if (Constant.GET_SUCCESS_MSG == Constant.ERROR_CODE) {
-                edtEmail.setText("");
-                edtEmail.requestFocus();
-                final PrettyDialog dialog = new PrettyDialog(SignUpActivity.this);
-                dialog.setTitle(getString(R.string.dialog_error))
-                        .setTitleColor(R.color.dialog_text)
-                        .setMessage(strMessage)
-                        .setMessageColor(R.color.dialog_text)
-                        .setAnimationEnabled(false)
-                        .setIcon(R.drawable.pdlg_icon_close, R.color.dialog_color, new PrettyDialogCallback() {
-                            @Override
-                            public void onClick() {
-                                dialog.dismiss();
-                            }
-                        })
-                        .addButton(getString(R.string.dialog_ok), R.color.dialog_white_text, R.color.dialog_color, new PrettyDialogCallback() {
-                            @Override
-                            public void onClick() {
-                                dialog.dismiss();
-                            }
-                        });
-                dialog.setCancelable(false);
-                dialog.show();
-            } else {
-                final PrettyDialog dialog = new PrettyDialog(SignUpActivity.this);
-                dialog.setTitle(getString(R.string.dialog_success))
-                        .setTitleColor(R.color.dialog_text)
-                        .setMessage(strMessage)
-                        .setMessageColor(R.color.dialog_text)
-                        .setAnimationEnabled(false)
-                        .setIcon(R.drawable.pdlg_icon_success, R.color.dialog_color, new PrettyDialogCallback() {
-                            @Override
-                            public void onClick() {
-                                dialog.dismiss();
-                            }
-                        })
-                        .addButton(getString(R.string.dialog_ok), R.color.dialog_white_text, R.color.dialog_color, new PrettyDialogCallback() {
-                            @Override
-                            public void onClick() {
-                                dialog.dismiss();
-                                Intent intent = new Intent(getApplicationContext(), SignInActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(intent);
-                                finish();
-                            }
-                        });
-                dialog.setCancelable(false);
-                dialog.show();
-
-            }
-        }
-
+        });
     }
 
     public void showToast(String msg) {
