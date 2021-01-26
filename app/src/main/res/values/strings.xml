@@ -7,6 +7,7 @@
     <string name="no_data_found">Không tìm thấy dữ liệu!!</string>
     <string name="welcome_back">Chào mừng quay trở lại</string>
     <string name="sign_into_continue">Đăng nhập để tiếp tục</string>
+    <string name="signup_into_continue">Đăng ký để tham gia căn bếp chung</string>
     <string name="email">Email</string>
     <string name="password_login">Mật khẩu</string>
     <string name="remember_me">Nhớ tôi</string>
@@ -19,7 +20,7 @@
     <string name="no_data">Không có dữ liệu</string>
     <string name="dialog_error">Có lỗi sảy ra…</string>
     <string name="dialog_ok">OK</string>
-    <string name="name_login">Tên đăng nhập</string>
+    <string name="name_login">Họ và tên</string>
     <string name="email_login">Email</string>
     <string name="phone_login">Số điện thoại</string>
     <string name="register">Đăng ký</string>

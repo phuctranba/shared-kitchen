@@ -271,9 +271,9 @@ public class DetailActivity extends AppCompatActivity {
                     owner.setUserId(objJson.getString(Constant.RECIPE_USER_ID));
                     owner.setName(mainJson.getString(Constant.USER_NAME));
                     owner.setAvatar(Constant.SERVER_URL + mainJson.getString(Constant.USER_AVATAR));
-                    owner.setLikes(mainJson.getString(Constant.USER_LIKES));
-                    owner.setFollowers(mainJson.getString(Constant.USER_FOLLOWER));
-                    owner.setFollowed(Common.isTrue(mainJson.getString(Constant.USER_FOLLOWED)));
+//                    owner.setLikes(mainJson.getString(Constant.USER_LIKES));
+//                    owner.setFollowers(mainJson.getString(Constant.USER_FOLLOWER));
+//                    owner.setFollowed(Common.isTrue(mainJson.getString(Constant.USER_FOLLOWED)));
 
                     JSONArray objReview = new JSONArray(result.get(2));
                     ItemReview itemReview;
@@ -326,8 +326,8 @@ public class DetailActivity extends AppCompatActivity {
         text_time.setText(Integer.toString(objBean.getRecipeTime()) + " phút");
         text_level.setText(objBean.getRecipeLevel());
         text_username.setText(owner.getName());
-        text_user_like_couter.setText(owner.getLikes());
-        text_user_follower_counter.setText(owner.getFollowers());
+//        text_user_like_couter.setText(owner.getLikes());
+//        text_user_follower_counter.setText(owner.getFollowers());
         Picasso.get().load(owner.getAvatar()).placeholder(R.drawable.avatar).transform(new CircleTransform()).into(img_user_avata);
 //        ratingView.setRating(Float.parseFloat(objBean.getRecipeAvgRate()));
         Picasso.get().load(objBean.getRecipeImage()).placeholder(R.mipmap.ic_launcher).into(imageView);

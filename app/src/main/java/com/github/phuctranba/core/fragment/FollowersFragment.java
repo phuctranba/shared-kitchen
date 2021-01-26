@@ -156,9 +156,9 @@ public class FollowersFragment extends Fragment {
                         objItem.setUserId(objJson.getString(Constant.USER_ID));
                         objItem.setName(objJson.getString(Constant.USER_NAME));
                         objItem.setAvatar(Constant.SERVER_URL + objJson.getString(Constant.USER_AVATAR));
-                        objItem.setFollowers(objJson.getString(Constant.USER_FOLLOWER));
-                        objItem.setLikes(objJson.getString(Constant.USER_LIKES));
-                        objItem.setFollowed(true);
+//                        objItem.setFollowers(objJson.getString(Constant.USER_FOLLOWER));
+//                        objItem.setLikes(objJson.getString(Constant.USER_LIKES));
+//                        objItem.setFollowed(true);
                         mListItem.add(objItem);
                     }
                 } catch (JSONException e) {

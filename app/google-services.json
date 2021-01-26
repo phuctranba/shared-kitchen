@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "566452609594",
+    "project_id": "shared-kitchen-200799",
+    "storage_bucket": "shared-kitchen-200799.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:566452609594:android:ba87b28509904368a30b03",
+        "android_client_info": {
+          "package_name": "com.github.phuctranba.sharedkitchen"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "566452609594-0n7edr4bm07sbhu9bvk3g4cpktrbu4ng.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAyC_Oq7haECcJzfHkECobsS9T0OpyJrGw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "566452609594-0n7edr4bm07sbhu9bvk3g4cpktrbu4ng.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -30,8 +30,6 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.navigation.NavigationView;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
-
 import libs.mjn.prettydialog.PrettyDialog;
 import libs.mjn.prettydialog.PrettyDialogCallback;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -44,7 +42,6 @@ import com.github.phuctranba.core.fragment.MostViewFragment;
 import com.github.phuctranba.core.fragment.SavedFragment;
 import com.github.phuctranba.core.fragment.SettingFragment;
 import com.github.phuctranba.core.fragment.YourRecipeFragment;
-import com.github.phuctranba.core.item.ItemAbout;
 import com.github.phuctranba.core.util.CircleTransform;
 import com.github.phuctranba.core.util.JsonUtils;
 
@@ -54,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
     NavigationView navigationView;
     Toolbar toolbar;
     private FragmentManager fragmentManager;
-    ArrayList<ItemAbout> mListItem;
     JsonUtils jsonUtils;
     final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 102;
     String[] PERMISSIONS = {android.Manifest.permission.WRITE_EXTERNAL_STORAGE};

@@ -1,9 +1,9 @@
 <component name="libraryTable">
   <library name="Gradle: com.github.ornolfr:rating-view:0.1.2@aar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/8e153b395c159d59d1f5bb10919ee328/rating-view-0.1.2/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/8e153b395c159d59d1f5bb10919ee328/rating-view-0.1.2/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/8e153b395c159d59d1f5bb10919ee328/rating-view-0.1.2/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/066afe0e743aa37fce4598d1930095cf/jetified-rating-view-0.1.2/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/066afe0e743aa37fce4598d1930095cf/jetified-rating-view-0.1.2/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/066afe0e743aa37fce4598d1930095cf/jetified-rating-view-0.1.2/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.ornolfr/rating-view/0.1.2/a5b8397c80d58baaab56cd22b392c7d21b1f8eca/rating-view-0.1.2-javadoc.jar!/" />

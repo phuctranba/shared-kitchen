@@ -10,7 +10,6 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 public class MyApplication extends Application {
 
     public static MyApplication instance;
-    public SharedPreferences LastPositionHolder;
     public SharedPreferences preferences;
     public String prefName = "app";
 

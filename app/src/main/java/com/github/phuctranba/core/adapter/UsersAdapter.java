@@ -45,8 +45,8 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ItemRowHolde
 
         Picasso.get().load(singleItem.getAvatar()).placeholder(R.drawable.place_holder_big).transform(new CircleTransform()).into(holder.avatar);
         holder.txt_name.setText(singleItem.getName());
-        holder.txt_likes.setText(singleItem.getLikes());
-        holder.txt_followers.setText(singleItem.getFollowers());
+//        holder.txt_likes.setText(singleItem.getLikes());
+//        holder.txt_followers.setText(singleItem.getFollowers());
 
 //        holder.cardView.setOnClickListener(new View.OnClickListener() {
 //            @Override

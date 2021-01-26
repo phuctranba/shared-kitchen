@@ -152,11 +152,11 @@ public class ProfileActivity extends AppCompatActivity {
                     itemUser.setUserId(userOrther);
                     itemUser.setName(mainJson.getString(Constant.USER_NAME));
                     itemUser.setAvatar(mainJson.getString(Constant.USER_AVATAR));
-                    itemUser.setLikes(mainJson.getString(Constant.USER_LIKES));
-                    itemUser.setFollowers(mainJson.getString(Constant.USER_FOLLOWER));
-                    itemUser.setFollowed(Common.isTrue(mainJson.getString(Constant.USER_FOLLOWED)));
-                    itemUser.setRecipeCounter(mainJson.getString(Constant.USER_RECIPE_COUNTER));
-                    itemUser.setRate(mainJson.getString(Constant.USER_RATE));
+//                    itemUser.setLikes(mainJson.getString(Constant.USER_LIKES));
+//                    itemUser.setFollowers(mainJson.getString(Constant.USER_FOLLOWER));
+//                    itemUser.setFollowed(Common.isTrue(mainJson.getString(Constant.USER_FOLLOWED)));
+//                    itemUser.setRecipeCounter(mainJson.getString(Constant.USER_RECIPE_COUNTER));
+//                    itemUser.setRate(mainJson.getString(Constant.USER_RATE));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -167,18 +167,18 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void displayInforData() {
 
-        txtCountFollow.setText(itemUser.getFollowers());
-        txtCountLike.setText(itemUser.getLikes());
+//        txtCountFollow.setText(itemUser.getFollowers());
+//        txtCountLike.setText(itemUser.getLikes());
         txtUsername.setText(itemUser.getName());
         Picasso.get().load(Constant.SERVER_URL + itemUser.getAvatar()).placeholder(R.drawable.avatar).transform(new CircleTransform()).into(userAvatar);
-        if (itemUser.isFollowed()) {
-            btnFollow.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_unfollow, 0, 0, 0);
-            btnFollow.setText(getString(R.string.unfollow));
-        } else {
-            btnFollow.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_follow, 0, 0, 0);
-            btnFollow.setText(getString(R.string.follow));
-        }
-        ratingBar.setRating(itemUser.getRate());
+//        if (itemUser.isFollowed()) {
+//            btnFollow.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_unfollow, 0, 0, 0);
+//            btnFollow.setText(getString(R.string.unfollow));
+//        } else {
+//            btnFollow.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_follow, 0, 0, 0);
+//            btnFollow.setText(getString(R.string.follow));
+//        }
+//        ratingBar.setRating(itemUser.getRate());
     }
 
     private void displayData() {
@@ -353,9 +353,9 @@ public class ProfileActivity extends AppCompatActivity {
             if (null != results && results.length() != 0) {
                 try {
                     JSONObject mainJson = new JSONObject(results);
-                    itemUser.setRate(mainJson.getString(Constant.USER_RATE_VALUE));
+//                    itemUser.setRate(mainJson.getString(Constant.USER_RATE_VALUE));
                     auto = true;
-                    ratingBar.setRating(itemUser.getRate());
+//                    ratingBar.setRating(itemUser.getRate());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

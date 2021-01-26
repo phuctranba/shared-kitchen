@@ -1,9 +1,9 @@
 <component name="libraryTable">
   <library name="Gradle: cn.pedant.sweetalert:library:1.3@aar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/8e2a78afe19e333a96b5e87a4f306e88/library-1.3/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/8e2a78afe19e333a96b5e87a4f306e88/library-1.3/res" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/8e2a78afe19e333a96b5e87a4f306e88/library-1.3/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/90fe7bb09c43627a9155a85b6cf86bcb/jetified-library-1.3/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/90fe7bb09c43627a9155a85b6cf86bcb/jetified-library-1.3/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/90fe7bb09c43627a9155a85b6cf86bcb/jetified-library-1.3/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/cn.pedant.sweetalert/library/1.3/de19ce2e1dde2dd91e1b3fd9b30ab58f845f8eac/library-1.3-javadoc.jar!/" />

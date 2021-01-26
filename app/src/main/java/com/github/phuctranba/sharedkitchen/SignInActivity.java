@@ -96,43 +96,6 @@ public class SignInActivity extends AppCompatActivity implements Validator.Valid
         textForgot = findViewById(R.id.textView_forget_password_login);
         textSignUp = findViewById(R.id.textView_signup_login);
 
-        final SmoothCheckBox checkBox = findViewById(R.id.checkbox_login_activity);
-        checkBox.setChecked(false);
-        if (pref.getBoolean(pref_check, false)) {
-            edtUsername.setText(pref.getString(pref_username, null));
-            edtPassword.setText(pref.getString(pref_password, null));
-            checkBox.setChecked(true);
-        } else {
-            edtUsername.setText("");
-            edtPassword.setText("");
-            checkBox.setChecked(false);
-        }
-        if (pref.getBoolean(pref_check, false)) {
-            edtUsername.setText(pref.getString(pref_username, null));
-            edtPassword.setText(pref.getString(pref_password, null));
-            checkBox.setChecked(true);
-        } else {
-            edtUsername.setText("");
-            edtPassword.setText("");
-            checkBox.setChecked(false);
-        }
-
-        checkBox.setOnCheckedChangeListener(new SmoothCheckBox.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(SmoothCheckBox checkBox, boolean isChecked) {
-                Log.d("SmoothCheckBox", String.valueOf(isChecked));
-                if (isChecked) {
-                    editor.putString(pref_username, edtUsername.getText().toString());
-                    editor.putString(pref_password, edtPassword.getText().toString());
-                    editor.putBoolean(pref_check, true);
-                    editor.commit();
-                } else {
-                    editor.putBoolean(pref_check, false);
-                    editor.commit();
-                }
-            }
-        });
-
 //        Intent intent=getIntent();
 //        iswhichscreen=intent.getBooleanExtra("isfromdetail",false);
 //        detail_screen=intent.getStringExtra("isid");

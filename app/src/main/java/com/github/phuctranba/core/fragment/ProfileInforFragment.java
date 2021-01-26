@@ -146,9 +146,9 @@ public class ProfileInforFragment extends Fragment {
                     itemUser.setUserId(myApplication.getUserId());
                     itemUser.setName(mainJson.getString(Constant.USER_NAME));
                     itemUser.setAvatar(mainJson.getString(Constant.USER_AVATAR));
-                    itemUser.setLikes(mainJson.getString(Constant.USER_LIKES));
-                    itemUser.setFollowers(mainJson.getString(Constant.USER_FOLLOWER));
-                    itemUser.setRecipeCounter(mainJson.getString(Constant.USER_RECIPE_COUNTER));
+//                    itemUser.setLikes(mainJson.getString(Constant.USER_LIKES));
+//                    itemUser.setFollowers(mainJson.getString(Constant.USER_FOLLOWER));
+//                    itemUser.setRecipeCounter(mainJson.getString(Constant.USER_RECIPE_COUNTER));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -159,9 +159,9 @@ public class ProfileInforFragment extends Fragment {
 
     private void displayInforData() {
 
-        text_followerCounter.setText(itemUser.getFollowers());
-        text_likeCounter.setText(itemUser.getLikes());
-        myApplication.saveInforUser(itemUser.getLikes(), itemUser.getFollowers());
+//        text_followerCounter.setText(itemUser.getFollowers());
+//        text_likeCounter.setText(itemUser.getLikes());
+//        myApplication.saveInforUser(itemUser.getLikes(), itemUser.getFollowers());
 //        text_username.setText(itemUser.getName());
 //        Picasso.get().load(Constant.SERVER_URL + itemUser.getAvatar()).placeholder(R.drawable.avatar2).transform(new CircleTransform()).into(profileAvata);
     }
