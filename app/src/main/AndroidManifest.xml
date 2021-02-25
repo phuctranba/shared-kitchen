@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name="com.github.phuctranba.sharedkitchen.MyApplication"
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -15,25 +15,32 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
+
         tools:replace="android:icon">
-        <activity android:name="com.github.phuctranba.sharedkitchen.YoutubePlayActivity" />
-        <activity android:name="com.github.phuctranba.sharedkitchen.ChangePasswordActivity" />
-        <activity android:name="com.github.phuctranba.sharedkitchen.PrivacyActivity" />
+        <activity android:name=".CreateRecipeActivity"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name=".MyRecipeActivity"
+            android:label="@string/title_activity_my_recipe"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".YoutubePlayActivity" />
+        <activity android:name=".ChangePasswordActivity" />
+        <activity android:name=".PrivacyActivity" />
         <activity android:name="com.github.phuctranba.core.fragment.SubCategoryFragment" />
-        <activity android:name="com.github.phuctranba.sharedkitchen.SearchActivity" />
-        <activity android:name="com.github.phuctranba.sharedkitchen.ProfileEditActivity" />
-        <activity android:name="com.github.phuctranba.sharedkitchen.DetailActivity" />
+        <activity android:name=".SearchActivity" />
+        <activity android:name=".ProfileEditActivity" />
+        <activity android:name=".DetailActivity" />
         <activity
-            android:name="com.github.phuctranba.sharedkitchen.ForgotPasswordActivity"
+            android:name=".ForgotPasswordActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="com.github.phuctranba.sharedkitchen.ProfileActivity"
+            android:name=".ProfileActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name="com.github.phuctranba.sharedkitchen.AboutUsActivity" />
+        <activity android:name=".AboutUsActivity" />
         <activity
-            android:name="com.github.phuctranba.sharedkitchen.SplashActivity"
+            android:name=".SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -42,15 +49,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.github.phuctranba.sharedkitchen.SignUpActivity"
+            android:name=".SignUpActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="com.github.phuctranba.sharedkitchen.SignInActivity"
+            android:name=".SignInActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="com.github.phuctranba.sharedkitchen.MainActivity"
+            android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="adjustPan" />
 

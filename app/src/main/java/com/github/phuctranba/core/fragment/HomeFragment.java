@@ -29,6 +29,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
 
+import com.bumptech.glide.Glide;
+import com.github.phuctranba.core.adapter.HomeVideoAdapter;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -59,16 +61,13 @@ public class HomeFragment extends Fragment {
     ScrollView mScrollView;
     ProgressBar mProgressBar;
     ArrayList<ItemRecipe> mSliderList;
-    RecyclerView mCatView, mLatestView, mMostView;
-    HomeAdapter popularAdapter, newestAdapter;
-    ArrayList<ItemRecipe> mPopularList, mNewestList;
-    ArrayList<ItemCategory> mCatList;
-    Button btnCat, btnLatest, btnMost;
+    RecyclerView mCabinetView, mLatestView, mVideoView;
+    HomeAdapter cabinetAdapter, newestAdapter;
+    ArrayList<ItemRecipe> mCabinetList, mNewestList, mVideoList;
+    Button btnCabinets, btnLatest, btnVideo;
     EnchantedViewPager mViewPager;
     CustomViewPagerAdapter mAdapter;
-    //    HomeMostAdapter homeMostAdapter;
-    HomeCategoryAdapter homeCategoryAdapter;
-    EditText edt_search;
+    HomeVideoAdapter homeVideoAdapter;
     MyApplication myApplication;
 
 
@@ -81,34 +80,30 @@ public class HomeFragment extends Fragment {
 
         Init(rootView);
 
-//        Fetch data từ server
-//        if (JsonUtils.isNetworkAvailable(requireActivity())) {
-//            new Home().execute(Constant.URL_HOME_TOP6_FAV_RECIPE, Constant.URL_FARTHER_CATEGORY, String.format(Constant.URL_NEW_RECIPE, myApplication.getUserId()), String.format(Constant.URL_POPULAR_RECIPE, myApplication.getUserId()));
-//        }
 
 //        Thêm sự kiện khi chạm, thực thi RecyclerTouchListener.ClickListener
-        mCatView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), mCatView, new RecyclerTouchListener.ClickListener() {
+        mCabinetView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), mCabinetView, new RecyclerTouchListener.ClickListener() {
             /**
              * Thực thi sự kiện onclick, chuyển sang màn hình subcategory
              * */
             @Override
             public void onClick(View view, final int position) {
 
-                String categoryName = mCatList.get(position).getCategoryName();
-                Bundle bundle = new Bundle();
-                bundle.putString("name", categoryName);
-                bundle.putString("Id", mCatList.get(position).getCategoryId());
-
-                FragmentManager fm = getFragmentManager();
-                SubCategoryFragment subCategoryFragment = new SubCategoryFragment();
-                subCategoryFragment.setArguments(bundle);
-                assert fm != null;
-                FragmentTransaction ft = fm.beginTransaction();
-                ft.hide(HomeFragment.this);
-                ft.add(R.id.fragment1, subCategoryFragment, categoryName);
-                ft.addToBackStack(categoryName);
-                ft.commit();
-                ((MainActivity) requireActivity()).setToolbarTitle(categoryName);
+//                String categoryName = mCabinetList.get(position).getCategoryName();
+//                Bundle bundle = new Bundle();
+//                bundle.putString("name", categoryName);
+//                bundle.putString("Id", mCabinetList.get(position).getCategoryId());
+//
+//                FragmentManager fm = getFragmentManager();
+//                SubCategoryFragment subCategoryFragment = new SubCategoryFragment();
+//                subCategoryFragment.setArguments(bundle);
+//                assert fm != null;
+//                FragmentTransaction ft = fm.beginTransaction();
+//                ft.hide(HomeFragment.this);
+//                ft.add(R.id.fragment1, subCategoryFragment, categoryName);
+//                ft.addToBackStack(categoryName);
+//                ft.commit();
+//                ((MainActivity) requireActivity()).setToolbarTitle(categoryName);
 
             }
 
@@ -118,7 +113,7 @@ public class HomeFragment extends Fragment {
             }
         }));
 
-        btnCat.setOnClickListener(new View.OnClickListener() {
+        btnCabinets.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ((MainActivity) requireActivity()).highLightNavigation(3);
@@ -148,7 +143,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        btnMost.setOnClickListener(new View.OnClickListener() {
+        btnVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ((MainActivity) requireActivity()).highLightNavigation(2);
@@ -163,21 +158,6 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        edt_search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    //do something
-                    String st_search = edt_search.getText().toString();
-                    Intent intent = new Intent(getActivity(), SearchActivity.class);
-                    intent.putExtra("search", st_search);
-                    startActivity(intent);
-                    edt_search.getText().clear();
-                }
-                return false;
-            }
-        });
-
         return rootView;
     }
 
@@ -187,35 +167,36 @@ public class HomeFragment extends Fragment {
         mScrollView = rootView.findViewById(R.id.scrollView);
         mProgressBar = rootView.findViewById(R.id.progressBar);
 
-        mCatView = rootView.findViewById(R.id.rv_latest_cat);
-        btnCat = rootView.findViewById(R.id.btn_latest_cat);
+        mCabinetView = rootView.findViewById(R.id.rv_kitchen_cabinets);
+        btnCabinets = rootView.findViewById(R.id.btn_kitchen_cabinets);
 
         mLatestView = rootView.findViewById(R.id.rv_latest_recipe);
         btnLatest = rootView.findViewById(R.id.btn_latest_recipe);
 
-        mMostView = rootView.findViewById(R.id.rv_latest_recipe_popular);
-        btnMost = rootView.findViewById(R.id.btn_latest_recipe_most);
+        mVideoView = rootView.findViewById(R.id.rv_video);
+        btnVideo = rootView.findViewById(R.id.btn_video);
 
         mViewPager = rootView.findViewById(R.id.viewPager);
         mViewPager.useScale();
         mViewPager.removeAlpha();
 
-        edt_search = rootView.findViewById(R.id.edt_search);
-
         myApplication = MyApplication.getAppInstance();
 
         mSliderList = new ArrayList<>();
-        mPopularList = new ArrayList<>();
-        mCatList = new ArrayList<>();
+        mSliderList.add(new ItemRecipe());
+        mSliderList.add(new ItemRecipe());
+        mSliderList.add(new ItemRecipe());
+        mCabinetList = new ArrayList<>();
+        mVideoList = new ArrayList<>();
         mNewestList = new ArrayList<>();
         mAdapter = new CustomViewPagerAdapter();
 
 //        Xoay ngang
-        mCatView.setHasFixedSize(true);
+        mCabinetView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        mCatView.setLayoutManager(layoutManager);
-        mCatView.setFocusable(false);
-        mCatView.setNestedScrollingEnabled(false);
+        mCabinetView.setLayoutManager(layoutManager);
+        mCabinetView.setFocusable(false);
+        mCabinetView.setNestedScrollingEnabled(false);
 
         mLatestView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager_cat = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
@@ -223,11 +204,11 @@ public class HomeFragment extends Fragment {
         mLatestView.setFocusable(false);
         mLatestView.setNestedScrollingEnabled(false);
 
-        mMostView.setHasFixedSize(true);
+        mVideoView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager_most = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        mMostView.setLayoutManager(layoutManager_most);
-        mMostView.setFocusable(false);
-        mMostView.setNestedScrollingEnabled(false);
+        mVideoView.setLayoutManager(layoutManager_most);
+        mVideoView.setFocusable(false);
+        mVideoView.setNestedScrollingEnabled(false);
     }
 
     @Override
@@ -236,124 +217,7 @@ public class HomeFragment extends Fragment {
         ((MainActivity) getActivity()).highLightNavigation(0);
     }
 
-    @SuppressLint("StaticFieldLeak")
-    private class Home extends AsyncTask<String, Void, List<String>> {
 
-        private Home() {
-        }
-
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            mProgressBar.setVisibility(View.VISIBLE);
-            mScrollView.setVisibility(View.GONE);
-        }
-
-        /**
-         * Fetch data từ server
-         */
-        @Override
-        protected List<String> doInBackground(String... params) {
-            String slider = JsonUtils.getJSONString(params[0]);
-            String categorys = JsonUtils.getJSONString(params[1]);
-            String newRecipe = JsonUtils.getJSONString(params[2]);
-            String popularRecipe = JsonUtils.getJSONString(params[3]);
-
-            List<String> res = new ArrayList<>();
-            res.add(slider);
-            res.add(categorys);
-            res.add(newRecipe);
-            res.add(popularRecipe);
-            return res;
-        }
-
-        /**
-         * Xử lý dữ liệu sau khi thực thi
-         */
-        @Override
-        protected void onPostExecute(List<String> res) {
-            super.onPostExecute(res);
-            mProgressBar.setVisibility(View.GONE);
-            mScrollView.setVisibility(View.VISIBLE);
-            if (null == res || res.size() == 0) {
-                showToast(getString(R.string.no_data));
-            } else {
-
-                try {
-                    JSONArray mainJson;
-                    JSONObject objJson;
-
-                    mainJson = new JSONArray(res.get(0));
-                    for (int i = 0; i < mainJson.length(); i++) {
-                        objJson = mainJson.getJSONObject(i);
-
-                        ItemRecipe objItem = new ItemRecipe();
-                        objItem.setRecipeId(objJson.getString(Constant.RECIPE_ID));
-                        objItem.setRecipeCategoryName(objJson.getString(Constant.RECIPE_CAT_NAME));
-                        objItem.setRecipeName(objJson.getString(Constant.RECIPE_NAME));
-                        objItem.setRecipeImage(Constant.SERVER_URL + objJson.getString(Constant.RECIPE_IMAGE));
-
-                        mSliderList.add(objItem);
-                    }
-
-//                  Danh sách phân loại công thức
-                    mainJson = new JSONArray(res.get(1));
-                    for (int k = 0; k < mainJson.length(); k++) {
-                        objJson = mainJson.getJSONObject(k);
-                        ItemCategory objItem = new ItemCategory();
-                        objItem.setCategoryId(objJson.getString(Constant.CATEGORY_ID));
-                        objItem.setCategoryName(objJson.getString(Constant.CATEGORY_NAME));
-                        objItem.setCategoryImage(objJson.getString(Constant.CATEGORY_IMAGE));
-                        mCatList.add(objItem);
-                    }
-
-//                  Công thức mới
-                    mainJson = new JSONArray(res.get(2));
-                    for (int l = 0; l < mainJson.length(); l++) {
-                        objJson = mainJson.getJSONObject(l);
-                        ItemRecipe objItem = new ItemRecipe();
-                        objItem.setRecipeId(objJson.getString(Constant.RECIPE_ID));
-                        objItem.setRecipeName(objJson.getString(Constant.RECIPE_NAME));
-                        objItem.setRecipeCategoryName(objJson.getString(Constant.RECIPE_CAT_NAME));
-                        objItem.setRecipeImage(Constant.SERVER_URL + objJson.getString(Constant.RECIPE_IMAGE));
-                        objItem.setRecipeTime(objJson.getInt(Constant.RECIPE_TIMES));
-//                            objItem.setRecipeLikes(objJson.getInt(Constant.RECIPE_LIKES));
-//                            objItem.setRecipeBookmarks(objJson.getInt(Constant.RECIPE_BOOKMARKS));
-                        objItem.setRecipeUserBookmarked(Common.isTrue(objJson.getString(Constant.RECIPE_USER_BOOKMARK)));
-                        objItem.setRecipeUserLiked(Common.isTrue(objJson.getString(Constant.RECIPE_USER_LIKE)));
-                        mNewestList.add(objItem);
-                    }
-
-//                  Công thức được xem nhiều
-                    mainJson = new JSONArray(res.get(3));
-                    for (int l = 0; l < mainJson.length(); l++) {
-                        objJson = mainJson.getJSONObject(l);
-                        ItemRecipe objItem = new ItemRecipe();
-                        objItem.setRecipeId(objJson.getString(Constant.RECIPE_ID));
-                        objItem.setRecipeName(objJson.getString(Constant.RECIPE_NAME));
-                        objItem.setRecipeCategoryName(objJson.getString(Constant.RECIPE_CAT_NAME));
-                        objItem.setRecipeImage(Constant.SERVER_URL + objJson.getString(Constant.RECIPE_IMAGE));
-                        objItem.setRecipeTime(objJson.getInt(Constant.RECIPE_TIMES));
-//                            objItem.setRecipeLikes(objJson.getInt(Constant.RECIPE_LIKES));
-//                            objItem.setRecipeBookmarks(objJson.getInt(Constant.RECIPE_BOOKMARKS));
-                        objItem.setRecipeUserBookmarked(Common.isTrue(objJson.getString(Constant.RECIPE_USER_BOOKMARK)));
-                        objItem.setRecipeUserLiked(Common.isTrue(objJson.getString(Constant.RECIPE_USER_LIKE)));
-                        mPopularList.add(objItem);
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                setResult();
-            }
-        }
-    }
-
-    /**
-     * View Pager Adapter cho EnchantedPager
-     * Xem thêm ví dụ tại: https://github.com/TMSantos/echantedviewpager/blob/master/enchantedviewpager/src/main/java/com/tiagosantos/enchantedviewpager/EnchantedViewPagerAdapter.java
-     */
     private class CustomViewPagerAdapter extends PagerAdapter {
         private LayoutInflater inflater;
 
@@ -380,11 +244,12 @@ public class HomeFragment extends Fragment {
             TextView text = imageLayout.findViewById(R.id.text_title);
             TextView text_cat = imageLayout.findViewById(R.id.text_cat_title);
             LinearLayout lytParent = imageLayout.findViewById(R.id.rootLayout);
+//
+//            text.setText(mSliderList.get(position).getRecipeName());
+//            text_cat.setText(mSliderList.get(position).getRecipeCategoryName());
 
-            text.setText(mSliderList.get(position).getRecipeName());
-            text_cat.setText(mSliderList.get(position).getRecipeCategoryName());
+            Picasso.get().load(mSliderList.get(position).getRecipeImage()).placeholder(R.drawable.ic_app).into(image);
 
-            Picasso.get().load(mSliderList.get(position).getRecipeImage()).into(image);
             imageLayout.setTag(EnchantedViewPager.ENCHANTED_VIEWPAGER_POSITION + position);
             lytParent.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -418,14 +283,14 @@ public class HomeFragment extends Fragment {
 
             }
 
-            homeCategoryAdapter = new HomeCategoryAdapter(getActivity(), mCatList);
-            mCatView.setAdapter(homeCategoryAdapter);
+            homeVideoAdapter = new HomeVideoAdapter(getActivity(), mVideoList);
+            mVideoView.setAdapter(homeVideoAdapter);
 
             newestAdapter = new HomeAdapter(getActivity(), mNewestList);
             mLatestView.setAdapter(newestAdapter);
 
-            popularAdapter = new HomeAdapter(getActivity(), mPopularList);
-            mMostView.setAdapter(popularAdapter);
+            cabinetAdapter = new HomeAdapter(getActivity(), mCabinetList);
+            mCabinetView.setAdapter(cabinetAdapter);
 
         }
     }
@@ -434,7 +299,6 @@ public class HomeFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_profile, menu);
-
     }
 
     @Override

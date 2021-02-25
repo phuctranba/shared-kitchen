@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textStyle="bold"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/add_dialog_ingredients"
+        android:layout_marginVertical="20dp"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20sp"/>
+
+    <EditText
+        android:id="@+id/name_ingredient"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginHorizontal="20dp"
+        android:background="@drawable/border_add_edittxt"
+        android:hint="@string/add_dialog_ingredient_name"
+        android:inputType="text"
+        android:paddingHorizontal="20dp"
+        android:textColor="@color/about_title"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/amount_ingredient"
+        android:layout_marginVertical="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginHorizontal="20dp"
+        android:background="@drawable/border_add_edittxt"
+        android:hint="@string/add_dialog_ingredient_amount"
+        android:inputType="text"
+        android:paddingHorizontal="20dp"
+        android:textColor="@color/about_title"
+        android:textSize="16sp" />
+
+</LinearLayout>

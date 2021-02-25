@@ -1,89 +1,24 @@
 package com.github.phuctranba.core.item;
 
+import android.graphics.Bitmap;
+
+import java.util.Date;
 import java.util.List;
 
 public class ItemRecipe {
 
     private String RecipeId;
-    private String RecipeCategoryId;
-    private String RecipeCategoryName;
     private String RecipeName;
-    private String RecipeIngredient;
-    private String RecipeDirection;
-    private List<String> RecipeDirectionList;
-    private String RecipeImageBig;
-    private String RecipeImageSmall;
-    private String RecipeUrl;
-    private String RecipePlayId;
-    private String RecipeType;
-    private String RecipeTotalRate;
-    private String RecipeAvgRate;
-    private Boolean RecipeUserLiked;
-    private Boolean RecipeUserBookmarked;
+    private EnumLevelOfDifficult RecipeLevelOfDifficult;
+    private String recipeAuthor;
+    private List<ItemIngredient> RecipeIngredient;
     private String RecipeImage;
-    private String Status;
-    private String RecipeLevel;
-    private int RecipeTime;
-    private int RecipeViews;
-    private int RecipeLikes;
-    private int RecipeBookmarks;
-    private String VideoId;
-
-    public String getVideoId() {
-        return VideoId;
-    }
-
-    public void setVideoId(String videoId) {
-        VideoId = videoId;
-    }
-
-    public String getRecipeLevel() {
-        return RecipeLevel;
-    }
-
-    public void setRecipeLevel(String recipeLevel) {
-        RecipeLevel = recipeLevel;
-    }
-
-    public Boolean getRecipeUserBookmarked() {
-        return RecipeUserBookmarked;
-    }
-
-    public void setRecipeUserBookmarked(Boolean recipeBookmarked) {
-        RecipeUserBookmarked = recipeBookmarked;
-    }
-
-    public List<String> getRecipeDirectionList() {
-        return RecipeDirectionList;
-    }
-
-    public void setRecipeDirectionList(List<String> recipeDirectionList) {
-        RecipeDirectionList = recipeDirectionList;
-    }
-
-    public int getRecipeViews() {
-        return RecipeViews;
-    }
-
-    public void setRecipeViews(int recipeViews) {
-        RecipeViews = recipeViews;
-    }
-
-    public String getRecipeTotalRate() {
-        return RecipeTotalRate;
-    }
-
-    public void setRecipeTotalRate(String recipeTotalRate) {
-        RecipeTotalRate = recipeTotalRate;
-    }
-
-    public String getRecipeAvgRate() {
-        return RecipeAvgRate;
-    }
-
-    public void setRecipeAvgRate(String recipeAvgRate) {
-        RecipeAvgRate = recipeAvgRate;
-    }
+    private String RecipeVideo;
+    private List<String> RecipeSteps;
+    private String RecipeRequire;
+    private EnumRecipeType RecipeType;
+    private EnumStorage RecipeStorage;
+    private Date RecipeTimeCreate;
 
     public String getRecipeId() {
         return RecipeId;
@@ -93,110 +28,36 @@ public class ItemRecipe {
         RecipeId = recipeId;
     }
 
-    public String getRecipeCategoryId() {
-        return RecipeCategoryId;
-    }
-
-    public void setRecipeCategoryId(String RecipeCategoryId) {
-        this.RecipeCategoryId = RecipeCategoryId;
-    }
-
-    public String getRecipeCategoryName() {
-        return RecipeCategoryName;
-    }
-
-    public void setRecipeCategoryName(String RecipeCategoryName) {
-        this.RecipeCategoryName = RecipeCategoryName;
-    }
-
     public String getRecipeName() {
         return RecipeName;
     }
 
-    public void setRecipeName(String RecipeName) {
-        this.RecipeName = RecipeName;
+    public void setRecipeName(String recipeName) {
+        RecipeName = recipeName;
     }
 
-
-    public int getRecipeTime() {
-        return RecipeTime;
+    public EnumLevelOfDifficult getRecipeLevelOfDifficult() {
+        return RecipeLevelOfDifficult;
     }
 
-    public void setRecipeTime(int recipeTime) {
-        RecipeTime = recipeTime;
+    public void setRecipeLevelOfDifficult(EnumLevelOfDifficult recipeLevelOfDifficult) {
+        RecipeLevelOfDifficult = recipeLevelOfDifficult;
     }
 
-    public String getRecipeIngredient() {
+    public String getRecipeAuthor() {
+        return recipeAuthor;
+    }
+
+    public void setRecipeAuthor(String recipeAuthor) {
+        this.recipeAuthor = recipeAuthor;
+    }
+
+    public List<ItemIngredient> getRecipeIngredient() {
         return RecipeIngredient;
     }
 
-    public void setRecipeIngredient(String RecipeIngredient) {
-        this.RecipeIngredient = RecipeIngredient;
-    }
-
-    public String getRecipeDirection() {
-        return RecipeDirection;
-    }
-
-    public void setRecipeDirection(String RecipeDirection) {
-        this.RecipeDirection = RecipeDirection;
-    }
-
-    public String getRecipeImageBig() {
-        return RecipeImageBig;
-    }
-
-    public void setRecipeImageBig(String RecipeImageBig) {
-        this.RecipeImageBig = RecipeImageBig;
-    }
-
-    public String getRecipeImageSmall() {
-        return RecipeImageSmall;
-    }
-
-    public void setRecipeImageSmall(String RecipeImageSmall) {
-        this.RecipeImageSmall = RecipeImageSmall;
-    }
-
-    public String getRecipeUrl() {
-        return RecipeUrl;
-    }
-
-    public void setRecipeUrl(String RecipeUrl) {
-        this.RecipeUrl = RecipeUrl;
-    }
-
-    public String getRecipePlayId() {
-        return RecipePlayId;
-    }
-
-    public void setRecipePlayId(String RecipePlayId) {
-        this.RecipePlayId = RecipePlayId;
-    }
-
-
-    public String getRecipeType() {
-        return RecipeType;
-    }
-
-    public void setRecipeType(String RecipeType) {
-        this.RecipeType = RecipeType;
-    }
-
-    public String getStatus() {
-        return Status;
-    }
-
-    public void setStatus(String status) {
-        Status = status;
-    }
-
-    public Boolean getRecipeUserLiked() {
-        return RecipeUserLiked;
-    }
-
-    public void setRecipeUserLiked(Boolean recipeUserLiked) {
-        RecipeUserLiked = recipeUserLiked;
+    public void setRecipeIngredient(List<ItemIngredient> recipeIngredient) {
+        RecipeIngredient = recipeIngredient;
     }
 
     public String getRecipeImage() {
@@ -207,19 +68,51 @@ public class ItemRecipe {
         RecipeImage = recipeImage;
     }
 
-    public int getRecipeLikes() {
-        return RecipeLikes;
+    public String getRecipeVideo() {
+        return RecipeVideo;
     }
 
-    public void setRecipeLikes(int recipeLikes) {
-        RecipeLikes = recipeLikes;
+    public void setRecipeVideo(String recipeVideo) {
+        RecipeVideo = recipeVideo;
     }
 
-    public int getRecipeBookmarks() {
-        return RecipeBookmarks;
+    public List<String> getRecipeSteps() {
+        return RecipeSteps;
     }
 
-    public void setRecipeBookmarks(int recipeBookmarks) {
-        RecipeBookmarks = recipeBookmarks;
+    public void setRecipeSteps(List<String> recipeSteps) {
+        RecipeSteps = recipeSteps;
+    }
+
+    public String getRecipeRequire() {
+        return RecipeRequire;
+    }
+
+    public void setRecipeRequire(String recipeRequire) {
+        RecipeRequire = recipeRequire;
+    }
+
+    public EnumRecipeType getRecipeType() {
+        return RecipeType;
+    }
+
+    public void setRecipeType(EnumRecipeType recipeType) {
+        RecipeType = recipeType;
+    }
+
+    public EnumStorage getRecipeStorage() {
+        return RecipeStorage;
+    }
+
+    public void setRecipeStorage(EnumStorage recipeStorage) {
+        RecipeStorage = recipeStorage;
+    }
+
+    public Date getRecipeTimeCreate() {
+        return RecipeTimeCreate;
+    }
+
+    public void setRecipeTimeCreate(Date recipeTimeCreate) {
+        RecipeTimeCreate = recipeTimeCreate;
     }
 }

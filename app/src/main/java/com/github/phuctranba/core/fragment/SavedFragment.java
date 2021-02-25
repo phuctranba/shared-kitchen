@@ -127,70 +127,12 @@ public class SavedFragment extends Fragment {
         recyclerView.addOnItemTouchListener(touchListener);
 
         if (JsonUtils.isNetworkAvailable(requireActivity())) {
-            new getSavedRecipe(myApplication.getUserId()).execute(Constant.URL_BOOKMARK_RECIPE);
+//            new getSavedRecipe(myApplication.getUserId()).execute(Constant.URL_BOOKMARK_RECIPE);
         }
         setHasOptionsMenu(true);
         return rootView;
     }
 
-    @SuppressLint("StaticFieldLeak")
-    private class getSavedRecipe extends AsyncTask<String, Void, String> {
-
-        String user_id;
-
-        private getSavedRecipe(String user_id) {
-            this.user_id = user_id;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            showProgress(true);
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            String result = JsonUtils.getJSONString(params[0] + user_id);
-            return result;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            showProgress(false);
-            if (null == result || result.length() == 0) {
-                lyt_not_found.setVisibility(View.VISIBLE);
-            } else {
-                try {
-                    JSONArray mainJson = new JSONArray(result);
-                    JSONObject objJson;
-                    for (int i = 0; i < mainJson.length(); i++) {
-                        objJson = mainJson.getJSONObject(i);
-                        if (objJson.has("status")) {
-                            lyt_not_found.setVisibility(View.VISIBLE);
-                        } else {
-                            ItemRecipe objItem = new ItemRecipe();
-                            objItem.setRecipeId(objJson.getString(Constant.RECIPE_ID));
-                            objItem.setRecipeName(objJson.getString(Constant.RECIPE_NAME));
-                            objItem.setRecipeCategoryName(objJson.getString(Constant.RECIPE_CAT_NAME));
-                            objItem.setRecipeImage(Constant.SERVER_URL + objJson.getString(Constant.RECIPE_IMAGE));
-                            objItem.setRecipeViews(objJson.getInt(Constant.RECIPE_VIEW));
-                            objItem.setRecipeTime(objJson.getInt(Constant.RECIPE_TIMES));
-//                            objItem.setRecipeLikes(objJson.getInt(Constant.RECIPE_LIKES));
-//                            objItem.setRecipeBookmarks(objJson.getInt(Constant.RECIPE_BOOKMARKS));
-                            objItem.setRecipeUserBookmarked(Common.isTrue(objJson.getString(Constant.RECIPE_USER_BOOKMARK)));
-                            objItem.setRecipeUserLiked(Common.isTrue(objJson.getString(Constant.RECIPE_USER_LIKE)));
-
-                            mListItem.add(objItem);
-                        }
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                displayData();
-            }
-        }
-    }
 
     private void displayData() {
         if (getActivity() != null) {

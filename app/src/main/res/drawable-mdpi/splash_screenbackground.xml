@@ -4,8 +4,8 @@
         <color android:color="@color/white"/>
     </item>
     <item
-        android:width="250dp"
-        android:height="250dp"
+        android:width="200dp"
+        android:height="200dp"
         android:drawable="@drawable/ic_app"
         android:gravity="center" />
 </layer-list>

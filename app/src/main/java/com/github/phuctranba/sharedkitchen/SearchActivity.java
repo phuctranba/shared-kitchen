@@ -74,66 +74,10 @@ public class SearchActivity extends AppCompatActivity {
         recyclerView.setNestedScrollingEnabled(false);
 
         if (JsonUtils.isNetworkAvailable(SearchActivity.this)) {
-            new getLatest(search).execute(Constant.URL_ACTION_FINDING);
+//            new getLatest(search).execute(Constant.URL_ACTION_FINDING);
         }
     }
 
-    @SuppressLint("StaticFieldLeak")
-    private class getLatest extends AsyncTask<String, Void, String> {
-
-        private String value;
-        private getLatest(String val) {
-            this.value = val;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            showProgress(true);
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            return JsonUtils.getJSONString(String.format(params[0], myApplication.getUserId(), value));
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            showProgress(false);
-            if (null == result || result.length() == 0) {
-                lyt_not_found.setVisibility(View.VISIBLE);
-            } else {
-                try {
-                    JSONObject mainJson = new JSONObject(result);
-                    JSONArray arrJson = mainJson.names();
-                    JSONObject objJson;
-                    String key;
-                    for (int i = 0; i < arrJson.length(); i++) {
-                        key = arrJson.getString(i);
-                        objJson = mainJson.getJSONObject(key);
-                        ItemRecipe objItem = new ItemRecipe();
-                        objItem.setRecipeId(objJson.getString(Constant.RECIPE_ID));
-                        objItem.setRecipeName(objJson.getString(Constant.RECIPE_NAME));
-                        objItem.setRecipeCategoryName(objJson.getString(Constant.RECIPE_CAT_NAME));
-                        objItem.setRecipeImage(objJson.getString(Constant.RECIPE_IMAGE));
-                        objItem.setRecipeViews(objJson.getInt(Constant.RECIPE_VIEW));
-                        objItem.setRecipeTime(objJson.getInt(Constant.RECIPE_TIMES));
-//                            objItem.setRecipeLikes(objJson.getInt(Constant.RECIPE_LIKES));
-//                            objItem.setRecipeBookmarks(objJson.getInt(Constant.RECIPE_BOOKMARKS));
-                        objItem.setRecipeUserBookmarked(Common.isTrue(objJson.getString(Constant.RECIPE_USER_BOOKMARK)));
-                        objItem.setRecipeUserLiked(Common.isTrue(objJson.getString(Constant.RECIPE_USER_LIKE)));
-
-                        mListItem.add(objItem);
-
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                displayData();
-            }
-        }
-    }
 
 
     private void displayData() {

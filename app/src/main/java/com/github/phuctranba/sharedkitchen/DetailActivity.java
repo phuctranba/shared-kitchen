@@ -26,6 +26,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.github.ornolfr.ratingview.RatingView;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -48,7 +49,6 @@ import com.github.phuctranba.core.fragment.IngredientFragment;
 import com.github.phuctranba.core.fragment.RecipeStepFragment;
 import com.github.phuctranba.core.item.ItemRecipe;
 import com.github.phuctranba.core.item.ItemReview;
-import com.github.phuctranba.core.item.ItemStep;
 import com.github.phuctranba.core.item.ItemUser;
 import com.github.phuctranba.core.util.CircleTransform;
 import com.github.phuctranba.core.util.Common;
@@ -73,7 +73,7 @@ public class DetailActivity extends AppCompatActivity {
     private ItemRecipe objBean;
     private ItemUser owner;
     private ArrayList<String> recipeIngredients;
-    private ArrayList<ItemStep> recipeSteps;
+    private ArrayList<String> recipeSteps;
     private ArrayList<String> mIngredient, mStep;
     private ArrayList<ItemReview> mListReview;
     private ReviewAdapter reviewAdapter;
@@ -119,23 +119,23 @@ public class DetailActivity extends AppCompatActivity {
         collapsingToolbar.setTitle(" ");
 
         AppBarLayout appBarLayout = findViewById(R.id.appbar);
-        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if (scrollRange == -1) {
-                    scrollRange = appBarLayout.getTotalScrollRange();
-                }
-                if (scrollRange + verticalOffset == 0) {
-                    collapsingToolbar.setTitle(objBean.getRecipeName());
-                    isShow = true;
-                } else if (isShow) {
-                    collapsingToolbar.setTitle(" ");
-                    isShow = false;
-
-                }
-            }
-        });
+//        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+//
+//            @Override
+//            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+//                if (scrollRange == -1) {
+//                    scrollRange = appBarLayout.getTotalScrollRange();
+//                }
+//                if (scrollRange + verticalOffset == 0) {
+//                    collapsingToolbar.setTitle(objBean.getRecipeName());
+//                    isShow = true;
+//                } else if (isShow) {
+//                    collapsingToolbar.setTitle(" ");
+//                    isShow = false;
+//
+//                }
+//            }
+//        });
 
         imageView = findViewById(R.id.backdrop);
         img_play = findViewById(R.id.image_play);
@@ -171,12 +171,12 @@ public class DetailActivity extends AppCompatActivity {
             new getDetail(Id).execute(Constant.URL_DETAIL_RECIPE, Constant.URL_PROFILE_INFO, Constant.URL_ALL_REVIEW);
         }
 
-        img_play.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                playVideo(objBean.getVideoId());
-            }
-        });
+//        img_play.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                playVideo(objBean.getVideoId());
+//            }
+//        });
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -226,19 +226,19 @@ public class DetailActivity extends AppCompatActivity {
                     JSONObject mainJson = new JSONObject(result.get(0));
                     JSONObject objJson;
                     String igredient;
-                    ItemStep itemStep;
-
-                    objBean.setRecipeId(mainJson.getString(Constant.RECIPE_ID));
-                    objBean.setRecipeName(mainJson.getString(Constant.RECIPE_NAME));
-                    objBean.setRecipeTime(mainJson.getInt(Constant.RECIPE_TIME));
-                    objBean.setRecipeCategoryName(mainJson.getString(Constant.RECIPE_CAT_NAME));
-                    objBean.setRecipeImage(Constant.SERVER_URL + mainJson.getString(Constant.RECIPE_IMAGE));
-                    objBean.setRecipeViews(mainJson.getInt(Constant.RECIPE_VIEWS));
-                    objBean.setRecipeUserLiked(Common.isTrue(mainJson.getString(Constant.RECIPE_USER_LIKE)));
-                    objBean.setRecipeUserBookmarked(Common.isTrue(mainJson.getString(Constant.RECIPE_USER_BOOKMARK)));
-                    objBean.setRecipeLevel(mainJson.getString(Constant.RECIPE_LEVEL));
-                    objBean.setRecipeUrl(Constant.SERVER_URL + mainJson.getString(Constant.RECIPE_LINK_SHARE));
-                    objBean.setVideoId(mainJson.getString(Constant.RECIPE_LINK_VIDEO));
+//                    ItemStep itemStep;
+//
+//                    objBean.setRecipeId(mainJson.getString(Constant.RECIPE_ID));
+//                    objBean.setRecipeName(mainJson.getString(Constant.RECIPE_NAME));
+//                    objBean.setRecipeTime(mainJson.getInt(Constant.RECIPE_TIME));
+//                    objBean.setRecipeCategoryName(mainJson.getString(Constant.RECIPE_CAT_NAME));
+//                    objBean.setRecipeImage(Constant.SERVER_URL + mainJson.getString(Constant.RECIPE_IMAGE));
+//                    objBean.setRecipeViews(mainJson.getInt(Constant.RECIPE_VIEWS));
+//                    objBean.setRecipeUserLiked(Common.isTrue(mainJson.getString(Constant.RECIPE_USER_LIKE)));
+//                    objBean.setRecipeUserBookmarked(Common.isTrue(mainJson.getString(Constant.RECIPE_USER_BOOKMARK)));
+//                    objBean.setRecipeLevel(mainJson.getString(Constant.RECIPE_LEVEL));
+//                    objBean.setRecipeUrl(Constant.SERVER_URL + mainJson.getString(Constant.RECIPE_LINK_SHARE));
+//                    objBean.setVideoId(mainJson.getString(Constant.RECIPE_LINK_VIDEO));
 
                     JSONArray objIgredients = mainJson.getJSONArray(Constant.RECIPE_INGREDIENT);
                     for (int i = 0; i < objIgredients.length(); ++i) {
@@ -251,20 +251,20 @@ public class DetailActivity extends AppCompatActivity {
 
                     JSONArray objDirection = mainJson.getJSONArray(Constant.LATEST_RECIPE_DIRE);
                     JSONArray imgs;
-                    for (int i = 0; i < objDirection.length(); ++i) {
-                        objJson = objDirection.getJSONObject(i);
-                        itemStep = new ItemStep();
-                        itemStep.setStepNumber(objJson.getString(Constant.RECIPE_STEP_NUMBER));
-                        itemStep.setStepDescription(objJson.getString(Constant.RECIPE_STEP_DEC));
-
-                        imgs = objJson.getJSONArray(Constant.RECIPE_STEP_IMAGE);
-                        List<String> list = new ArrayList<>();
-                        for (int j = 0; j < imgs.length(); ++j) {
-                            list.add(Constant.SERVER_URL + imgs.getJSONObject(j).getString(Constant.RECIPE_STEP_IMAGE_url));
-                        }
-                        itemStep.setStepImages(list);
-                        recipeSteps.add(itemStep);
-                    }
+//                    for (int i = 0; i < objDirection.length(); ++i) {
+//                        objJson = objDirection.getJSONObject(i);
+//                        itemStep = new ItemStep();
+//                        itemStep.setStepNumber(objJson.getString(Constant.RECIPE_STEP_NUMBER));
+//                        itemStep.setStepDescription(objJson.getString(Constant.RECIPE_STEP_DEC));
+//
+//                        imgs = objJson.getJSONArray(Constant.RECIPE_STEP_IMAGE);
+//                        List<String> list = new ArrayList<>();
+//                        for (int j = 0; j < imgs.length(); ++j) {
+//                            list.add(Constant.SERVER_URL + imgs.getJSONObject(j).getString(Constant.RECIPE_STEP_IMAGE_url));
+//                        }
+//                        itemStep.setStepImages(list);
+//                        recipeSteps.add(itemStep);
+//                    }
                     objJson = mainJson.getJSONObject(Constant.RECIPE_USER_OWNER);
                     mainJson = new JSONObject(result.get(1));
 
@@ -321,15 +321,17 @@ public class DetailActivity extends AppCompatActivity {
 
     private void displayData() {
 
-        text_view.setText(JsonUtils.Format(objBean.getRecipeViews()));
-        text_recipe_name.setText(objBean.getRecipeName());
-        text_time.setText(Integer.toString(objBean.getRecipeTime()) + " phút");
-        text_level.setText(objBean.getRecipeLevel());
+//        text_view.setText(JsonUtils.Format(objBean.getRecipeViews()));
+//        text_recipe_name.setText(objBean.getRecipeName());
+//        text_time.setText(Integer.toString(objBean.getRecipeTime()) + " phút");
+//        text_level.setText(objBean.getRecipeLevel());
         text_username.setText(owner.getName());
 //        text_user_like_couter.setText(owner.getLikes());
 //        text_user_follower_counter.setText(owner.getFollowers());
         Picasso.get().load(owner.getAvatar()).placeholder(R.drawable.avatar).transform(new CircleTransform()).into(img_user_avata);
 //        ratingView.setRating(Float.parseFloat(objBean.getRecipeAvgRate()));
+
+
         Picasso.get().load(objBean.getRecipeImage()).placeholder(R.mipmap.ic_launcher).into(imageView);
 
         if (!recipeSteps.isEmpty()) {
@@ -342,31 +344,31 @@ public class DetailActivity extends AppCompatActivity {
             fragmentManager.beginTransaction().replace(R.id.ContainerIngredient, ingredientFragment).commit();
         }
 
-        if (objBean.getRecipeUserLiked()) {
-            menu.getItem(0).setIcon(R.drawable.fave_hov);
-            Common.removeRecipe(objBean, true, databaseHelper);
-            Common.insertRecipe(DatabaseHelper.TABLE_FAVOURITE_NAME, objBean, true, databaseHelper);
-        } else {
-            menu.getItem(0).setIcon(R.drawable.fav);
-            Common.removeRecipe(objBean, true, databaseHelper);
-        }
-
-        if (objBean.getRecipeUserBookmarked()) {
-            menu.getItem(1).setIcon(R.drawable.d_bookmark_hov);
-            Common.removeRecipe(objBean, false, databaseHelper);
-            Common.insertRecipe(DatabaseHelper.TABLE_SAVE_NAME, objBean, false, databaseHelper);
-        } else {
-            menu.getItem(1).setIcon(R.drawable.d_bookmark);
-            Common.removeRecipe(objBean, false, databaseHelper);
-        }
-
-        String[] v = objBean.getVideoId().split("/");
-        String vId = v[v.length - 1];
-        if (!StringUtils.isEmpty(vId) && !vId.equals("null") && !vId.equals("embed") && !vId.equals("")) {
-            img_play.setVisibility(View.VISIBLE);
-        } else {
-            img_play.setVisibility(View.GONE);
-        }
+//        if (objBean.getRecipeUserLiked()) {
+//            menu.getItem(0).setIcon(R.drawable.fave_hov);
+//            Common.removeRecipe(objBean, true, databaseHelper);
+//            Common.insertRecipe(DatabaseHelper.TABLE_FAVOURITE_NAME, objBean, true, databaseHelper);
+//        } else {
+//            menu.getItem(0).setIcon(R.drawable.fav);
+//            Common.removeRecipe(objBean, true, databaseHelper);
+//        }
+//
+//        if (objBean.getRecipeUserBookmarked()) {
+//            menu.getItem(1).setIcon(R.drawable.d_bookmark_hov);
+//            Common.removeRecipe(objBean, false, databaseHelper);
+//            Common.insertRecipe(DatabaseHelper.TABLE_SAVE_NAME, objBean, false, databaseHelper);
+//        } else {
+//            menu.getItem(1).setIcon(R.drawable.d_bookmark);
+//            Common.removeRecipe(objBean, false, databaseHelper);
+//        }
+//
+//        String[] v = objBean.getVideoId().split("/");
+//        String vId = v[v.length - 1];
+//        if (!StringUtils.isEmpty(vId) && !vId.equals("null") && !vId.equals("embed") && !vId.equals("")) {
+//            img_play.setVisibility(View.VISIBLE);
+//        } else {
+//            img_play.setVisibility(View.GONE);
+//        }
     }
 
     public void playVideo(final String videoId) {
@@ -425,19 +427,19 @@ public class DetailActivity extends AppCompatActivity {
                 showAllReview();
                 break;
 
-            case R.id.menu_share:
-                ShareCompat.IntentBuilder
-                        .from(DetailActivity.this)
-                        .setType("text/plain")
-                        .setChooserTitle(objBean.getRecipeName())
-                        .setText(objBean.getRecipeUrl())
-                        .startChooser();
-//                Intent i = new Intent(Intent.ACTION_SEND);
-//                i.setType("text/plain");
-//                i.putExtra(Intent.EXTRA_SUBJECT, objBean.getRecipeName());
-//                i.putExtra(Intent.EXTRA_TEXT, "https://www.google.com.com");
-//                startActivity(Intent.createChooser(i, getString(R.string.share_recipe_title)));
-                break;
+//            case R.id.menu_share:
+//                ShareCompat.IntentBuilder
+//                        .from(DetailActivity.this)
+//                        .setType("text/plain")
+//                        .setChooserTitle(objBean.getRecipeName())
+//                        .setText(objBean.getRecipeUrl())
+//                        .startChooser();
+////                Intent i = new Intent(Intent.ACTION_SEND);
+////                i.setType("text/plain");
+////                i.putExtra(Intent.EXTRA_SUBJECT, objBean.getRecipeName());
+////                i.putExtra(Intent.EXTRA_TEXT, "https://www.google.com.com");
+////                startActivity(Intent.createChooser(i, getString(R.string.share_recipe_title)));
+//                break;
             default:
                 return super.onOptionsItemSelected(menuItem);
         }

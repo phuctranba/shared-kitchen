@@ -13,17 +13,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import com.github.phuctranba.core.adapter.RecipeStepAdapter;
-import com.github.phuctranba.core.item.ItemStep;
 import com.github.phuctranba.sharedkitchen.R;
 
 
 public class RecipeStepFragment extends Fragment {
 
     public RecyclerView recyclerView;
-    static ArrayList<ItemStep> mList;
+    static ArrayList<String> mList;
     RecipeStepAdapter mAdapter;
 
-    public static RecipeStepFragment newInstance(ArrayList<ItemStep> categoryId) {
+    public static RecipeStepFragment newInstance(ArrayList<String> categoryId) {
         RecipeStepFragment f = new RecipeStepFragment();
         mList = categoryId;
         return f;
@@ -41,8 +40,8 @@ public class RecipeStepFragment extends Fragment {
         recyclerView.setFocusable(false);
         recyclerView.setNestedScrollingEnabled(false);
 
-        mAdapter = new RecipeStepAdapter(getActivity(), mList);
-        recyclerView.setAdapter(mAdapter);
+//        mAdapter = new RecipeStepAdapter(getActivity(), mList);
+//        recyclerView.setAdapter(mAdapter);
 
         return rootView;
     }

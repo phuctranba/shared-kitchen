@@ -37,7 +37,7 @@ public class YourRecipeFragment extends Fragment {
         viewPager = (ViewPager) rootView.findViewById(R.id.viewPager);
 
         tabAdapter = new TabAdapter(getChildFragmentManager());
-        tabAdapter.addFragment(new YourRecipeApprovedFragment(), getString(R.string.tab_approved));
+//        tabAdapter.addFragment(new YourRecipeLocalFragment(), getString(R.string.tab_approved));
         tabAdapter.addFragment(new YourRecipePendingFragment(), getString(R.string.tab_pending));
         tabAdapter.addFragment(new YourRecipeCancelFragment(), getString(R.string.tab_cancel));
 

@@ -27,7 +27,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.github.phuctranba.core.util.MySharedPreferences;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
 import libs.mjn.prettydialog.PrettyDialog;
@@ -60,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout lyt_not_found;
     TextView header_tag, textUsername;
     ImageView headerAvata;
+    FirebaseAuth mauth;
 
     public static final int REQUEST_PROFILE_EDIT = 1;
     private boolean isHomeFragLoaded = true;
@@ -69,31 +72,12 @@ public class MainActivity extends AppCompatActivity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        MyApp = MyApplication.getAppInstance();
-        JsonUtils.setStatusBarGradiant(MainActivity.this);
-
-        navigationView = findViewById(R.id.nav_view);
-        View hView = navigationView.inflateHeaderView(R.layout.nav_header);
-        LinearLayout header_root = hView.findViewById(R.id.root_header);
-        header_root.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openProfile();
-            }
-        });
-        header_tag = hView.findViewById(R.id.header_tag);
-        textUsername = hView.findViewById(R.id.header_name);
-        textUsername.setText(MyApp.getUserName());
-        headerAvata = hView.findViewById(R.id.header_avatar);
-//        Picasso.get().load(MyApp.getuserAvata()).placeholder(R.drawable.place_holder_small).transform(new CircleTransform()).into(headerAvata);
+        Init();
 
         toolbar.post(new Runnable() {
             @Override
@@ -102,12 +86,6 @@ public class MainActivity extends AppCompatActivity {
                 toolbar.setNavigationIcon(d);
             }
         });
-
-        jsonUtils = new JsonUtils(this);
-
-        mDrawerLayout = findViewById(R.id.drawer_layout);
-        lyt_not_found = findViewById(R.id.lyt_not_found);
-        progressBar = findViewById(R.id.progressBar);
 
 //        Tạo sự kiện đóng - mở menu trái
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {
@@ -136,42 +114,35 @@ public class MainActivity extends AppCompatActivity {
         loadFrag(homeFragment, getString(R.string.menu_home), fragmentManager);
     }
 
-    private void openProfile() {
-        if (MyApp.getIsLogin()) {
-            Intent intent_edit = new Intent(MainActivity.this, ProfileEditActivity.class);
+    void Init(){
+        mauth = FirebaseAuth.getInstance();
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        MyApp = MyApplication.getAppInstance();
+        JsonUtils.setStatusBarGradiant(MainActivity.this);
+
+        navigationView = findViewById(R.id.nav_view);
+        View hView = navigationView.inflateHeaderView(R.layout.nav_header);
+        LinearLayout header_root = hView.findViewById(R.id.root_header);
+        header_root.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent_edit = new Intent(MainActivity.this, ProfileEditActivity.class);
 //            startActivityForResult(intent_edit, MainActivity.REQUEST_PROFILE_EDIT);
-            startActivity(intent_edit);
-        } else {
-            final PrettyDialog dialog = new PrettyDialog(MainActivity.this);
-            dialog.setTitle(getString(R.string.dialog_warning))
-                    .setTitleColor(R.color.dialog_text)
-                    .setMessage(getString(R.string.login_require))
-                    .setMessageColor(R.color.dialog_text)
-                    .setAnimationEnabled(false)
-                    .setIcon(R.drawable.pdlg_icon_close, R.color.dialog_color, new PrettyDialogCallback() {
-                        @Override
-                        public void onClick() {
-                            dialog.dismiss();
-                        }
-                    })
-                    .addButton(getString(R.string.dialog_ok), R.color.dialog_white_text, R.color.dialog_color, new PrettyDialogCallback() {
-                        @Override
-                        public void onClick() {
-                            dialog.dismiss();
-                            Intent intent_login = new Intent(MainActivity.this, SignInActivity.class);
-                            intent_login.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(intent_login);
-                        }
-                    })
-                    .addButton(getString(R.string.dialog_no), R.color.dialog_white_text, R.color.dialog_color, new PrettyDialogCallback() {
-                        @Override
-                        public void onClick() {
-                            dialog.dismiss();
-                        }
-                    });
-            dialog.setCancelable(false);
-            dialog.show();
-        }
+                startActivity(intent_edit);
+            }
+        });
+        header_tag = hView.findViewById(R.id.header_tag);
+        textUsername = hView.findViewById(R.id.header_name);
+        textUsername.setText(MyApp.getUserName());
+        headerAvata = hView.findViewById(R.id.header_avatar);
+//        Picasso.get().load(MyApp.getuserAvata()).placeholder(R.drawable.place_holder_small).transform(new CircleTransform()).into(headerAvata);
+
+        jsonUtils = new JsonUtils(this);
+
+        mDrawerLayout = findViewById(R.id.drawer_layout);
+        lyt_not_found = findViewById(R.id.lyt_not_found);
+        progressBar = findViewById(R.id.progressBar);
     }
 
     /**
@@ -189,58 +160,29 @@ public class MainActivity extends AppCompatActivity {
                                 loadFrag(homeFragment, getString(R.string.menu_home), fragmentManager);
                                 mDrawerLayout.closeDrawers();
                                 break;
-                            case R.id.nav_latest:
-                                LatestFragment latestFragment = new LatestFragment();
-                                loadFrag(latestFragment, getString(R.string.menu_latest), fragmentManager);
+                            case R.id.nav_kitchen_cabinets:
                                 mDrawerLayout.closeDrawers();
+                                Intent intent_login = new Intent(MainActivity.this, MyRecipeActivity.class);
+                                startActivity(intent_login);
                                 break;
-                            case R.id.nav_most_view:
+                            case R.id.nav_menu:
                                 MostViewFragment mostViewFragment = new MostViewFragment();
                                 loadFrag(mostViewFragment, getString(R.string.menu_most), fragmentManager);
                                 mDrawerLayout.closeDrawers();
                                 break;
-//                            case R.id.nav_fav:
-//                                FavoritesFragment favoriteFragment = new FavoritesFragment();
-//                                loadFrag(favoriteFragment, getString(R.string.menu_favorite), fragmentManager);
-//                                mDrawerLayout.closeDrawers();
-//                                break;
-                            case R.id.nav_follow_recipe:
+                            case R.id.nav_cart:
                                 FollowRecipeFragment favoritesFragment = new FollowRecipeFragment();
                                 loadFrag(favoritesFragment, getString(R.string.menu_follow_recipe), fragmentManager);
                                 mDrawerLayout.closeDrawers();
                                 break;
-                            case R.id.nav_saved:
-                                SavedFragment saveFragment = new SavedFragment();
-                                loadFrag(saveFragment, getString(R.string.menu_save), fragmentManager);
-                                mDrawerLayout.closeDrawers();
-                                break;
-                            case R.id.nav_cat:
-                                CategoryFragment categoryFragment = new CategoryFragment();
-                                loadFrag(categoryFragment, getString(R.string.menu_category), fragmentManager);
-                                mDrawerLayout.closeDrawers();
-                                break;
-
-//                            case R.id.nav_your_recipe:
-//                                YourRecipeFragment yourRecipeFragment = new YourRecipeFragment();
-//                                loadFrag(yourRecipeFragment, getString(R.string.menu_your_recipe), fragmentManager);
-//                                mDrawerLayout.closeDrawers();
-//                                break;
-
                             case R.id.nav_setting:
                                 SettingFragment settingFragment = new SettingFragment();
                                 loadFrag(settingFragment, getString(R.string.menu_setting), fragmentManager);
                                 mDrawerLayout.closeDrawers();
                                 break;
-
-                            case R.id.menu_go_login:
-                                Intent intent = new Intent(getApplicationContext(), SignInActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(intent);
-                                finish();
-                                return true;
                             case R.id.menu_go_logout:
-                                Logout();
                                 mDrawerLayout.closeDrawers();
+                                Logout();
                                 return true;
                         }
                         return true;
@@ -266,18 +208,19 @@ public class MainActivity extends AppCompatActivity {
                         dialog.dismiss();
                     }
                 })
-                .addButton(getString(R.string.dialog_ok), R.color.dialog_white_text, R.color.dialog_color, new PrettyDialogCallback() {
+                .addButton(getString(R.string.menu_logout), R.color.dialog_white_text, R.color.dialog_color_success, new PrettyDialogCallback() {
                     @Override
                     public void onClick() {
                         dialog.dismiss();
-                        MyApp.saveIsLogin(false);
+                        mauth.signOut();
+                        MySharedPreferences.clear(MainActivity.this);
                         Intent intent_login = new Intent(MainActivity.this, SignInActivity.class);
                         intent_login.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent_login);
                         finish();
                     }
                 })
-                .addButton(getString(R.string.dialog_no), R.color.dialog_white_text, R.color.dialog_color, new PrettyDialogCallback() {
+                .addButton(getString(R.string.dialog_cancel), R.color.dialog_white_text, R.color.dialog_color_fail, new PrettyDialogCallback() {
                     @Override
                     public void onClick() {
                         dialog.dismiss();
@@ -334,22 +277,6 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(menuItem);
         }
         return true;
-    }
-
-    /**
-     * Phân quyền login
-     */
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (MyApp.getIsLogin()) {
-            navigationView.getMenu().findItem(R.id.menu_go_login).setVisible(false);
-            navigationView.getMenu().findItem(R.id.menu_go_logout).setVisible(true);
-
-        } else {
-            navigationView.getMenu().findItem(R.id.menu_go_login).setVisible(true);
-            navigationView.getMenu().findItem(R.id.menu_go_logout).setVisible(false);
-        }
     }
 
     public void highLightNavigation(int position) {

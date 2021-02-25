@@ -7,8 +7,15 @@
     <string name="no_data_found">Không tìm thấy dữ liệu!!</string>
     <string name="welcome_back">Chào mừng quay trở lại</string>
     <string name="sign_into_continue">Đăng nhập để tiếp tục</string>
+    <string name="or">hoặc</string>
+    <string name="view_my_cabinets"><![CDATA[ Xem luôn <font color="#FABD35"><big><b> tủ bếp của tôi </b></big></font>]]></string>
     <string name="signup_into_continue">Đăng ký để tham gia căn bếp chung</string>
     <string name="email">Email</string>
+    <string name="add_title">Tên công thức</string>
+    <string name="add_dialog_ingredient_name">Tên nguyên liệu</string>
+    <string name="add_dialog_ingredient_amount">Số lượng</string>
+    <string name="add_require">Yêu cầu thành phẩm</string>
+    <string name="add_hard">Độ khó</string>
     <string name="password_login">Mật khẩu</string>
     <string name="remember_me">Nhớ tôi</string>
     <string name="login">Đăng nhập</string>
@@ -23,6 +30,7 @@
     <string name="no_data">Không có dữ liệu</string>
     <string name="dialog_error">Có lỗi sảy ra…</string>
     <string name="dialog_ok">OK</string>
+    <string name="dialog_come_to_kitchen">Vào bếp!</string>
     <string name="name_login">Họ và tên</string>
     <string name="email_login">Email</string>
     <string name="repassword_login">Nhập lại mật khẩu</string>
@@ -46,6 +54,7 @@
     <string name="menu_your_recipe">Công thức của bạn</string>
     <string name="menu_save">Công thức lưu trữ</string>
     <string name="search">Tìm kiếm</string>
+    <string name="whatweshouldeattoday">Hôm nay ăn gì?</string>
     <string name="menu_profile">Thông tin cá nhân</string>
     <string name="invalid">Đăng nhập không hợp lệ</string>
     <string name="drawer_open">Mở</string>
@@ -53,15 +62,20 @@
     <string name="search_recipe">Tìm kiếm công thức</string>
     <string name="home_category">Phân loại</string>
     <string name="home_view_all">Xem thêm…</string>
-    <string name="home_latest">Công thức mới</string>
-    <string name="menu_latest">Công thức mới</string>
+    <string name="home_latest">Mới nhất</string>
+    <string name="menu_menu">Thực đơn</string>
+    <string name="menu_cart">Giỏ nguyên liệu</string>
     <string name="home_popular">Công thức phổ biến</string>
+    <string name="kitchen_cabinets">Tủ bếp</string>
+    <string name="create_recipe">Tạo công thức</string>
+    <string name="video">Video</string>
     <string name="no_item_found">Không có dữ liệu</string>
     <string name="favourite_remove">Đã bỏ yêu thích</string>
     <string name="favourite_add">Yêu thích</string>
     <string name="dialog_warning">Cảnh báo</string>
     <string name="login_require">Bạn cần đăng nhập trước. Nhấn OK để đi tới giao diện đăng nhập</string>
     <string name="dialog_no">Bỏ qua</string>
+    <string name="dialog_cancel">Hủy</string>
     <string name="menu_most_view">Công thức phổ biến</string>
     <string name="share_recipe_title">Chia sẻ công thức</string>
     <string name="menu_most">Công thức phổ biến</string>
@@ -80,6 +94,8 @@
     <string name="author">Tác giả</string>
     <string name="author_value">Nhóm 1</string>
     <string name="email_value">tranbaphuc1999@gmail.com</string>
+    <string name="add_video">Thêm URL video</string>
+    <string name="add_video_hint">Nhập URL video Youtube</string>
     <string name="about">Về chúng tôi</string>
     <string name="about_value">Bài tập lớn Lập trình Android nâng cao \n
         Nhóm sinh viên thực hiện: \n
@@ -88,9 +104,11 @@
         \t\t Nguyễn Thị Hà Giang - 17A04
     </string>
     <string name="page_development">Trang đang được hoàn thiện</string>
-    <string name="tab_approved">Đã duyệt</string>
-    <string name="tab_pending">Đang chờ</string>
-    <string name="tab_cancel">Không được duyệt</string>
+    <string name="tab_local">Của bạn</string>
+    <string name="tab_pending">Chờ duyệt</string>
+    <string name="tab_cancel">Từ chối</string>
+    <string name="tab_general_info">Mô tả</string>
+    <string name="tab_step">Các bước</string>
     <string name="menu_create_recipe">Tạo công thức</string>
     <string name="approved">Đã được duyệt</string>
     <string name="reject">Đã hủy</string>
@@ -118,4 +136,35 @@
     <string name="change_password_success">Đổi mật khẩu thành công</string>
     <string name="video_direction">Video hướng dẫn</string>
     <string name="error_player">Không thể phát video này</string>
+    <string name="title_activity_my_recipe">MyRecipeActivity</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+
+    <string name="add_levelOfDifficult">Độ khó</string>
+    <string name="add_type">Loại công thức</string>
+    <string name="add_type_storage_local">Lưu cá nhân</string>
+    <string name="add_type_storage_publish">Công khai</string>
+    <string name="add_ingredients">Nguyên liệu</string>
+    <string name="add_dialog_ingredients">Thêm nguyên liệu</string>
+    <string name="add_dialog_step">Thêm bước</string>
+    <string name="add_step">Các bước thực hiện</string>
+
+    <string-array name="levelOfDifficult_arrays">
+        <item>Độ khó</item>
+        <item>Mới vào bếp</item>
+        <item>Phổ thông</item>
+        <item>Cứng tay</item>
+        <item>Phức tạp</item>
+        <item>Chuyên nghiệp</item>
+    </string-array>
+
+    <string-array name="type_arrays">
+        <item>Loại công thức</item>
+        <item>Nấu - Hầm</item>
+        <item>Nướng</item>
+        <item>Hấp - Luộc</item>
+        <item>Salad</item>
+        <item>Bánh</item>
+        <item>Chiên - Xào</item>
+    </string-array>
 </resources>

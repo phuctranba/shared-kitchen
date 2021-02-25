@@ -4,6 +4,9 @@
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/e4585cbff21f91d6332dafc16f18a72e/jetified-prettydialog-1.0.4/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/e4585cbff21f91d6332dafc16f18a72e/jetified-prettydialog-1.0.4/AndroidManifest.xml" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/e4585cbff21f91d6332dafc16f18a72e/jetified-prettydialog-1.0.4/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/dd8e88a14c01c8d0f9b9a0e15b626aec/jetified-prettydialog-1.0.4/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/dd8e88a14c01c8d0f9b9a0e15b626aec/jetified-prettydialog-1.0.4/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/dd8e88a14c01c8d0f9b9a0e15b626aec/jetified-prettydialog-1.0.4/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

@@ -50,38 +50,38 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ItemRowHolder>
     public void onBindViewHolder(final ItemRowHolder holder, final int position) {
         final ItemRecipe singleItem = dataList.get(position);
 
-        Picasso.get().load(singleItem.getRecipeImage()).placeholder(R.drawable.place_holder_small).into(holder.image);
-        holder.text_title.setText(singleItem.getRecipeName());
-        holder.text_time.setText(Integer.toString(singleItem.getRecipeTime()) + " phút");
-//        holder.textAvg.setText("(" + singleItem.getRecipeTotalRate() + ")");
-//        holder.ratingView.setRating(Float.parseFloat(singleItem.getRecipeAvgRate()));
-
-        holder.lyt_parent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent_detail = new Intent(mContext, DetailActivity.class);
-                intent_detail.putExtra("Id", singleItem.getRecipeId());
-                mContext.startActivity(intent_detail);
-            }
-        });
-
-        if (singleItem.getRecipeUserLiked()) {
-            holder.image_list_fav.setImageResource(R.drawable.fave_hov);
-            Common.removeRecipe(singleItem, true, databaseHelper);
-            Common.insertRecipe(DatabaseHelper.TABLE_FAVOURITE_NAME, singleItem, true, databaseHelper);
-        } else {
-            holder.image_list_fav.setImageResource(R.drawable.fav_list);
-            Common.removeRecipe(singleItem, true, databaseHelper);
-        }
-
-        if (singleItem.getRecipeUserBookmarked()) {
-            holder.image_bookmark.setImageResource(R.drawable.d_bookmark_hov);
-            Common.removeRecipe(singleItem, false, databaseHelper);
-            Common.insertRecipe(DatabaseHelper.TABLE_SAVE_NAME, singleItem, false, databaseHelper);
-        } else {
-            holder.image_bookmark.setImageResource(R.drawable.d_bookmark);
-            Common.removeRecipe(singleItem, false, databaseHelper);
-        }
+//        Picasso.get().load(singleItem.getRecipeImage()).placeholder(R.drawable.ic_app).into(holder.image);
+//        holder.text_title.setText(singleItem.getRecipeName());
+//        holder.text_time.setText(Integer.toString(singleItem.getRecipeTime()) + " phút");
+////        holder.textAvg.setText("(" + singleItem.getRecipeTotalRate() + ")");
+////        holder.ratingView.setRating(Float.parseFloat(singleItem.getRecipeAvgRate()));
+//
+//        holder.lyt_parent.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent_detail = new Intent(mContext, DetailActivity.class);
+//                intent_detail.putExtra("Id", singleItem.getRecipeId());
+//                mContext.startActivity(intent_detail);
+//            }
+//        });
+//
+//        if (singleItem.getRecipeUserLiked()) {
+//            holder.image_list_fav.setImageResource(R.drawable.fave_hov);
+//            Common.removeRecipe(singleItem, true, databaseHelper);
+//            Common.insertRecipe(DatabaseHelper.TABLE_FAVOURITE_NAME, singleItem, true, databaseHelper);
+//        } else {
+//            holder.image_list_fav.setImageResource(R.drawable.fav_list);
+//            Common.removeRecipe(singleItem, true, databaseHelper);
+//        }
+//
+//        if (singleItem.getRecipeUserBookmarked()) {
+//            holder.image_bookmark.setImageResource(R.drawable.d_bookmark_hov);
+//            Common.removeRecipe(singleItem, false, databaseHelper);
+//            Common.insertRecipe(DatabaseHelper.TABLE_SAVE_NAME, singleItem, false, databaseHelper);
+//        } else {
+//            holder.image_bookmark.setImageResource(R.drawable.d_bookmark);
+//            Common.removeRecipe(singleItem, false, databaseHelper);
+//        }
 
         holder.image_list_fav.setOnClickListener(new View.OnClickListener() {
             @Override

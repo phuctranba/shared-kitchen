@@ -57,20 +57,20 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.ItemRowHolder> {
     public void onBindViewHolder(final ItemRowHolder holder, final int position) {
         final ItemRecipe singleItem = dataList.get(position);
 
-        Picasso.get().load(singleItem.getRecipeImage()).placeholder(R.drawable.place_holder_big).into(holder.image);
-        holder.txt_cat.setText(singleItem.getRecipeCategoryName());
-        holder.txt_time.setText(Integer.toString(singleItem.getRecipeTime()) + " phút");
-        holder.txt_recipe.setText(singleItem.getRecipeName());
-        holder.txt_view.setText(JsonUtils.Format(singleItem.getRecipeViews()));
-
-        if (singleItem.getRecipeUserBookmarked()) {
-            holder.image_save.setImageResource(R.drawable.d_bookmark_hov);
-            Common.removeRecipe(singleItem, false, databaseHelper);
-            Common.insertRecipe(DatabaseHelper.TABLE_SAVE_NAME, singleItem, false, databaseHelper);
-        } else {
-            holder.image_save.setImageResource(R.drawable.d_bookmark);
-            Common.removeRecipe(singleItem, false, databaseHelper);
-        }
+//        Picasso.get().load(singleItem.getRecipeImage()).placeholder(R.drawable.place_holder_big).into(holder.image);
+//        holder.txt_cat.setText(singleItem.getRecipeCategoryName());
+//        holder.txt_time.setText(Integer.toString(singleItem.getRecipeTime()) + " phút");
+//        holder.txt_recipe.setText(singleItem.getRecipeName());
+//        holder.txt_view.setText(JsonUtils.Format(singleItem.getRecipeViews()));
+//
+//        if (singleItem.getRecipeUserBookmarked()) {
+//            holder.image_save.setImageResource(R.drawable.d_bookmark_hov);
+//            Common.removeRecipe(singleItem, false, databaseHelper);
+//            Common.insertRecipe(DatabaseHelper.TABLE_SAVE_NAME, singleItem, false, databaseHelper);
+//        } else {
+//            holder.image_save.setImageResource(R.drawable.d_bookmark);
+//            Common.removeRecipe(singleItem, false, databaseHelper);
+//        }
 
         holder.rootLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,17 +131,17 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.ItemRowHolder> {
     }
 
     public void filter(String charText) {
-        charText = charText.toLowerCase(Locale.getDefault());
-        dataList.clear();
-        if (charText.length() == 0) {
-            dataList.addAll(mDataList);
-        } else {
-            for (ItemRecipe wp : mDataList) {
-                if (wp.getRecipeName().toLowerCase(Locale.getDefault()).contains(charText) || wp.getRecipeCategoryName().toLowerCase(Locale.getDefault()).contains(charText) ) {
-                    dataList.add(wp);
-                }
-            }
-        }
-        notifyDataSetChanged();
+//        charText = charText.toLowerCase(Locale.getDefault());
+//        dataList.clear();
+//        if (charText.length() == 0) {
+//            dataList.addAll(mDataList);
+//        } else {
+//            for (ItemRecipe wp : mDataList) {
+//                if (wp.getRecipeName().toLowerCase(Locale.getDefault()).contains(charText) || wp.getRecipeCategoryName().toLowerCase(Locale.getDefault()).contains(charText) ) {
+//                    dataList.add(wp);
+//                }
+//            }
+//        }
+//        notifyDataSetChanged();
     }
 }

@@ -49,10 +49,10 @@ public class YourRecipeAdapter extends RecyclerView.Adapter<YourRecipeAdapter.It
     public void onBindViewHolder(final ItemRowHolder holder, final int position) {
         final ItemRecipe singleItem = dataList.get(position);
 
-        Picasso.get().load(singleItem.getRecipeImage()).placeholder(R.drawable.place_holder_big).into(holder.image);
-        holder.txt_cat.setText(singleItem.getRecipeCategoryName());
-        holder.txt_time.setText(Integer.toString(singleItem.getRecipeTime()) + " phút");
-        holder.txt_recipe.setText(singleItem.getRecipeName());
+//        Picasso.get().load(singleItem.getRecipeImage()).placeholder(R.drawable.place_holder_big).into(holder.image);
+//        holder.txt_cat.setText(singleItem.getRecipeCategoryName());
+//        holder.txt_time.setText(Integer.toString(singleItem.getRecipeTime()) + " phút");
+//        holder.txt_recipe.setText(singleItem.getRecipeName());
 //        holder.ratingView.setRating(Float.parseFloat(singleItem.getRecipeAvgRate()));
 
         holder.lyt_parent.setOnClickListener(new View.OnClickListener() {
@@ -64,33 +64,33 @@ public class YourRecipeAdapter extends RecyclerView.Adapter<YourRecipeAdapter.It
             }
         });
 
-        Drawable background;
-        switch (singleItem.getStatus()){
-            case "1":
-                background = mContext.getDrawable( R.drawable.y_approved_button_corner);
-                holder.lyt_label.setBackground(background);
-                holder.txt_label.setText(mContext.getText(R.string.approved));
-                holder.txt_view.setText(JsonUtils.Format(singleItem.getRecipeViews()));
-                break;
-            case "2":
-                background = mContext.getDrawable( R.drawable.y_pending_button_corner);
-                holder.lyt_sec_view.setVisibility(View.GONE);
-                holder.lyt_label.setBackground(background);
-                holder.txt_label.setText(mContext.getText(R.string.pending));
-                break;
-            case "3":
-                background = mContext.getDrawable( R.drawable.y_retry_button_corner);
-                holder.lyt_sec_view.setVisibility(View.GONE);
-                holder.lyt_label.setBackground(background);
-                holder.txt_label.setText(mContext.getText(R.string.retry));
-                break;
-            case "4":
-                background = mContext.getDrawable( R.drawable.y_reject_button_corner);
-                holder.lyt_sec_view.setVisibility(View.GONE);
-                holder.lyt_label.setBackground(background);
-                holder.txt_label.setText(mContext.getText(R.string.reject));
-                break;
-        }
+//        Drawable background;
+//        switch (singleItem.getStatus()){
+//            case "1":
+//                background = mContext.getDrawable( R.drawable.y_approved_button_corner);
+//                holder.lyt_label.setBackground(background);
+//                holder.txt_label.setText(mContext.getText(R.string.approved));
+//                holder.txt_view.setText(JsonUtils.Format(singleItem.getRecipeViews()));
+//                break;
+//            case "2":
+//                background = mContext.getDrawable( R.drawable.y_pending_button_corner);
+//                holder.lyt_sec_view.setVisibility(View.GONE);
+//                holder.lyt_label.setBackground(background);
+//                holder.txt_label.setText(mContext.getText(R.string.pending));
+//                break;
+//            case "3":
+//                background = mContext.getDrawable( R.drawable.y_retry_button_corner);
+//                holder.lyt_sec_view.setVisibility(View.GONE);
+//                holder.lyt_label.setBackground(background);
+//                holder.txt_label.setText(mContext.getText(R.string.retry));
+//                break;
+//            case "4":
+//                background = mContext.getDrawable( R.drawable.y_reject_button_corner);
+//                holder.lyt_sec_view.setVisibility(View.GONE);
+//                holder.lyt_label.setBackground(background);
+//                holder.txt_label.setText(mContext.getText(R.string.reject));
+//                break;
+//        }
 
     }
 

@@ -55,62 +55,12 @@ public class YourRecipePendingFragment extends Fragment {
         recyclerView.setNestedScrollingEnabled(false);
 
         if (JsonUtils.isNetworkAvailable(requireActivity())) {
-            new getPending().execute(Constant.URL_RECIPES_CURRENT_USER);
+//            new getPending().execute(Constant.URL_RECIPES_CURRENT_USER);
         }
 
         return rootView;
     }
 
-    @SuppressLint("StaticFieldLeak")
-    private class getPending extends AsyncTask<String, Void, String> {
-
-
-        private getPending() {
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            showProgress(true);
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            String res = JsonUtils.getJSONString(String.format(params[0], myApplication.getUserId()));
-            return res;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            showProgress(false);
-            if (null == result || result.length() == 0) {
-                lyt_not_found.setVisibility(View.VISIBLE);
-            } else {
-                try {
-                    JSONArray mainJson = new JSONArray(result);
-                    JSONObject objJson;
-                    for (int i = 0; i < mainJson.length(); i++) {
-                        objJson = mainJson.getJSONObject(i);
-                        ItemRecipe objItem = new ItemRecipe();
-                        objItem.setRecipeId(objJson.getString(Constant.RECIPE_ID));
-                        objItem.setRecipeName(objJson.getString(Constant.RECIPE_NAME));
-                        objItem.setRecipeCategoryName(objJson.getString(Constant.RECIPE_CAT_NAME));
-                        objItem.setRecipeImage(Constant.SERVER_URL + objJson.getString(Constant.RECIPE_IMAGE));
-                        objItem.setRecipeViews(objJson.getInt(Constant.RECIPE_VIEW));
-                        objItem.setRecipeTime(objJson.getInt(Constant.RECIPE_TIMES));
-                        objItem.setStatus(objJson.getString(Constant.RECIPE_STATUS));
-                        if (objItem.getStatus().equals("4"))
-                            mListItem.add(objItem);
-
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                displayData();
-            }
-        }
-    }
     private void displayData() {
         if (getActivity() != null) {
             adapter = new YourRecipeAdapter(getActivity(), mListItem);

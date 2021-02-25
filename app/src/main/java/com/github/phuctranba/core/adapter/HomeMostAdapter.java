@@ -45,9 +45,9 @@ public class HomeMostAdapter extends RecyclerView.Adapter<HomeMostAdapter.ItemRo
     public void onBindViewHolder(final ItemRowHolder holder, final int position) {
         final ItemRecipe singleItem = dataList.get(position);
 
-        Picasso.get().load(singleItem.getRecipeImageBig()).placeholder(R.drawable.place_holder_small).into(holder.image);
-        holder.text_title.setText(singleItem.getRecipeName());
-        holder.text_time.setText(singleItem.getRecipeTime());
+//        Picasso.get().load(singleItem.getRecipeImageBig()).placeholder(R.drawable.place_holder_small).into(holder.image);
+//        holder.text_title.setText(singleItem.getRecipeName());
+//        holder.text_time.setText(singleItem.getRecipeTime());
 //        holder.textAvg.setText("(" + singleItem.getRecipeTotalRate() + ")");
 //        holder.ratingView.setRating(Float.parseFloat(singleItem.getRecipeAvgRate()));
 
@@ -76,10 +76,10 @@ public class HomeMostAdapter extends RecyclerView.Adapter<HomeMostAdapter.ItemRo
                     Toast.makeText(mContext, mContext.getString(R.string.favourite_remove), Toast.LENGTH_SHORT).show();
                 } else {
                     fav.put(DatabaseHelper.KEY_ID, singleItem.getRecipeId());
-                    fav.put(DatabaseHelper.KEY_TITLE, singleItem.getRecipeName());
-                    fav.put(DatabaseHelper.KEY_IMAGE, singleItem.getRecipeImageBig());
-                    fav.put(DatabaseHelper.KEY_TIME, singleItem.getRecipeTime());
-                    fav.put(DatabaseHelper.KEY_CAT, singleItem.getRecipeCategoryName());
+//                    fav.put(DatabaseHelper.KEY_TITLE, singleItem.getRecipeName());
+//                    fav.put(DatabaseHelper.KEY_IMAGE, singleItem.getRecipeImageBig());
+//                    fav.put(DatabaseHelper.KEY_TIME, singleItem.getRecipeTime());
+//                    fav.put(DatabaseHelper.KEY_CAT, singleItem.getRecipeCategoryName());
 
                     databaseHelper.insertTable(DatabaseHelper.TABLE_FAVOURITE_NAME, fav, null);
                     holder.image_list_fav.setImageResource(R.drawable.fave_hov);

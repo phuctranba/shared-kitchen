@@ -60,63 +60,10 @@ public class LatestFragment extends Fragment {
 
         myApplication = MyApplication.getAppInstance();
         if (JsonUtils.isNetworkAvailable(requireActivity())) {
-            new getLatest().execute(Constant.URL_NEW_RECIPE);
+//            new getLatest().execute(Constant.URL_NEW_RECIPE);
         }
         setHasOptionsMenu(true);
         return rootView;
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    private class getLatest extends AsyncTask<String, Void, String> {
-
-
-        private getLatest() {
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            showProgress(true);
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            String newRecipe = JsonUtils.getJSONString(String.format(params[0], myApplication.getUserId()));
-            return newRecipe;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            showProgress(false);
-            if (null == result || result.length() == 0) {
-                lyt_not_found.setVisibility(View.VISIBLE);
-            } else {
-                try {
-                    JSONArray mainJson = new JSONArray(result);
-                    JSONObject objJson;
-                    for (int i = 0; i < mainJson.length(); i++) {
-                        ItemRecipe objItem = new ItemRecipe();
-                        objJson = mainJson.getJSONObject(i);
-                        objItem.setRecipeId(objJson.getString(Constant.RECIPE_ID));
-                        objItem.setRecipeName(objJson.getString(Constant.RECIPE_NAME));
-                        objItem.setRecipeCategoryName(objJson.getString(Constant.RECIPE_CAT_NAME));
-                        objItem.setRecipeImage(objJson.getString(Constant.RECIPE_IMAGE));
-                        objItem.setRecipeViews(objJson.getInt(Constant.RECIPE_VIEW));
-                        objItem.setRecipeTime(objJson.getInt(Constant.RECIPE_TIMES));
-//                            objItem.setRecipeLikes(objJson.getInt(Constant.RECIPE_LIKES));
-//                            objItem.setRecipeBookmarks(objJson.getInt(Constant.RECIPE_BOOKMARKS));
-                        objItem.setRecipeUserBookmarked(Common.isTrue(objJson.getString(Constant.RECIPE_USER_BOOKMARK)));
-                        objItem.setRecipeUserLiked(Common.isTrue(objJson.getString(Constant.RECIPE_USER_LIKE)));
-
-                        mListItem.add(objItem);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                displayData();
-            }
-        }
     }
 
     private void displayData() {

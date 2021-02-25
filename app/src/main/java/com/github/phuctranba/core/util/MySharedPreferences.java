@@ -14,9 +14,30 @@ public class MySharedPreferences {
     private static String PREF_USER_AVATAR = "pref_user_avatar";
     private static String PREF_USER_ADMIN = "pref_user_admin";
     private static String PREF_USER_EMAIL = "pref_user_email";
+    private static String PREF_USER_LOGIN = "pref_user_login";
 
 
-    //    Đặt giá trị cho biến ghi nhớ lần đầu mở app
+    public static void clear(Context context){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.clear().apply();
+    }
+
+    //    Đặt giá trị cho biến ghi nhớ đăng nhập
+    public static void setLogin(Context context, boolean login){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean(PREF_USER_LOGIN,login);
+        editor.apply();
+    }
+
+    public static boolean getLogin(Context context){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = preferences.edit();
+        return preferences.getBoolean(PREF_USER_LOGIN,false);
+    }
+
+    //    Đặt giá trị cho các biến ghi nhớ người dùng
     public static void setPrefUser(Context context, ItemUser user){
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = preferences.edit();
@@ -28,7 +49,6 @@ public class MySharedPreferences {
         editor.apply();
     }
 
-    //    Lấy giá trị biến ghi nhớ lần đầu mở app
     public static ItemUser getPrefUser(Context context){
         ItemUser user = new ItemUser();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -40,18 +60,5 @@ public class MySharedPreferences {
 
         return user;
     }
-
-    //    Đặt giá trị cho biến ghi nhớ web nguồn lần cuối mở
-//    public static void setPrefDefaultWebsite(Context context, String value){
-//        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-//        SharedPreferences.Editor editor = preferences.edit();
-//        editor.putString(PREF_DEFAULT_WEBSITE,value);
-//        editor.apply();
-//    }
-    //    Lấy giá trị biến ghi nhớ web nguồn lần cuối mở
-//    public static String getPrefDefaultWebsite(Context context){
-//        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-//        return  preferences.getString(PREF_DEFAULT_WEBSITE,EnumWebSite.VNEXPRESS.name());
-//    }
 
 }

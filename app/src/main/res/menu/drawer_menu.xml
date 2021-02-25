@@ -5,54 +5,24 @@
         <item
             android:id="@+id/nav_home"
             android:checked="true"
-            android:icon="@drawable/d_home"
+            android:icon="@drawable/ic_home"
             android:title="@string/menu_home" />
         <item
-            android:id="@+id/nav_latest"
-            android:icon="@drawable/d_latest"
-            android:title="@string/menu_latest" />
+            android:id="@+id/nav_kitchen_cabinets"
+            android:icon="@drawable/ic_cabinet"
+            android:title="@string/kitchen_cabinets" />
         <item
-            android:id="@+id/nav_most_view"
-            android:icon="@drawable/ic_most_view"
-            android:title="@string/menu_most_view" />
-
-<!--        <item-->
-<!--            android:id="@+id/nav_collection"-->
-<!--            android:icon="@drawable/ic_collection"-->
-<!--            android:title="@string/menu_collection" />-->
+            android:id="@+id/nav_menu"
+            android:icon="@drawable/ic_menu_food"
+            android:title="@string/menu_menu" />
         <item
-            android:id="@+id/nav_cat"
-            android:icon="@drawable/d_categories"
-            android:title="@string/menu_category" />
-        <!--        <item-->
-        <!--            android:id="@+id/nav_fav"-->
-        <!--            android:icon="@drawable/d_favorites"-->
-        <!--            android:title="@string/menu_favorite" />-->
-        <item
-            android:id="@+id/nav_follow_recipe"
-            android:icon="@drawable/ic_your_recipe"
-            android:title="@string/menu_follow_recipe" />
-        <item
-            android:id="@+id/nav_saved"
-            android:icon="@drawable/d_bookmark"
-            android:title="@string/menu_save" />
-
-        <!--        <item-->
-        <!--            android:id="@+id/nav_your_recipe"-->
-        <!--            android:icon="@drawable/ic_your_recipe"-->
-        <!--            android:title="@string/menu_your_recipe" />-->
-
+            android:id="@+id/nav_cart"
+            android:icon="@drawable/ic_cart"
+            android:title="@string/menu_cart" />
         <item
             android:id="@+id/nav_setting"
             android:icon="@drawable/ic_setting"
             android:title="@string/menu_setting" />
-
-        <item
-            android:id="@+id/menu_go_login"
-            android:checkable="false"
-            android:icon="@drawable/ic_login"
-            android:title="@string/menu_login" />
-
         <item
             android:id="@+id/menu_go_logout"
             android:checkable="false"

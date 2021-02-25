@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -43,6 +44,7 @@ import com.github.phuctranba.core.util.JsonUtils;
 public class SignInActivity extends AppCompatActivity implements Validator.ValidationListener {
 
     String strEmail, strPassword;
+    TextView txtMyCabinet;
 
     @Email(message = "Vui lòng nhập email hợp lệ")
     EditText edtEmail;
@@ -58,10 +60,6 @@ public class SignInActivity extends AppCompatActivity implements Validator.Valid
     JsonUtils jsonUtils;
     FirebaseAuth mauth;
 
-    /**
-     * Tùy chỉnh phông chữ
-     * Xem thêm tại https://github.com/InflationX/Calligraphy
-     */
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
@@ -76,6 +74,7 @@ public class SignInActivity extends AppCompatActivity implements Validator.Valid
 
         Init();
 
+        txtMyCabinet.setText(Html.fromHtml(getString(R.string.view_my_cabinets)));
 
         btnSingIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,6 +101,14 @@ public class SignInActivity extends AppCompatActivity implements Validator.Valid
             }
         });
 
+        txtMyCabinet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SignInActivity.this, MyRecipeActivity.class);
+                startActivity(intent);
+            }
+        });
+
         validator = new Validator(this);
         validator.setValidationListener(this);
     }
@@ -114,7 +121,7 @@ public class SignInActivity extends AppCompatActivity implements Validator.Valid
         edtEmail = findViewById(R.id.editText_email_login);
         edtPassword = findViewById(R.id.editText_password_login_activity);
         btnSingIn = findViewById(R.id.button_login_activity);
-
+        txtMyCabinet = findViewById(R.id.txt_my_cabinet);
 
         textForgot = findViewById(R.id.textView_forget_password_login);
         textSignUp = findViewById(R.id.textView_signup_login);
@@ -153,6 +160,7 @@ public class SignInActivity extends AppCompatActivity implements Validator.Valid
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                     ItemUser user = snapshot.getValue(ItemUser.class);
                                     MySharedPreferences.setPrefUser(SignInActivity.this, user);
+                                    MySharedPreferences.setLogin(SignInActivity.this, true);
 
                                     pDialog.dismiss();
                                     ActivityCompat.finishAffinity(SignInActivity.this);

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -56,21 +57,22 @@ public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.ItemRowHolde
         final ItemRecipe singleItem = dataList.get(position);
 
         Picasso.get().load(singleItem.getRecipeImage()).placeholder(R.drawable.place_holder_big).into(holder.image);
-        holder.txt_cat.setText(singleItem.getRecipeCategoryName());
-        holder.txt_time.setText(Integer.toString(singleItem.getRecipeTime()) + " phút");
-        holder.txt_recipe.setText(singleItem.getRecipeName());
-        holder.txt_view.setText(JsonUtils.Format(singleItem.getRecipeViews()));
 
-//        holder.ratingView.setRating(Float.parseFloat(singleItem.getRecipeAvgRate()));
-
-        if (singleItem.getRecipeUserLiked()) {
-            holder.image_fav.setImageResource(R.drawable.fave_hov);
-            Common.removeRecipe(singleItem, true, databaseHelper);
-            Common.insertRecipe(DatabaseHelper.TABLE_FAVOURITE_NAME, singleItem, true, databaseHelper);
-        } else {
-            holder.image_fav.setImageResource(R.drawable.fav_list);
-            Common.removeRecipe(singleItem, true, databaseHelper);
-        }
+//        holder.txt_cat.setText(singleItem.getRecipeCategoryName());
+//        holder.txt_time.setText(Integer.toString(singleItem.getRecipeTime()) + " phút");
+//        holder.txt_recipe.setText(singleItem.getRecipeName());
+//        holder.txt_view.setText(JsonUtils.Format(singleItem.getRecipeViews()));
+//
+////        holder.ratingView.setRating(Float.parseFloat(singleItem.getRecipeAvgRate()));
+//
+//        if (singleItem.getRecipeUserLiked()) {
+//            holder.image_fav.setImageResource(R.drawable.fave_hov);
+//            Common.removeRecipe(singleItem, true, databaseHelper);
+//            Common.insertRecipe(DatabaseHelper.TABLE_FAVOURITE_NAME, singleItem, true, databaseHelper);
+//        } else {
+//            holder.image_fav.setImageResource(R.drawable.fav_list);
+//            Common.removeRecipe(singleItem, true, databaseHelper);
+//        }
 
         holder.rootLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,17 +125,17 @@ public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.ItemRowHolde
     }
 
     public void filter(String charText) {
-        charText = charText.toLowerCase(Locale.getDefault());
-        dataList.clear();
-        if (charText.length() == 0) {
-            dataList.addAll(mDataList);
-        } else {
-            for (ItemRecipe wp : mDataList) {
-                if (wp.getRecipeName().toLowerCase(Locale.getDefault()).contains(charText) || wp.getRecipeCategoryName().toLowerCase(Locale.getDefault()).contains(charText) ) {
-                    dataList.add(wp);
-                }
-            }
-        }
-        notifyDataSetChanged();
+//        charText = charText.toLowerCase(Locale.getDefault());
+//        dataList.clear();
+//        if (charText.length() == 0) {
+//            dataList.addAll(mDataList);
+//        } else {
+//            for (ItemRecipe wp : mDataList) {
+//                if (wp.getRecipeName().toLowerCase(Locale.getDefault()).contains(charText) || wp.getRecipeCategoryName().toLowerCase(Locale.getDefault()).contains(charText) ) {
+//                    dataList.add(wp);
+//                }
+//            }
+//        }
+//        notifyDataSetChanged();
     }
 }

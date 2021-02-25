@@ -11,15 +11,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-import com.github.phuctranba.core.item.ItemStep;
 import com.github.phuctranba.sharedkitchen.R;
 
 public class RecipeStepAdapter extends RecyclerView.Adapter<RecipeStepAdapter.ItemRowHolder> {
 
-    private ArrayList<ItemStep> dataList;
+    private ArrayList<String> dataList;
     private Context mContext;
 
-    public RecipeStepAdapter(Context context, ArrayList<ItemStep> dataList) {
+    public RecipeStepAdapter(Context context, ArrayList<String> dataList) {
         this.dataList = dataList;
         this.mContext = context;
     }
@@ -32,10 +31,10 @@ public class RecipeStepAdapter extends RecyclerView.Adapter<RecipeStepAdapter.It
 
     @Override
     public void onBindViewHolder(ItemRowHolder holder, final int position) {
-        ItemStep singelItem = dataList.get(position);
-        holder.text.setText(singelItem.getStepDescription());
-        holder.step_number.setText(singelItem.getStepNumber());
-        if (singelItem.getStepImages() == null || singelItem.getStepImages().isEmpty()) return;
+//        ItemStep singelItem = dataList.get(position);
+//        holder.text.setText(singelItem.getStepDescription());
+//        holder.step_number.setText(singelItem.getStepNumber());
+//        if (singelItem.getStepImages() == null || singelItem.getStepImages().isEmpty()) return;
 //        FragmentManager fragmentManager = ((DetailActivity)mContext).getSupportFragmentManager();
 //        ImagesStepFragment ingredientFragment = ImagesStepFragment.newInstance((ArrayList<String>) singelItem.getStepImages());
 //        fragmentManager.beginTransaction().replace(R.id.ContainerImageStepDetail, ingredientFragment).commit();
@@ -45,8 +44,8 @@ public class RecipeStepAdapter extends RecyclerView.Adapter<RecipeStepAdapter.It
         holder.vertical_courses_list.setFocusable(false);
         holder.vertical_courses_list.setNestedScrollingEnabled(false);
 
-        ImageStepAdapter mAdapter = new ImageStepAdapter(singelItem.getStepImages());
-        holder.vertical_courses_list.setAdapter(mAdapter);
+//        ImageStepAdapter mAdapter = new ImageStepAdapter(singelItem.getStepImages());
+//        holder.vertical_courses_list.setAdapter(mAdapter);
     }
 
     @Override

@@ -174,7 +174,7 @@ public class SignUpActivity extends AppCompatActivity implements Validator.Valid
                             if (task.isSuccessful()) {
 
                                 MySharedPreferences.setPrefUser(SignUpActivity.this, user);
-
+                                MySharedPreferences.setLogin(SignUpActivity.this, true);
                                 pDialog.dismiss();
 
                                 dialog.setTitle(getString(R.string.dialog_success))
@@ -192,7 +192,7 @@ public class SignUpActivity extends AppCompatActivity implements Validator.Valid
                                                 finish();
                                             }
                                         })
-                                        .addButton(getString(R.string.dialog_ok), R.color.dialog_white_text, R.color.dialog_color_success, new PrettyDialogCallback() {
+                                        .addButton(getString(R.string.dialog_come_to_kitchen), R.color.dialog_white_text, R.color.dialog_color_success, new PrettyDialogCallback() {
                                             @Override
                                             public void onClick() {
                                                 dialog.dismiss();

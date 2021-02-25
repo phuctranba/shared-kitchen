@@ -127,10 +127,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             do {
                 ItemRecipe contact = new ItemRecipe();
                 contact.setRecipeId(cursor.getString(cursor.getColumnIndexOrThrow(KEY_ID)));
-                contact.setRecipeName(cursor.getString(cursor.getColumnIndexOrThrow(KEY_TITLE)));
-                contact.setRecipeImageBig(cursor.getString(cursor.getColumnIndexOrThrow(KEY_IMAGE)));
-                contact.setRecipeTime(cursor.getInt(cursor.getColumnIndexOrThrow(KEY_TIME)));
-                contact.setRecipeCategoryName(cursor.getString(cursor.getColumnIndexOrThrow(KEY_CAT)));
+//                contact.setRecipeName(cursor.getString(cursor.getColumnIndexOrThrow(KEY_TITLE)));
+//                contact.setRecipeImageBig(cursor.getString(cursor.getColumnIndexOrThrow(KEY_IMAGE)));
+//                contact.setRecipeTime(cursor.getInt(cursor.getColumnIndexOrThrow(KEY_TIME)));
+//                contact.setRecipeCategoryName(cursor.getString(cursor.getColumnIndexOrThrow(KEY_CAT)));
 
                 chapterList.add(contact);
             } while (cursor.moveToNext());
