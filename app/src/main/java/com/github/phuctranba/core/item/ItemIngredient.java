@@ -1,6 +1,8 @@
 package com.github.phuctranba.core.item;
 
-public class ItemIngredient {
+import java.io.Serializable;
+
+public class ItemIngredient implements Serializable {
     private String IngredientId;
     private String IngredientName;
     private String IngredientAmount;

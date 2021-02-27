@@ -5,25 +5,30 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
-
         tools:replace="android:icon">
-        <activity android:name=".CreateRecipeActivity"
-            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".BrowseActivity" />
+        <activity
+            android:name=".CreateRecipeActivity"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".MyRecipeActivity"
             android:label="@string/title_activity_my_recipe"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".YoutubePlayActivity" />
+        <activity android:name=".BrowseDetailActivity" />
         <activity android:name=".ChangePasswordActivity" />
         <activity android:name=".PrivacyActivity" />
         <activity android:name="com.github.phuctranba.core.fragment.SubCategoryFragment" />

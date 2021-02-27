@@ -3,26 +3,67 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="3dp"
-    android:gravity="center|start"
-    android:orientation="horizontal">
+    android:orientation="vertical"
+    android:weightSum="1"
+    android:paddingVertical="8dp">
 
-    <ImageView
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:contentDescription="@string/app_name"
-        android:src="@drawable/ic_shape" />
+    <LinearLayout
+        android:gravity="center_vertical"
+        android:weightSum="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_weight=".1"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_ingredient" />
 
-    <TextView
-        android:id="@+id/textIngredient"
-        fontPath="myfonts/Montserrat-Regular.ttf"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:singleLine="true"
-        android:text="@string/no_item_found"
-        android:textColor="@color/detail_text"
-        android:textSize="13sp"
-        tools:ignore="MissingPrefix" />
+        <TextView
+            android:id="@+id/textIngredient"
+            fontPath="myfonts/Montserrat-Regular.ttf"
+            android:layout_weight=".7"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:text="@string/no_item_found"
+            android:textColor="@color/gray"
+            android:textSize="14sp"
+            tools:ignore="MissingPrefix" />
+
+        <TextView
+            android:layout_gravity="bottom"
+            android:textAlignment="textEnd"
+            android:id="@+id/textAmount"
+            fontPath="myfonts/Montserrat-Regular.ttf"
+            android:layout_weight=".2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:singleLine="true"
+            android:text="@string/no_item_found"
+            android:textColor="@color/gray"
+            android:textSize="14sp"
+            tools:ignore="MissingPrefix,RtlCompat" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/divider"
+        android:gravity="center_vertical"
+        android:weightSum="1"
+        android:layout_marginTop="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_weight=".1"
+            android:layout_width="0dp"
+            android:layout_height="1dp"/>
+
+        <LinearLayout
+            android:layout_weight=".9"
+            android:layout_width="0dp"
+            android:layout_height="0.5dp"
+            android:background="@color/gray_light"/>
+    </LinearLayout>
 
 </LinearLayout>

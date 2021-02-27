@@ -2,13 +2,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context="com.github.phuctranba.core.fragment.YourRecipeLocalFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
+    <com.github.phuctranba.core.adapter.EmptyRecyclerView
         android:id="@+id/vertical_courses_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="4dp" />
+
+    <LinearLayout
+        android:id="@+id/emptyView"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:textSize="15sp"
+            android:textColor="@color/black"
+            android:textAlignment="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Trống"/>
+    </LinearLayout>
 
     <ProgressBar
         android:id="@+id/progressBar"

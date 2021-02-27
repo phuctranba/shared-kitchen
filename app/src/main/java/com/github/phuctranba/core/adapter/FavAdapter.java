@@ -93,7 +93,7 @@ public class FavAdapter extends RecyclerView.Adapter<FavAdapter.ItemRowHolder> {
                         holder.image_save.setImageResource(R.drawable.d_bookmark);
 //                        Toast.makeText(mContext, mContext.getString(R.string.save_removed), Toast.LENGTH_SHORT).show();
                     } else {
-                        Common.insertRecipe(DatabaseHelper.TABLE_SAVE_NAME, singleItem, false, databaseHelper);
+//                        Common.insertRecipe(DatabaseHelper.TABLE_SAVE_NAME, singleItem, false, databaseHelper);
 
                         holder.image_save.setImageResource(R.drawable.d_bookmark_hov);
 //                        Toast.makeText(mContext, mContext.getString(R.string.saved_add), Toast.LENGTH_SHORT).show();

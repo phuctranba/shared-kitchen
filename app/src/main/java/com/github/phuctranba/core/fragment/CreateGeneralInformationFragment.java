@@ -50,6 +50,7 @@ public class CreateGeneralInformationFragment extends Fragment {
     static private Uri filePath;
     static String videoUrl;
     static boolean updateImage = false, updateVideo = false;
+    static Bitmap bitmap;
 
     @Nullable
     @Override
@@ -169,16 +170,26 @@ public class CreateGeneralInformationFragment extends Fragment {
     }
 
     public static void setData() {
-        if (updateImage)
-            CreateRecipeActivity.recipe.setRecipeImage(String.valueOf(filePath));
-
         if (updateVideo)
             CreateRecipeActivity.recipe.setRecipeVideo(videoUrl);
         CreateRecipeActivity.recipe.setRecipeName(editTextName.getText().toString().trim());
         CreateRecipeActivity.recipe.setRecipeRequire(editTextRequire.getText().toString().trim());
         CreateRecipeActivity.recipe.setRecipeLevelOfDifficult(EnumLevelOfDifficult.values()[spnLevelOfDifficult.getSelectedItemPosition()]);
         CreateRecipeActivity.recipe.setRecipeType(EnumRecipeType.values()[spnType.getSelectedItemPosition()]);
-        CreateRecipeActivity.recipe.setRecipeStorage(radioButtonLocal.isChecked()? EnumStorage.PERSONAL:EnumStorage.WAITING);
+        CreateRecipeActivity.recipe.setRecipeStorage(radioButtonLocal.isChecked() ? EnumStorage.PERSONAL : EnumStorage.WAITING);
+    }
+
+    public static boolean saveImage(String name) {
+        if (updateImage) {
+            String path = ImageUtil.saveImageToFile(bitmap, name);
+            if (path != null) {
+                CreateRecipeActivity.recipe.setRecipeImage(path);
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
@@ -188,7 +199,7 @@ public class CreateGeneralInformationFragment extends Fragment {
                 && data != null && data.getData() != null) {
             filePath = data.getData();
             try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), filePath);
+                bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), filePath);
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 imageView.setImageBitmap(bitmap);
                 updateImage = true;

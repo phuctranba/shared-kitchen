@@ -1,5 +1,6 @@
 package com.github.phuctranba.core.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -12,12 +13,20 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.ornolfr.ratingview.RatingView;
+import com.github.phuctranba.core.item.EnumStorage;
+import com.github.phuctranba.sharedkitchen.BrowseDetailActivity;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import com.github.phuctranba.core.item.ItemRecipe;
 import com.github.phuctranba.core.util.DatabaseHelper;
@@ -25,98 +34,87 @@ import com.github.phuctranba.core.util.JsonUtils;
 import com.github.phuctranba.sharedkitchen.DetailActivity;
 import com.github.phuctranba.sharedkitchen.R;
 
-public class YourRecipeAdapter extends RecyclerView.Adapter<YourRecipeAdapter.ItemRowHolder> {
+public class YourRecipeAdapter extends EmptyRecyclerView.Adapter<YourRecipeAdapter.ItemRowHolder> {
 
-    private ArrayList<ItemRecipe> dataList;
+    private List<ItemRecipe> dataList;
     private Context mContext;
-    private DatabaseHelper databaseHelper;
-    private String s_title, s_image, s_ing, s_dir, s_type, s_play_id;
 
-    public YourRecipeAdapter(Context context, ArrayList<ItemRecipe> dataList) {
-        this.dataList = dataList;
-        this.mContext = context;
-        databaseHelper = new DatabaseHelper(mContext);
+    public YourRecipeAdapter(Activity context, List<ItemRecipe> data) {
+        dataList = data;
+        mContext = context;
     }
 
     @Override
     public ItemRowHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_your_recipe_item, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_recipe_item, parent, false);
         return new ItemRowHolder(v);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onBindViewHolder(final ItemRowHolder holder, final int position) {
-        final ItemRecipe singleItem = dataList.get(position);
+        final ItemRecipe recipe = dataList.get(position);
 
-//        Picasso.get().load(singleItem.getRecipeImage()).placeholder(R.drawable.place_holder_big).into(holder.image);
-//        holder.txt_cat.setText(singleItem.getRecipeCategoryName());
-//        holder.txt_time.setText(Integer.toString(singleItem.getRecipeTime()) + " phút");
-//        holder.txt_recipe.setText(singleItem.getRecipeName());
-//        holder.ratingView.setRating(Float.parseFloat(singleItem.getRecipeAvgRate()));
+        holder.txtTime.setText(convertDateToString(recipe.getRecipeTimeCreate()));
+        holder.txtAuthor.setText(recipe.getRecipeAuthor());
+        holder.txtName.setText(recipe.getRecipeName());
+        holder.txtLevelDif.setText(recipe.getRecipeLevelOfDifficult().toString());
+        holder.txtType.setText(recipe.getRecipeType().toString());
+        holder.txtStorage.setText(recipe.getRecipeStorage().toString());
+        Picasso.get().load(iconTypeStorage(recipe.getRecipeStorage())).placeholder(R.drawable.ic_app).into(holder.imageType);
 
-        holder.lyt_parent.setOnClickListener(new View.OnClickListener() {
+        if(recipe.getRecipeImage()!=null){
+            Picasso.get().load(new File(recipe.getRecipeImage())).placeholder(R.drawable.ic_app).into(holder.image);
+        }else {
+            Picasso.get().load(R.drawable.ic_app).into(holder.image);
+        }
+
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent_detail = new Intent(mContext, DetailActivity.class);
-                intent_detail.putExtra("Id", singleItem.getRecipeId());
+                Intent intent_detail = new Intent(mContext, BrowseDetailActivity.class);
+                intent_detail.putExtra("RECIPE", recipe);
                 mContext.startActivity(intent_detail);
             }
         });
-
-//        Drawable background;
-//        switch (singleItem.getStatus()){
-//            case "1":
-//                background = mContext.getDrawable( R.drawable.y_approved_button_corner);
-//                holder.lyt_label.setBackground(background);
-//                holder.txt_label.setText(mContext.getText(R.string.approved));
-//                holder.txt_view.setText(JsonUtils.Format(singleItem.getRecipeViews()));
-//                break;
-//            case "2":
-//                background = mContext.getDrawable( R.drawable.y_pending_button_corner);
-//                holder.lyt_sec_view.setVisibility(View.GONE);
-//                holder.lyt_label.setBackground(background);
-//                holder.txt_label.setText(mContext.getText(R.string.pending));
-//                break;
-//            case "3":
-//                background = mContext.getDrawable( R.drawable.y_retry_button_corner);
-//                holder.lyt_sec_view.setVisibility(View.GONE);
-//                holder.lyt_label.setBackground(background);
-//                holder.txt_label.setText(mContext.getText(R.string.retry));
-//                break;
-//            case "4":
-//                background = mContext.getDrawable( R.drawable.y_reject_button_corner);
-//                holder.lyt_sec_view.setVisibility(View.GONE);
-//                holder.lyt_label.setBackground(background);
-//                holder.txt_label.setText(mContext.getText(R.string.reject));
-//                break;
-//        }
-
     }
 
     @Override
     public int getItemCount() {
-        return (null != dataList ? dataList.size() : 0);
+        return dataList.size();
     }
 
-    public class ItemRowHolder extends RecyclerView.ViewHolder {
-        public ImageView image;
-        private TextView txt_cat, txt_recipe, txt_view, txt_time, txt_label;
-        private LinearLayout lyt_parent, lyt_label, lyt_sec_view;
-        private RatingView ratingView;
+    public static class ItemRowHolder extends RecyclerView.ViewHolder {
+        public ImageView image, imageType;
+        protected TextView txtTime, txtAuthor, txtName, txtLevelDif, txtType, txtStorage;
+        protected CardView cardView;
 
         private ItemRowHolder(View itemView) {
             super(itemView);
-            image = itemView.findViewById(R.id.image_recipe);
-            lyt_parent = itemView.findViewById(R.id.rootLayout);
-            lyt_label = itemView.findViewById(R.id.sec_label_layout);
-            lyt_sec_view = itemView.findViewById(R.id.sec_view);
-            txt_cat = itemView.findViewById(R.id.text_cat_name);
-            txt_recipe = itemView.findViewById(R.id.text_recipe_name);
-            txt_view = itemView.findViewById(R.id.text_view);
-            txt_time = itemView.findViewById(R.id.text_time);
-            txt_label = itemView.findViewById(R.id.text_status_recipe);
-//            ratingView = itemView.findViewById(R.id.ratingView);
+            image = itemView.findViewById(R.id.image);
+            txtAuthor = itemView.findViewById(R.id.textAuthor);
+            txtTime = itemView.findViewById(R.id.textTime);
+            txtStorage = itemView.findViewById(R.id.textStorage);
+            txtName = itemView.findViewById(R.id.textName);
+            txtLevelDif = itemView.findViewById(R.id.textLevelDif);
+            txtType = itemView.findViewById(R.id.textType);
+            cardView = itemView.findViewById(R.id.card_view);
+            imageType = itemView.findViewById(R.id.imageStorage);
+        }
+    }
+
+    public String convertDateToString(Date date){
+        String pattern = "HH:mm:ss dd/MM/yyyy";
+        DateFormat df = new SimpleDateFormat(pattern);
+        return df.format(date);
+    }
+
+    private int iconTypeStorage(EnumStorage type){
+        switch (type){
+            case PUBLISHED: return R.drawable.ic_persons;
+            case APPROVED: return R.drawable.ic_approved;
+            case WAITING: return R.drawable.ic_waiting;
+            case COLLECTED: return R.drawable.ic_collect;
+            default: return R.drawable.ic_person;
         }
     }
 }

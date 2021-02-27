@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -16,7 +17,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.github.phuctranba.core.item.ItemRecipe;
 import com.github.phuctranba.core.item.ItemUser;
+import com.github.phuctranba.core.util.DatabaseHelper;
 import com.github.phuctranba.core.util.MySharedPreferences;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -24,7 +27,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
@@ -33,6 +38,7 @@ import com.mobsandgeeks.saripaar.annotation.Length;
 import com.mobsandgeeks.saripaar.annotation.Password;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import libs.mjn.prettydialog.PrettyDialog;
@@ -45,6 +51,7 @@ public class SignInActivity extends AppCompatActivity implements Validator.Valid
 
     String strEmail, strPassword;
     TextView txtMyCabinet;
+    ProgressDialog pDialog;
 
     @Email(message = "Vui lòng nhập email hợp lệ")
     EditText edtEmail;
@@ -59,6 +66,7 @@ public class SignInActivity extends AppCompatActivity implements Validator.Valid
     TextView textForgot, textSignUp;
     JsonUtils jsonUtils;
     FirebaseAuth mauth;
+    DatabaseHelper databaseHelper;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -114,6 +122,7 @@ public class SignInActivity extends AppCompatActivity implements Validator.Valid
     }
 
     void Init() {
+        databaseHelper = new DatabaseHelper(this);
         jsonUtils = new JsonUtils(this);
         mauth = FirebaseAuth.getInstance();
         myApplication = MyApplication.getAppInstance();
@@ -141,7 +150,6 @@ public class SignInActivity extends AppCompatActivity implements Validator.Valid
         strEmail = edtEmail.getText().toString();
         strPassword = edtPassword.getText().toString();
 
-        ProgressDialog pDialog;
         pDialog = new ProgressDialog(SignInActivity.this);
         pDialog.setMessage(getString(R.string.signining));
         pDialog.setCancelable(false);
@@ -162,11 +170,7 @@ public class SignInActivity extends AppCompatActivity implements Validator.Valid
                                     MySharedPreferences.setPrefUser(SignInActivity.this, user);
                                     MySharedPreferences.setLogin(SignInActivity.this, true);
 
-                                    pDialog.dismiss();
-                                    ActivityCompat.finishAffinity(SignInActivity.this);
-                                    Intent i = new Intent(SignInActivity.this, MainActivity.class);
-                                    startActivity(i);
-                                    finish();
+                                    loadUserData();
                                 }
 
                                 @Override
@@ -199,6 +203,37 @@ public class SignInActivity extends AppCompatActivity implements Validator.Valid
                     dialog.setCancelable(false);
                     dialog.show();
                 }
+            }
+        });
+    }
+
+    private void loadUserData(){
+        List<ItemRecipe> recipeList = new ArrayList<>();
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+
+        Query query = reference.child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("myRecipes");
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot item : dataSnapshot.getChildren()) {
+                        ItemRecipe recipe = item.getValue(ItemRecipe.class);
+                        recipeList.add(recipe);
+                    }
+                    databaseHelper.addListRecipe(recipeList);
+                }
+                
+                pDialog.dismiss();
+                ActivityCompat.finishAffinity(SignInActivity.this);
+                Intent i = new Intent(SignInActivity.this, MainActivity.class);
+                startActivity(i);
+                finish();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
     }

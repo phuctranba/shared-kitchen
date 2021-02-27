@@ -8,6 +8,7 @@ import androidx.viewpager.widget.ViewPager;
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import com.github.phuctranba.core.fragment.CreateStepsFragment;
 import com.github.phuctranba.core.item.EnumLevelOfDifficult;
 import com.github.phuctranba.core.item.EnumRecipeType;
 import com.github.phuctranba.core.item.ItemRecipe;
+import com.github.phuctranba.core.util.DatabaseHelper;
 import com.github.phuctranba.core.util.FireBaseUtil;
 import com.github.phuctranba.core.util.MySharedPreferences;
 import com.google.android.material.tabs.TabLayout;
@@ -38,6 +40,8 @@ public class CreateRecipeActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private TabAdapter tabAdapter;
     public static ItemRecipe recipe;
+    ProgressDialog progressDialog;
+    DatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +61,7 @@ public class CreateRecipeActivity extends AppCompatActivity {
     }
 
     private void Init() {
+        databaseHelper = new DatabaseHelper(this);
         recipe = new ItemRecipe();
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         viewPager = (ViewPager) findViewById(R.id.viewPager);
@@ -69,12 +74,17 @@ public class CreateRecipeActivity extends AppCompatActivity {
         tabLayout.setTabTextColors(ContextCompat.getColor(this, R.color.colorPrimaryLight), ContextCompat.getColor(this, R.color.colorPrimaryDark));
         viewPager.setAdapter(tabAdapter);
         tabLayout.setupWithViewPager(viewPager);
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Đang lưu...");
+        progressDialog.setCanceledOnTouchOutside(false);
     }
 
     private void setupData() {
         recipe.setRecipeId(UUID.randomUUID().toString());
         recipe.setRecipeTimeCreate(new Date());
         recipe.setRecipeAuthor(MySharedPreferences.getPrefUser(this).getName());
+        recipe.setRecipeAuthorId(MySharedPreferences.getPrefUser(this).getUserId());
         CreateGeneralInformationFragment.setData();
         CreateStepsFragment.setData();
 
@@ -108,11 +118,25 @@ public class CreateRecipeActivity extends AppCompatActivity {
             return;
         }
 
+        progressDialog.show();
+        CreateGeneralInformationFragment.saveImage(recipe.getRecipeId());
         uploadRecipe();
     }
 
     private void uploadRecipe() {
-        FireBaseUtil.createOrUpdateRecipe(this, recipe);
+        FireBaseUtil.createOrUpdateRecipe(recipe);
+
+        boolean success = databaseHelper.addRecipe(recipe);
+
+        progressDialog.dismiss();
+
+        if(success){
+            toast("Thêm thành công");
+            finish();
+        }else {
+            toast("Thêm thất bại, thử lại sau");
+        }
+
     }
 
     private void toast(String content){

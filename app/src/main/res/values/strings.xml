@@ -48,6 +48,7 @@
     <string name="menu_login">Đăng nhập</string>
     <string name="menu_logout">Đăng xuất</string>
     <string name="menu_setting">Cài đặt</string>
+    <string name="menu_browse">Duyệt công thức</string>
     <string name="menu_favorite">Công thức yêu thích</string>
     <string name="menu_home">Trang chủ</string>
     <string name="menu_category">Phân loại công thức</string>
@@ -68,6 +69,7 @@
     <string name="home_popular">Công thức phổ biến</string>
     <string name="kitchen_cabinets">Tủ bếp</string>
     <string name="create_recipe">Tạo công thức</string>
+    <string name="create_browse">Duyệt công thức</string>
     <string name="video">Video</string>
     <string name="no_item_found">Không có dữ liệu</string>
     <string name="favourite_remove">Đã bỏ yêu thích</string>

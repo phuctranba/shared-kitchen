@@ -75,13 +75,13 @@ public class HomeMostAdapter extends RecyclerView.Adapter<HomeMostAdapter.ItemRo
                     holder.image_list_fav.setImageResource(R.drawable.fav_list);
                     Toast.makeText(mContext, mContext.getString(R.string.favourite_remove), Toast.LENGTH_SHORT).show();
                 } else {
-                    fav.put(DatabaseHelper.KEY_ID, singleItem.getRecipeId());
+//                    fav.put(DatabaseHelper.KEY_ID, singleItem.getRecipeId());
 //                    fav.put(DatabaseHelper.KEY_TITLE, singleItem.getRecipeName());
 //                    fav.put(DatabaseHelper.KEY_IMAGE, singleItem.getRecipeImageBig());
 //                    fav.put(DatabaseHelper.KEY_TIME, singleItem.getRecipeTime());
 //                    fav.put(DatabaseHelper.KEY_CAT, singleItem.getRecipeCategoryName());
 
-                    databaseHelper.insertTable(DatabaseHelper.TABLE_FAVOURITE_NAME, fav, null);
+//                    databaseHelper.insertTable(DatabaseHelper.TABLE_FAVOURITE_NAME, fav, null);
                     holder.image_list_fav.setImageResource(R.drawable.fave_hov);
                     Toast.makeText(mContext, mContext.getString(R.string.favourite_add), Toast.LENGTH_SHORT).show();
                 }

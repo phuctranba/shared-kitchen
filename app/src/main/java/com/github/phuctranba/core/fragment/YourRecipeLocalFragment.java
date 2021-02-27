@@ -11,12 +11,17 @@ import android.widget.ProgressBar;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.github.phuctranba.core.adapter.BrowseRecipeViewAdapter;
+import com.github.phuctranba.core.adapter.EmptyRecyclerView;
 import com.github.phuctranba.core.adapter.YourRecipeAdapter;
 import com.github.phuctranba.core.item.ItemRecipe;
 import com.github.phuctranba.core.util.Constant;
+import com.github.phuctranba.core.util.DatabaseHelper;
 import com.github.phuctranba.core.util.JsonUtils;
 import com.github.phuctranba.sharedkitchen.MyApplication;
 import com.github.phuctranba.sharedkitchen.R;
@@ -26,15 +31,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class YourRecipeLocalFragment extends Fragment {
 
-    ArrayList<ItemRecipe> mListItem;
-    public RecyclerView recyclerView;
+    List<ItemRecipe> mListItem;
+    public EmptyRecyclerView recyclerView;
     YourRecipeAdapter adapter;
-    private ProgressBar progressBar;
-    private LinearLayout lyt_not_found;
-    private MyApplication myApplication;
+    DatabaseHelper databaseHelper;
 
     @Nullable
     @Override
@@ -43,47 +47,40 @@ public class YourRecipeLocalFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_your_recipe_tab_list_item, container, false);
         setHasOptionsMenu(true);
 
-        mListItem = new ArrayList<>();
-        myApplication = MyApplication.getAppInstance();
-
-        lyt_not_found = rootView.findViewById(R.id.lyt_not_found);
-        progressBar = rootView.findViewById(R.id.progressBar);
-        recyclerView = rootView.findViewById(R.id.vertical_courses_list);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
-        recyclerView.setFocusable(false);
-        recyclerView.setNestedScrollingEnabled(false);
-
-//        if (JsonUtils.isNetworkAvailable(requireActivity())) {
-//            new getApproved().execute(Constant.URL_RECIPES_CURRENT_USER);
-//        }
+        Init(rootView);
 
         return rootView;
     }
 
+    private void Init(View rootView){
+        mListItem = new ArrayList<>();
+        databaseHelper = new DatabaseHelper(getActivity());
 
-    private void displayData() {
+        recyclerView = rootView.findViewById(R.id.vertical_courses_list);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setFocusable(false);
+        recyclerView.setNestedScrollingEnabled(false);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+
+        adapter = new YourRecipeAdapter(getActivity(), mListItem);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setEmptyView(rootView.findViewById(R.id.emptyView));
+    }
+
+    private void loadData() {
         if (getActivity() != null) {
-            adapter = new YourRecipeAdapter(getActivity(), mListItem);
-            recyclerView.setAdapter(adapter);
+            mListItem.clear();
+            mListItem.addAll(databaseHelper.getAllRecipe());
 
-            if (adapter.getItemCount() == 0) {
-                lyt_not_found.setVisibility(View.VISIBLE);
-            } else {
-                lyt_not_found.setVisibility(View.GONE);
-            }
+            adapter.notifyDataSetChanged();
         }
     }
 
-    private void showProgress(boolean show) {
-        if (show) {
-            progressBar.setVisibility(View.VISIBLE);
-            recyclerView.setVisibility(View.GONE);
-            lyt_not_found.setVisibility(View.GONE);
-        } else {
-            progressBar.setVisibility(View.GONE);
-            recyclerView.setVisibility(View.VISIBLE);
-        }
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadData();
     }
-
 }

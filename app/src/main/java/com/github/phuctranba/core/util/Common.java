@@ -61,7 +61,7 @@ public class Common {
 
     public static void insertRecipe(String tableName, ItemRecipe singleItem, boolean isFav, DatabaseHelper databaseHelper) {
         ContentValues fav = new ContentValues();
-        fav.put(DatabaseHelper.KEY_ID, singleItem.getRecipeId());
+//        fav.put(DatabaseHelper.KEY_ID, singleItem.getRecipeId());
 //        fav.put(DatabaseHelper.KEY_TITLE, singleItem.getRecipeName());
 //        fav.put(DatabaseHelper.KEY_IMAGE, singleItem.getRecipeImageBig());
 //        fav.put(DatabaseHelper.KEY_TIME, singleItem.getRecipeTime());

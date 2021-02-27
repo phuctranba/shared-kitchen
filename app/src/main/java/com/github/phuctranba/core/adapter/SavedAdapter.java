@@ -93,7 +93,7 @@ public class SavedAdapter extends RecyclerView.Adapter<SavedAdapter.ItemRowHolde
                         Common.removeRecipe(singleItem, true, databaseHelper);
                         holder.image_fav.setImageResource(R.drawable.fav_list);
                     } else {
-                        Common.insertRecipe(DatabaseHelper.TABLE_FAVOURITE_NAME, singleItem, true, databaseHelper);
+//                        Common.insertRecipe(DatabaseHelper.TABLE_FAVOURITE_NAME, singleItem, true, databaseHelper);
                         holder.image_fav.setImageResource(R.drawable.fave_hov);
                     }
                 }

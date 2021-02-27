@@ -31,6 +31,15 @@ import androidx.viewpager.widget.PagerAdapter;
 
 import com.bumptech.glide.Glide;
 import com.github.phuctranba.core.adapter.HomeVideoAdapter;
+import com.github.phuctranba.core.util.DatabaseHelper;
+import com.github.phuctranba.core.util.MySharedPreferences;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -69,7 +78,8 @@ public class HomeFragment extends Fragment {
     CustomViewPagerAdapter mAdapter;
     HomeVideoAdapter homeVideoAdapter;
     MyApplication myApplication;
-
+    List<ItemRecipe> yourRecipeList;
+    DatabaseHelper databaseHelper;
 
     @Nullable
     @Override
@@ -79,6 +89,7 @@ public class HomeFragment extends Fragment {
         setHasOptionsMenu(true);
 
         Init(rootView);
+        updateUserData();
 
 
 //        Thêm sự kiện khi chạm, thực thi RecyclerTouchListener.ClickListener
@@ -161,7 +172,10 @@ public class HomeFragment extends Fragment {
         return rootView;
     }
 
-    void Init(View rootView){
+    void Init(View rootView) {
+
+        yourRecipeList = new ArrayList<>();
+        databaseHelper = new DatabaseHelper(getActivity());
 
 //        Map với view
         mScrollView = rootView.findViewById(R.id.scrollView);
@@ -347,6 +361,33 @@ public class HomeFragment extends Fragment {
                 return super.onOptionsItemSelected(menuItem);
         }
         return true;
+    }
+
+    private void updateUserData(){
+        List<ItemRecipe> recipesUpdate = new ArrayList<>();
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+
+        Query query = reference.child("pendings").orderByChild("recipeAuthorId").equalTo(MySharedPreferences.getPrefUser(getActivity()).getUserId());
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+
+                    for (DataSnapshot item : dataSnapshot.getChildren()) {
+                        ItemRecipe recipe = item.getValue(ItemRecipe.class);
+                        recipesUpdate.add(recipe);
+                    }
+
+                    databaseHelper.updateListRecipe(recipesUpdate);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
 }

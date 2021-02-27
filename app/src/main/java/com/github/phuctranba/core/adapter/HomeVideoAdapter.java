@@ -93,7 +93,7 @@ public class HomeVideoAdapter extends RecyclerView.Adapter<HomeVideoAdapter.Item
                         Common.removeRecipe(singleItem, true, databaseHelper);
                         holder.image_list_fav.setImageResource(R.drawable.fav_list);
                     } else {
-                        Common.insertRecipe(DatabaseHelper.TABLE_FAVOURITE_NAME, singleItem, true, databaseHelper);
+//                        Common.insertRecipe(DatabaseHelper.TABLE_FAVOURITE_NAME, singleItem, true, databaseHelper);
                         holder.image_list_fav.setImageResource(R.drawable.fave_hov);
                     }
                 }
@@ -112,7 +112,7 @@ public class HomeVideoAdapter extends RecyclerView.Adapter<HomeVideoAdapter.Item
                         holder.image_bookmark.setImageResource(R.drawable.d_bookmark);
 //                        Toast.makeText(mContext, mContext.getString(R.string.save_removed), Toast.LENGTH_SHORT).show();
                     } else {
-                        Common.insertRecipe(DatabaseHelper.TABLE_SAVE_NAME, singleItem, false, databaseHelper);
+//                        Common.insertRecipe(DatabaseHelper.TABLE_SAVE_NAME, singleItem, false, databaseHelper);
 
                         holder.image_bookmark.setImageResource(R.drawable.d_bookmark_hov);
 //                        Toast.makeText(mContext, mContext.getString(R.string.saved_add), Toast.LENGTH_SHORT).show();

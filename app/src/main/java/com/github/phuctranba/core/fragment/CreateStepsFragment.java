@@ -36,6 +36,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class CreateStepsFragment extends Fragment {
 
@@ -117,6 +118,7 @@ public class CreateStepsFragment extends Fragment {
 
         if (isnew) {
             itemIngredient = new ItemIngredient();
+            itemIngredient.setIngredientId(UUID.randomUUID().toString());
         }else {
             itemIngredient = listIngredient.get(position);
             editName.setText(itemIngredient.getIngredientName());
@@ -144,6 +146,11 @@ public class CreateStepsFragment extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
                 String name = editName.getText().toString().trim();
                 String amount = editAmount.getText().toString().trim();
+
+                if(name.equals("")){
+                    Toast.makeText(getActivity(),"Tên nguyên liệu không được trống",Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 itemIngredient.setIngredientName(name);
                 itemIngredient.setIngredientAmount(amount);
@@ -191,6 +198,10 @@ public class CreateStepsFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String step = editTextStep.getText().toString().trim();
+                if(step.equals("")){
+                    Toast.makeText(getActivity(),"Nội dung không được trống",Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 if (isnew) {
                     listStep.add(step);

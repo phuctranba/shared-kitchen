@@ -32,14 +32,14 @@ public class IngredientFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_ingredient, container, false);
         recyclerView = rootView.findViewById(R.id.vertical_courses_list);
 
-        recyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setFocusable(false);
-        recyclerView.setNestedScrollingEnabled(false);
-
-        mAdapter = new IngredientAdapter(getActivity(), mList);
-        recyclerView.setAdapter(mAdapter);
+//        recyclerView.setHasFixedSize(true);
+//        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+//        recyclerView.setLayoutManager(layoutManager);
+//        recyclerView.setFocusable(false);
+//        recyclerView.setNestedScrollingEnabled(false);
+//
+//        mAdapter = new IngredientAdapter(getActivity(), mList);
+//        recyclerView.setAdapter(mAdapter);
 
         return rootView;
     }

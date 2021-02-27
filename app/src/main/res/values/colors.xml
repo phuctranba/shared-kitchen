@@ -32,6 +32,7 @@
 
     <color name="about_title">#353535</color>
     <color name="about_text">#8b8b8b</color>
+    <color name="collect_text">#3F7CC9</color>
 
     <color name="dialog_color">#c39438</color>
     <color name="dialog_color_fail">#fa4b51</color>

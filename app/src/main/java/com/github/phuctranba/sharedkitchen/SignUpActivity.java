@@ -164,6 +164,7 @@ public class SignUpActivity extends AppCompatActivity implements Validator.Valid
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     final ItemUser user = new ItemUser(strUsername, false, strEmail);
+                    user.setUserId(FirebaseAuth.getInstance().getCurrentUser().getUid());
                     final PrettyDialog dialog = new PrettyDialog(SignUpActivity.this);
 
                     FirebaseDatabase.getInstance().getReference("users")

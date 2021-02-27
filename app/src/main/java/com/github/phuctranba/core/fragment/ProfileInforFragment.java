@@ -96,13 +96,6 @@ public class ProfileInforFragment extends Fragment {
             }
         });
 
-        btn_follow_user.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ((ProfileEditActivity) getActivity()).loadFollowersFrag();
-            }
-        });
-
         if (JsonUtils.isNetworkAvailable(getActivity())) {
             new getProfileInfo().execute(Constant.URL_PROFILE_INFO);
         }

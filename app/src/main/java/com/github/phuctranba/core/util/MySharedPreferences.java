@@ -33,8 +33,13 @@ public class MySharedPreferences {
 
     public static boolean getLogin(Context context){
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        SharedPreferences.Editor editor = preferences.edit();
         return preferences.getBoolean(PREF_USER_LOGIN,false);
+    }
+
+    //    Đặt giá trị cho biến ghi nhớ đăng nhập
+    public static boolean isAdmin(Context context){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return preferences.getBoolean(PREF_USER_ADMIN,false);
     }
 
     //    Đặt giá trị cho các biến ghi nhớ người dùng

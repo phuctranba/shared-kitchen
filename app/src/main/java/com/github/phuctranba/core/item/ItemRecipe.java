@@ -1,13 +1,13 @@
 package com.github.phuctranba.core.item;
 
-import android.graphics.Bitmap;
-
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class ItemRecipe {
+public class ItemRecipe implements Serializable {
 
     private String RecipeId;
+    private String RecipeAuthorId;
     private String RecipeName;
     private EnumLevelOfDifficult RecipeLevelOfDifficult;
     private String recipeAuthor;
@@ -19,6 +19,14 @@ public class ItemRecipe {
     private EnumRecipeType RecipeType;
     private EnumStorage RecipeStorage;
     private Date RecipeTimeCreate;
+
+    public String getRecipeAuthorId() {
+        return RecipeAuthorId;
+    }
+
+    public void setRecipeAuthorId(String recipeAuthorId) {
+        RecipeAuthorId = recipeAuthorId;
+    }
 
     public String getRecipeId() {
         return RecipeId;

@@ -37,7 +37,7 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="imagePath" value="$USER_HOME$/Desktop/id_add.png" />
+                                                <entry key="imagePath" value="$USER_HOME$/Desktop/ic_waiting.png" />
                                                 <entry key="opacityPercent" value="80" />
                                               </map>
                                             </option>
@@ -71,10 +71,10 @@
                                   <option name="values">
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
-                                      <entry key="imageAsset" value="$USER_HOME$/Desktop/id_add.png" />
-                                      <entry key="outputName" value="ic_add" />
+                                      <entry key="imageAsset" value="$USER_HOME$/Desktop/ic_waiting.png" />
+                                      <entry key="outputName" value="ic_waiting" />
                                       <entry key="theme" value="CUSTOM" />
-                                      <entry key="themeColor" value="ffffff" />
+                                      <entry key="themeColor" value="414141" />
                                     </map>
                                   </option>
                                 </PersistentState>

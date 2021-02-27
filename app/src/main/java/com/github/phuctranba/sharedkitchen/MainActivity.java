@@ -1,5 +1,6 @@
 package com.github.phuctranba.sharedkitchen;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -16,6 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -27,6 +29,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.github.phuctranba.core.util.DatabaseHelper;
+import com.github.phuctranba.core.util.ImageUtil;
 import com.github.phuctranba.core.util.MySharedPreferences;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,7 +41,6 @@ import libs.mjn.prettydialog.PrettyDialogCallback;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import com.github.phuctranba.core.fragment.CategoryFragment;
 import com.github.phuctranba.core.fragment.FavoritesFragment;
-import com.github.phuctranba.core.fragment.FollowRecipeFragment;
 import com.github.phuctranba.core.fragment.HomeFragment;
 import com.github.phuctranba.core.fragment.LatestFragment;
 import com.github.phuctranba.core.fragment.MostViewFragment;
@@ -46,6 +49,8 @@ import com.github.phuctranba.core.fragment.SettingFragment;
 import com.github.phuctranba.core.fragment.YourRecipeFragment;
 import com.github.phuctranba.core.util.CircleTransform;
 import com.github.phuctranba.core.util.JsonUtils;
+
+import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -63,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
     TextView header_tag, textUsername;
     ImageView headerAvata;
     FirebaseAuth mauth;
+    DatabaseHelper databaseHelper;
 
     public static final int REQUEST_PROFILE_EDIT = 1;
     private boolean isHomeFragLoaded = true;
@@ -115,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void Init(){
+        databaseHelper = new DatabaseHelper(this);
         mauth = FirebaseAuth.getInstance();
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -143,6 +150,42 @@ public class MainActivity extends AppCompatActivity {
         mDrawerLayout = findViewById(R.id.drawer_layout);
         lyt_not_found = findViewById(R.id.lyt_not_found);
         progressBar = findViewById(R.id.progressBar);
+
+        File rootFilePicture = new File(ImageUtil.ROOT_DIR_STORAGE_PICTURE_CACHE);
+        if (!rootFilePicture.exists())
+            rootFilePicture.mkdir();
+
+        menuForAdmin();
+    }
+
+    private void menuForAdmin()
+    {
+        Menu nav_Menu = navigationView.getMenu();
+        if(MySharedPreferences.isAdmin(this)){
+            nav_Menu.findItem(R.id.nav_browse).setVisible(true);
+        }else {
+            nav_Menu.findItem(R.id.nav_browse).setVisible(false);
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void checkPermission(){
+        if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        }
+
+        if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 2);
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            checkPermission();
+        }
     }
 
     /**
@@ -155,35 +198,41 @@ public class MainActivity extends AppCompatActivity {
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         int id = menuItem.getItemId();
                         switch (id) {
-                            case R.id.nav_home:
+                            case R.id.nav_home: {
                                 HomeFragment homeFragment = new HomeFragment();
                                 loadFrag(homeFragment, getString(R.string.menu_home), fragmentManager);
                                 mDrawerLayout.closeDrawers();
                                 break;
-                            case R.id.nav_kitchen_cabinets:
+                            }
+                            case R.id.nav_kitchen_cabinets: {
                                 mDrawerLayout.closeDrawers();
                                 Intent intent_login = new Intent(MainActivity.this, MyRecipeActivity.class);
                                 startActivity(intent_login);
                                 break;
-                            case R.id.nav_menu:
+                            }
+                            case R.id.nav_menu: {
                                 MostViewFragment mostViewFragment = new MostViewFragment();
                                 loadFrag(mostViewFragment, getString(R.string.menu_most), fragmentManager);
                                 mDrawerLayout.closeDrawers();
                                 break;
-                            case R.id.nav_cart:
-                                FollowRecipeFragment favoritesFragment = new FollowRecipeFragment();
-                                loadFrag(favoritesFragment, getString(R.string.menu_follow_recipe), fragmentManager);
-                                mDrawerLayout.closeDrawers();
-                                break;
-                            case R.id.nav_setting:
+                            }
+                            case R.id.nav_setting: {
                                 SettingFragment settingFragment = new SettingFragment();
                                 loadFrag(settingFragment, getString(R.string.menu_setting), fragmentManager);
                                 mDrawerLayout.closeDrawers();
                                 break;
-                            case R.id.menu_go_logout:
+                            }
+                            case R.id.nav_browse: {
+                                mDrawerLayout.closeDrawers();
+                                Intent intent_browse = new Intent(MainActivity.this, BrowseActivity.class);
+                                startActivity(intent_browse);
+                                break;
+                            }
+                            case R.id.menu_go_logout: {
                                 mDrawerLayout.closeDrawers();
                                 Logout();
                                 return true;
+                            }
                         }
                         return true;
                     }
@@ -213,6 +262,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick() {
                         dialog.dismiss();
                         mauth.signOut();
+                        databaseHelper.removeAll();
                         MySharedPreferences.clear(MainActivity.this);
                         Intent intent_login = new Intent(MainActivity.this, SignInActivity.class);
                         intent_login.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

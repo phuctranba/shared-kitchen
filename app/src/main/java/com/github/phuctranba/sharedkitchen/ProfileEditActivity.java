@@ -14,7 +14,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.github.phuctranba.core.fragment.FavoritesFragment;
-import com.github.phuctranba.core.fragment.FollowersFragment;
 import com.github.phuctranba.core.fragment.ProfileInforFragment;
 import com.github.phuctranba.core.fragment.YourRecipeFragment;
 
@@ -116,12 +115,6 @@ public class ProfileEditActivity extends AppCompatActivity {
     public void loadFavFrag() {
         FavoritesFragment favoriteFragment = new FavoritesFragment();
         loadFrag(favoriteFragment, getString(R.string.menu_favorite), fragmentManager);
-        isProfileEdtFrag = false;
-    }
-
-    public void loadFollowersFrag(){
-        FollowersFragment followersFragment = new FollowersFragment();
-        loadFrag(followersFragment, getString(R.string.followers), fragmentManager);
         isProfileEdtFrag = false;
     }
 

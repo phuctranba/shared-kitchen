@@ -63,18 +63,6 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ItemRowHol
 
         }
 
-        holder.text_reply_level_1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!singleItem.getReviewUserName().equals("null")) {
-                    txt_reply_username.setText(singleItem.getReviewUserName());
-                    root_reply_detail.setVisibility(View.VISIBLE);
-                    ((DetailActivity) mContext).setReply_comment_id(singleItem.getReviewId());
-                    ((DetailActivity) mContext).setReply_comment_index(position + 1);
-                }
-            }
-        });
-
 
 //        holder.ratingView.setRating(Float.parseFloat(singleItem.getReviewRate()));
 

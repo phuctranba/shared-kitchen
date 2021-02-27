@@ -4,64 +4,68 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.github.phuctranba.sharedkitchen.R;
 
-public class RecipeStepAdapter extends RecyclerView.Adapter<RecipeStepAdapter.ItemRowHolder> {
+public class RecipeStepAdapter extends BaseAdapter {
 
-    private ArrayList<String> dataList;
+    private List<String> dataList;
     private Context mContext;
+    private LayoutInflater layoutInflater;
 
-    public RecipeStepAdapter(Context context, ArrayList<String> dataList) {
+    public RecipeStepAdapter(Context context, List<String> dataList) {
         this.dataList = dataList;
         this.mContext = context;
+        this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    }
+
+
+    @Override
+    public int getCount() {
+        return dataList.size();
     }
 
     @Override
-    public ItemRowHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_detail_recipe_step, parent, false);
-        return new ItemRowHolder(v);
+    public Object getItem(int i) {
+        return dataList.get(i);
     }
 
     @Override
-    public void onBindViewHolder(ItemRowHolder holder, final int position) {
-//        ItemStep singelItem = dataList.get(position);
-//        holder.text.setText(singelItem.getStepDescription());
-//        holder.step_number.setText(singelItem.getStepNumber());
-//        if (singelItem.getStepImages() == null || singelItem.getStepImages().isEmpty()) return;
-//        FragmentManager fragmentManager = ((DetailActivity)mContext).getSupportFragmentManager();
-//        ImagesStepFragment ingredientFragment = ImagesStepFragment.newInstance((ArrayList<String>) singelItem.getStepImages());
-//        fragmentManager.beginTransaction().replace(R.id.ContainerImageStepDetail, ingredientFragment).commit();
-        holder.vertical_courses_list.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(mContext, 2);
-        holder.vertical_courses_list.setLayoutManager(layoutManager);
-        holder.vertical_courses_list.setFocusable(false);
-        holder.vertical_courses_list.setNestedScrollingEnabled(false);
+    public long getItemId(int i) {
+        return 0;
+    }
 
-//        ImageStepAdapter mAdapter = new ImageStepAdapter(singelItem.getStepImages());
-//        holder.vertical_courses_list.setAdapter(mAdapter);
+    private static class ViewHolder {
+        public TextView textViewOrder;
+        public TextView textViewContent;
     }
 
     @Override
-    public int getItemCount() {
-        return (null != dataList ? dataList.size() : 0);
-    }
+    public View getView(int i, View view, ViewGroup viewGroup) {
 
-    public class ItemRowHolder extends RecyclerView.ViewHolder {
-        public TextView text, step_number;
-        public RecyclerView vertical_courses_list;
-
-        private ItemRowHolder(View itemView) {
-            super(itemView);
-            text = itemView.findViewById(R.id.text_step_dec);
-            step_number = itemView.findViewById(R.id.text_step_number);
-            vertical_courses_list = itemView.findViewById(R.id.vertical_courses_list);
+        ViewHolder viewHolder;
+        if(view == null) {
+            view = layoutInflater.inflate(R.layout.row_detail_recipe_step, null);
+            viewHolder = new ViewHolder();
+            viewHolder.textViewOrder = (TextView) view.findViewById(R.id.order);
+            viewHolder.textViewContent = (TextView) view.findViewById(R.id.content);
+            view.setTag(viewHolder);
         }
+        else{
+            viewHolder = (ViewHolder) view.getTag();
+        }
+
+        viewHolder.textViewOrder.setText("Bước "+(i+1));
+        viewHolder.textViewContent.setText(dataList.get(i).trim());
+
+        return view;
     }
 }

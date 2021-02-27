@@ -4,86 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="3dp"
-    android:layout_marginBottom="3dp"
     android:gravity="center|start"
-    android:orientation="horizontal">
+    android:orientation="vertical"
+    android:padding="8dp">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/card_detail"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="3dp"
-        card_view:cardBackgroundColor="@color/white"
-        card_view:cardCornerRadius="4dp"
-        card_view:cardElevation="1dp"
-        card_view:cardPreventCornerOverlap="false"
-        card_view:cardUseCompatPadding="true">
+    <TextView
+        android:id="@+id/order"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Buoc 1"
+        android:textSize="15sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:orientation="horizontal">
-
-            <!--            <TextView-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="20dp"-->
-            <!--                android:contentDescription="@string/app_name"-->
-            <!--                android:text="@string/step"-->
-            <!--                android:textColor="@color/black"-->
-            <!--                android:textSize="14sp"-->
-            <!--                android:textStyle="bold" />-->
-
-            <TextView
-                android:id="@+id/text_step_number"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_marginStart="2dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="3dp"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/border_review_all"
-                android:contentDescription="@string/app_name"
-                android:gravity="center"
-                android:text="1"
-                android:textColor="@color/black"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/text_step_dec"
-                    fontPath="myfonts/Montserrat-Regular.ttf"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:singleLine="false"
-                    android:text="@string/no_item_found"
-                    android:textColor="@color/detail_text"
-                    android:textSize="13sp"
-                    tools:ignore="MissingPrefix" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/vertical_courses_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="1dp" />
-
-            </LinearLayout>
-
-            <!--            <FrameLayout-->
-            <!--                android:id="@+id/ContainerImageStepDetail"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginTop="10dp" />-->
-
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
-
+    <TextView
+        android:id="@+id/content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Chuan bi tat ca moi thu chung ta can de nau motj mon an naof anh em"
+        android:textSize="16sp"
+        android:layout_marginLeft="10dp"
+        android:textColor="@color/black"/>
 
 </LinearLayout>
