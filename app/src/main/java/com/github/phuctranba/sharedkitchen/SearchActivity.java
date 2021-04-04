@@ -1,44 +1,37 @@
 package com.github.phuctranba.sharedkitchen;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.github.phuctranba.core.adapter.RecipeViewAdapter;
+import com.github.phuctranba.core.item.ItemRecipe;
+import com.github.phuctranba.core.util.JsonUtils;
 
 import java.util.ArrayList;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
-import com.github.phuctranba.core.adapter.RecipeViewAdapter;
-import com.github.phuctranba.core.item.ItemRecipe;
-import com.github.phuctranba.core.util.Common;
-import com.github.phuctranba.core.util.Constant;
-import com.github.phuctranba.core.util.JsonUtils;
 
 public class SearchActivity extends AppCompatActivity {
 
-    ArrayList<ItemRecipe> mListItem;
+    EditText editText;
+    ArrayList<ItemRecipe> mListItem, listValues;
     public RecyclerView recyclerView;
     RecipeViewAdapter latestAdapter;
-    private ProgressBar progressBar;
     private LinearLayout lyt_not_found;
     String search;
-    LinearLayout adLayout;
     JsonUtils jsonUtils;
-    private MyApplication myApplication;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -60,29 +53,50 @@ public class SearchActivity extends AppCompatActivity {
         jsonUtils = new JsonUtils(this);
 
         Intent intent = getIntent();
-        search = intent.getStringExtra("search");
+        mListItem = (ArrayList<ItemRecipe>) intent.getSerializableExtra("LIST");
+        listValues = new ArrayList<>();
+        listValues.addAll(mListItem);
 
-        myApplication = MyApplication.getAppInstance();
-        mListItem = new ArrayList<>();
-
+        editText = findViewById(R.id.edittext);
         lyt_not_found = findViewById(R.id.lyt_not_found);
-        progressBar = findViewById(R.id.progressBar);
         recyclerView = findViewById(R.id.vertical_courses_list);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(SearchActivity.this, 1));
         recyclerView.setFocusable(false);
         recyclerView.setNestedScrollingEnabled(false);
 
-        if (JsonUtils.isNetworkAvailable(SearchActivity.this)) {
-//            new getLatest(search).execute(Constant.URL_ACTION_FINDING);
-        }
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(!charSequence.equals("") ) {
+                    listValues.clear();
+                    for(ItemRecipe itemRecipe : mListItem){
+                        if(itemRecipe.getRecipeName().toLowerCase().contains(charSequence.toString().trim().toLowerCase())){
+                            listValues.add(itemRecipe);
+                        }
+                    }
+                    latestAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        displayData();
     }
 
 
 
     private void displayData() {
-
-        latestAdapter = new RecipeViewAdapter(SearchActivity.this, mListItem);
+        latestAdapter = new RecipeViewAdapter(SearchActivity.this, listValues);
         recyclerView.setAdapter(latestAdapter);
 
         if (latestAdapter.getItemCount() == 0) {
@@ -91,17 +105,6 @@ public class SearchActivity extends AppCompatActivity {
             lyt_not_found.setVisibility(View.GONE);
         }
 
-    }
-
-    private void showProgress(boolean show) {
-        if (show) {
-            progressBar.setVisibility(View.VISIBLE);
-            recyclerView.setVisibility(View.GONE);
-            lyt_not_found.setVisibility(View.GONE);
-        } else {
-            progressBar.setVisibility(View.GONE);
-            recyclerView.setVisibility(View.VISIBLE);
-        }
     }
 
     @Override

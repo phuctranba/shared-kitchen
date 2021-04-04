@@ -22,8 +22,8 @@ import com.github.phuctranba.core.adapter.IngredientAdapter;
 import com.github.phuctranba.core.adapter.RecipeStepAdapter;
 import com.github.phuctranba.core.item.EnumStorage;
 import com.github.phuctranba.core.item.ItemRecipe;
-import com.github.phuctranba.core.util.DatabaseHelper;
 import com.github.phuctranba.core.util.FireBaseUtil;
+import com.github.phuctranba.core.util.MySharedPreferences;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.squareup.picasso.Picasso;
@@ -174,6 +174,8 @@ public class BrowseDetailActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_browse, menu);
+        MenuItem item = menu.findItem(R.id.browse);
+        item.setVisible(MySharedPreferences.getPrefUser(this).isAdmin());
         return true;
     }
 

@@ -13,6 +13,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.github.phuctranba.core.util.Constant;
+import com.github.phuctranba.core.util.JsonUtils;
 import com.google.gson.JsonObject;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
@@ -24,9 +26,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
-
-import com.github.phuctranba.core.util.Constant;
-import com.github.phuctranba.core.util.JsonUtils;
 
 public class ChangePasswordActivity extends AppCompatActivity implements Validator.ValidationListener {
 

@@ -1,25 +1,15 @@
 package com.github.phuctranba.sharedkitchen;
 
-import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,48 +17,20 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.core.app.ShareCompat;
-import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.github.ornolfr.ratingview.RatingView;
 import com.github.phuctranba.core.adapter.IngredientAdapter;
 import com.github.phuctranba.core.adapter.RecipeStepAdapter;
 import com.github.phuctranba.core.item.EnumStorage;
+import com.github.phuctranba.core.item.ItemRecipe;
+import com.github.phuctranba.core.util.DatabaseHelper;
 import com.github.phuctranba.core.util.FireBaseUtil;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
-
-import org.apache.commons.lang3.StringUtils;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
-import java.util.List;
-
-import com.github.phuctranba.core.adapter.ReviewAdapter;
-import com.github.phuctranba.core.fragment.IngredientFragment;
-import com.github.phuctranba.core.fragment.RecipeStepFragment;
-import com.github.phuctranba.core.item.ItemRecipe;
-import com.github.phuctranba.core.item.ItemReview;
-import com.github.phuctranba.core.item.ItemUser;
-import com.github.phuctranba.core.util.CircleTransform;
-import com.github.phuctranba.core.util.Common;
-import com.github.phuctranba.core.util.Constant;
-import com.github.phuctranba.core.util.DatabaseHelper;
-import com.github.phuctranba.core.util.JsonUtils;
 
 public class DetailActivity extends AppCompatActivity {
 

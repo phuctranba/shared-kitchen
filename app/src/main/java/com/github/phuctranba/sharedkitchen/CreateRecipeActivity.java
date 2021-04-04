@@ -1,25 +1,22 @@
 package com.github.phuctranba.sharedkitchen;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
-import androidx.viewpager.widget.ViewPager;
-
 import android.annotation.TargetApi;
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import com.github.phuctranba.core.adapter.CreateStepAdapter;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.viewpager.widget.ViewPager;
+
 import com.github.phuctranba.core.adapter.TabAdapter;
 import com.github.phuctranba.core.fragment.CreateGeneralInformationFragment;
 import com.github.phuctranba.core.fragment.CreateStepsFragment;
@@ -60,6 +57,7 @@ public class CreateRecipeActivity extends AppCompatActivity {
         }
     }
 
+    //Ánh xạ các thành phần
     private void Init() {
         databaseHelper = new DatabaseHelper(this);
         recipe = new ItemRecipe();
@@ -80,6 +78,7 @@ public class CreateRecipeActivity extends AppCompatActivity {
         progressDialog.setCanceledOnTouchOutside(false);
     }
 
+    //Lưu các thông tin vào công thức và kiểm tra tính hợp lệ
     private void setupData() {
         recipe.setRecipeId(UUID.randomUUID().toString());
         recipe.setRecipeTimeCreate(new Date());
@@ -123,6 +122,7 @@ public class CreateRecipeActivity extends AppCompatActivity {
         uploadRecipe();
     }
 
+    //Upload công thức lên firebase và cơ sở dữ liệu cục bộ của máy
     private void uploadRecipe() {
         FireBaseUtil.createOrUpdateRecipe(recipe);
 
@@ -161,6 +161,7 @@ public class CreateRecipeActivity extends AppCompatActivity {
         return true;
     }
 
+    //Xử lý khi click chọn menu lưu
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         switch (menuItem.getItemId()) {

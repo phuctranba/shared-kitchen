@@ -27,7 +27,6 @@
             android:name=".MyRecipeActivity"
             android:label="@string/title_activity_my_recipe"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".YoutubePlayActivity" />
         <activity android:name=".BrowseDetailActivity" />
         <activity android:name=".ChangePasswordActivity" />
         <activity android:name=".PrivacyActivity" />

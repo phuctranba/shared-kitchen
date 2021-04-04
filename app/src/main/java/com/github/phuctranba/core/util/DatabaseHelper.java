@@ -5,20 +5,17 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.net.Uri;
-import android.util.Log;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
 
 import com.github.phuctranba.core.item.EnumLevelOfDifficult;
 import com.github.phuctranba.core.item.EnumRecipeType;
 import com.github.phuctranba.core.item.EnumStorage;
 import com.github.phuctranba.core.item.ItemIngredient;
 import com.github.phuctranba.core.item.ItemRecipe;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -56,6 +53,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
+    //Tạo cơ sở dữ liệu
     @Override
     public void onCreate(SQLiteDatabase db) {
 
@@ -103,6 +101,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     // TABLE_RECIPE
+    //Thêm một danh sách công thức
     public void addListRecipe(List<ItemRecipe> recipeList) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.beginTransaction();
@@ -136,6 +135,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    //Cập nhật một danh sách công thức
     public void updateListRecipe(List<ItemRecipe> recipeList) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.beginTransaction();
@@ -169,7 +169,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-
+//Thêm một công thức
     public boolean addRecipe(ItemRecipe recipe) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
 
@@ -197,6 +197,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return value != -1;
     }
 
+    //Lấy tất cả công thức
     public List<ItemRecipe> getAllRecipe() {
 
         List<ItemRecipe> recipeArrayList = new ArrayList<>();
@@ -231,6 +232,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return recipeArrayList;
     }
 
+    //Lấy công thức theo trạng thái lưu
     public List<ItemRecipe> getRecipeByStorage(EnumStorage enumStorage) {
 
         List<ItemRecipe> recipeArrayList = new ArrayList<>();
@@ -267,6 +269,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     // TABLE_STEP
+    //Thêm danh sách các bước thực hiện theo công thức truyền vào
     public void addListStep(List<String> steps, String recipeId) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.beginTransaction();
@@ -286,6 +289,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.close();
     }
 
+    //Xóa các bước thực hiện theo công thức truyền vào
     public void deleteStepsByRecipe(String idRecipe) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_STEP, COLUMN_STEP_RECIPE + " = ?",
@@ -293,6 +297,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    //Lấy danh sách các bước theo công thức truyền vào
     public List<String> getStepsByRecipe(String idRecipe) {
 
         List<String> steps = new ArrayList<>();
@@ -312,6 +317,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     // TABLE_INGREDIENT
+    //Thêm một danh sách nguyên liệu theo công thức truyền vào
     public void addListIngredient(List<ItemIngredient> ingredients, String recipeId) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         sqLiteDatabase.beginTransaction();
@@ -332,6 +338,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.close();
     }
 
+    //Xóa danh sách nguyên liệu của công thức truyền vào
     public void deleteIngredientsByRecipe(String idRecipe) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_INGREDIENT, COLUMN_INGREDIENT_RECIPE + " = ?",
@@ -339,6 +346,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    //Lấy danh sách nguyên liệu của công thức truyền vào
     public List<ItemIngredient> getIngredientsByRecipe(String idRecipe) {
 
         List<ItemIngredient> ingredients = new ArrayList<>();
@@ -362,7 +370,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return ingredients;
     }
 
-    //Xóa dữ liệu
+    //Xóa tất cả dữ liệu
     public void removeAll()
     {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -371,97 +379,4 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.delete(DatabaseHelper.TABLE_STEP, null, null);
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // Cũ
-    public boolean getFavouriteById(String story_id) {
-        boolean count = false;
-        SQLiteDatabase db = this.getWritableDatabase();
-        String[] args = new String[]{story_id};
-        Cursor cursor = db.rawQuery("SELECT id FROM favourite WHERE id=? ", args);
-        if (cursor.moveToFirst()) {
-            count = true;
-        }
-        cursor.close();
-        db.close();
-        return count;
-    }
-
-    public void removeFavouriteById(String _id) {
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        db.execSQL("DELETE FROM  favourite " + " WHERE " + KEY_ID + " = " + _id);
-//        db.close();
-    }
-
-    public boolean getSaveAll(String story_id) {
-        boolean count = false;
-        SQLiteDatabase db = this.getWritableDatabase();
-        String[] args = new String[]{story_id};
-        Cursor cursor = db.rawQuery("SELECT id FROM recipe_save", args);
-        if (cursor.moveToFirst()) {
-            count = true;
-        }
-        cursor.close();
-        db.close();
-        return count;
-    }
-
-    public boolean getSaveById(String story_id) {
-        boolean count = false;
-        SQLiteDatabase db = this.getWritableDatabase();
-        String[] args = new String[]{story_id};
-        Cursor cursor = db.rawQuery("SELECT id FROM recipe_save WHERE id=? ", args);
-        if (cursor.moveToFirst()) {
-            count = true;
-        }
-        cursor.close();
-        db.close();
-        return count;
-    }
-
-    public void removeSaveById(String _id) {
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        db.execSQL("DELETE FROM  recipe_save " + " WHERE " + KEY_ID + " = " + _id);
-//        db.close();
-    }
-
-
-    public long insertTable(String TableName, ContentValues contentvalues, String s1) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        return db.insert(TableName, s1, contentvalues);
-    }
-
-    public ArrayList<ItemRecipe> getFavourite() {
-        ArrayList<ItemRecipe> chapterList = new ArrayList<>();
-//        String selectQuery = "SELECT *  FROM "
-//                + TABLE_FAVOURITE_NAME;
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        Cursor cursor = db.rawQuery(selectQuery, null);
-//        if (cursor.moveToFirst()) {
-//            do {
-//                ItemRecipe contact = new ItemRecipe();
-//                contact.setRecipeId(cursor.getString(cursor.getColumnIndexOrThrow(KEY_ID)));
-////                contact.setRecipeName(cursor.getString(cursor.getColumnIndexOrThrow(KEY_TITLE)));
-////                contact.setRecipeImageBig(cursor.getString(cursor.getColumnIndexOrThrow(KEY_IMAGE)));
-////                contact.setRecipeTime(cursor.getInt(cursor.getColumnIndexOrThrow(KEY_TIME)));
-////                contact.setRecipeCategoryName(cursor.getString(cursor.getColumnIndexOrThrow(KEY_CAT)));
-//
-//                chapterList.add(contact);
-//            } while (cursor.moveToNext());
-//        }
-//        cursor.close();
-//        db.close();
-        return chapterList;
-    }
 }

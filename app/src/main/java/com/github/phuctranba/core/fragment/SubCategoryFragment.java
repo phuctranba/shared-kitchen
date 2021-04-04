@@ -20,12 +20,6 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-
 import com.github.phuctranba.core.adapter.SubCategoryAdapter;
 import com.github.phuctranba.core.item.ItemCategory;
 import com.github.phuctranba.core.listener.RecyclerTouchListener;
@@ -33,6 +27,12 @@ import com.github.phuctranba.core.util.Constant;
 import com.github.phuctranba.core.util.JsonUtils;
 import com.github.phuctranba.sharedkitchen.MainActivity;
 import com.github.phuctranba.sharedkitchen.R;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class SubCategoryFragment extends Fragment {
 

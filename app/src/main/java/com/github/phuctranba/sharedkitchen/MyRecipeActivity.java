@@ -17,8 +17,8 @@ import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import com.github.phuctranba.core.adapter.TabAdapter;
-import com.github.phuctranba.core.fragment.YourRecipeLocalFragment;
 import com.github.phuctranba.core.fragment.YourRecipeCancelFragment;
+import com.github.phuctranba.core.fragment.YourRecipeLocalFragment;
 import com.github.phuctranba.core.fragment.YourRecipePendingFragment;
 import com.google.android.material.tabs.TabLayout;
 

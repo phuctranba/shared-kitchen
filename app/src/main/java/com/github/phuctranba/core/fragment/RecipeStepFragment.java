@@ -10,10 +10,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-
 import com.github.phuctranba.core.adapter.RecipeStepAdapter;
 import com.github.phuctranba.sharedkitchen.R;
+
+import java.util.ArrayList;
 
 
 public class RecipeStepFragment extends Fragment {

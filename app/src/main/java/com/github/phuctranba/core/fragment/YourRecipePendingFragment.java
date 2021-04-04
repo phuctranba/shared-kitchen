@@ -1,37 +1,24 @@
 package com.github.phuctranba.core.fragment;
 
-import android.annotation.SuppressLint;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import com.github.phuctranba.core.adapter.EmptyRecyclerView;
 import com.github.phuctranba.core.adapter.YourRecipeAdapter;
 import com.github.phuctranba.core.item.EnumStorage;
 import com.github.phuctranba.core.item.ItemRecipe;
-import com.github.phuctranba.core.util.Constant;
 import com.github.phuctranba.core.util.DatabaseHelper;
-import com.github.phuctranba.core.util.JsonUtils;
-import com.github.phuctranba.sharedkitchen.MyApplication;
 import com.github.phuctranba.sharedkitchen.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class YourRecipePendingFragment extends Fragment {
 

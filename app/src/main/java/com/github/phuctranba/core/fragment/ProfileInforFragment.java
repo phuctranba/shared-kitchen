@@ -1,6 +1,7 @@
 package com.github.phuctranba.core.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,6 +16,15 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.github.phuctranba.core.item.ItemUser;
+import com.github.phuctranba.core.util.CircleTransform;
+import com.github.phuctranba.core.util.Constant;
+import com.github.phuctranba.core.util.JsonUtils;
+import com.github.phuctranba.core.util.MySharedPreferences;
+import com.github.phuctranba.sharedkitchen.MyApplication;
+import com.github.phuctranba.sharedkitchen.MyRecipeActivity;
+import com.github.phuctranba.sharedkitchen.ProfileEditActivity;
+import com.github.phuctranba.sharedkitchen.R;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -23,18 +33,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.phuctranba.core.item.ItemUser;
-import com.github.phuctranba.core.util.CircleTransform;
-import com.github.phuctranba.core.util.Constant;
-import com.github.phuctranba.core.util.JsonUtils;
-import com.github.phuctranba.sharedkitchen.MyApplication;
-import com.github.phuctranba.sharedkitchen.ProfileEditActivity;
-import com.github.phuctranba.sharedkitchen.R;
-
 public class ProfileInforFragment extends Fragment {
 
     private Button btn_edit_profile;
-    private TextView btn_logout, btn_change_password, btn_follow_user, btn_favorites, btn_your_recipe;
+    private TextView btn_logout, btn_change_password, btn_your_recipe;
     private ImageView profileAvata;
     private TextView text_username, text_followerCounter, text_likeCounter;
     private LinearLayout lyt_not_found;
@@ -54,30 +56,18 @@ public class ProfileInforFragment extends Fragment {
         btn_edit_profile = rootView.findViewById(R.id.button_edit_profile);
         btn_change_password = rootView.findViewById(R.id.button_change_password);
         btn_logout = rootView.findViewById(R.id.button_logout);
-        btn_follow_user = rootView.findViewById(R.id.button_follows);
-        btn_favorites = rootView.findViewById(R.id.button_fav);
         btn_your_recipe = rootView.findViewById(R.id.button_your_recipe);
         profileAvata = rootView.findViewById(R.id.user_profile_photo);
         text_username = rootView.findViewById(R.id.user_profile_name);
-        text_followerCounter = rootView.findViewById(R.id.text_count_folower);
-        text_likeCounter = rootView.findViewById(R.id.text_count_like);
 
-        text_followerCounter.setText(myApplication.getUserFollowers());
-        text_likeCounter.setText(myApplication.getUserLikes());
-        text_username.setText(myApplication.getUserName());
+        text_username.setText(MySharedPreferences.getPrefUser(getActivity()).getName());
         Picasso.get().load(Constant.SERVER_URL + myApplication.getuserAvata()).placeholder(R.drawable.avatar).transform(new CircleTransform()).into(profileAvata);
 
         btn_your_recipe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((ProfileEditActivity) getActivity()).loadYourRecipeFrag();
-            }
-        });
-
-        btn_favorites.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ((ProfileEditActivity) getActivity()).loadFavFrag();
+                Intent intent = new Intent(getActivity(), MyRecipeActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -96,9 +86,9 @@ public class ProfileInforFragment extends Fragment {
             }
         });
 
-        if (JsonUtils.isNetworkAvailable(getActivity())) {
-            new getProfileInfo().execute(Constant.URL_PROFILE_INFO);
-        }
+//        if (JsonUtils.isNetworkAvailable(getActivity())) {
+//            new getProfileInfo().execute(Constant.URL_PROFILE_INFO);
+//        }
 
         return rootView;
     }

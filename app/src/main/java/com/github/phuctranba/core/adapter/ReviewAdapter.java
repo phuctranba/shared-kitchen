@@ -11,14 +11,12 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.ornolfr.ratingview.RatingView;
+import com.github.phuctranba.core.item.ItemReview;
+import com.github.phuctranba.core.util.CircleTransform;
+import com.github.phuctranba.sharedkitchen.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-
-import com.github.phuctranba.core.item.ItemReview;
-import com.github.phuctranba.core.util.CircleTransform;
-import com.github.phuctranba.sharedkitchen.DetailActivity;
-import com.github.phuctranba.sharedkitchen.R;
 
 public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ItemRowHolder> {
 

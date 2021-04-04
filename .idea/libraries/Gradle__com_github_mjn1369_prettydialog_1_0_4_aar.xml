@@ -7,6 +7,12 @@
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/dd8e88a14c01c8d0f9b9a0e15b626aec/jetified-prettydialog-1.0.4/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/dd8e88a14c01c8d0f9b9a0e15b626aec/jetified-prettydialog-1.0.4/AndroidManifest.xml" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/dd8e88a14c01c8d0f9b9a0e15b626aec/jetified-prettydialog-1.0.4/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/ee32c2ff9351fcdb382bba5083a4baff/jetified-prettydialog-1.0.4/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/ee32c2ff9351fcdb382bba5083a4baff/jetified-prettydialog-1.0.4/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/ee32c2ff9351fcdb382bba5083a4baff/jetified-prettydialog-1.0.4/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/97e7cc2503ad84e0cc4742fe6a298de1/jetified-prettydialog-1.0.4/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/97e7cc2503ad84e0cc4742fe6a298de1/jetified-prettydialog-1.0.4/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/97e7cc2503ad84e0cc4742fe6a298de1/jetified-prettydialog-1.0.4/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

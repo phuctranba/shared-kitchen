@@ -18,22 +18,19 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.github.phuctranba.core.adapter.RecipeViewAdapter;
+import com.github.phuctranba.core.item.ItemRecipe;
+import com.github.phuctranba.core.item.ItemUser;
+import com.github.phuctranba.core.util.CircleTransform;
+import com.github.phuctranba.core.util.Constant;
+import com.github.phuctranba.core.util.JsonUtils;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.github.phuctranba.core.adapter.RecipeViewAdapter;
-import com.github.phuctranba.core.item.ItemRecipe;
-import com.github.phuctranba.core.item.ItemUser;
-import com.github.phuctranba.core.util.CircleTransform;
-import com.github.phuctranba.core.util.Common;
-import com.github.phuctranba.core.util.Constant;
-import com.github.phuctranba.core.util.JsonUtils;
 
 public class ProfileActivity extends AppCompatActivity {
 

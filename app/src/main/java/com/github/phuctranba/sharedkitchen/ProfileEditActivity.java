@@ -13,9 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.github.phuctranba.core.fragment.FavoritesFragment;
 import com.github.phuctranba.core.fragment.ProfileInforFragment;
-import com.github.phuctranba.core.fragment.YourRecipeFragment;
 
 public class ProfileEditActivity extends AppCompatActivity {
 
@@ -104,18 +102,6 @@ public class ProfileEditActivity extends AppCompatActivity {
         ProfileInforFragment profileInforFragment = new ProfileInforFragment();
         loadFrag(profileInforFragment, "", fragmentManager);
         isProfileEdtFrag = true;
-    }
-
-    public void loadYourRecipeFrag() {
-        YourRecipeFragment yourRecipeFragment = new YourRecipeFragment();
-        loadFrag(yourRecipeFragment, getString(R.string.menu_your_recipe), fragmentManager);
-        isProfileEdtFrag = false;
-    }
-
-    public void loadFavFrag() {
-        FavoritesFragment favoriteFragment = new FavoritesFragment();
-        loadFrag(favoriteFragment, getString(R.string.menu_favorite), fragmentManager);
-        isProfileEdtFrag = false;
     }
 
     public void loadChangePasswordActivity() {

@@ -2,11 +2,10 @@ package com.github.phuctranba.core.youtube;
 
 import android.content.Intent;
 
+import com.github.phuctranba.core.util.Constant;
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
-
-import com.github.phuctranba.core.util.Constant;
 
 /**
  * An abstract activity which deals with recovering from errors which may occur during API

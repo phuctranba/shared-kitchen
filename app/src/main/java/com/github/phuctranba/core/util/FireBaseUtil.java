@@ -1,30 +1,22 @@
 package com.github.phuctranba.core.util;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.net.Uri;
-import android.provider.MediaStore;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.github.phuctranba.core.item.EnumRecipeType;
 import com.github.phuctranba.core.item.EnumStorage;
 import com.github.phuctranba.core.item.ItemRecipe;
-import com.github.phuctranba.core.item.ItemUser;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -32,12 +24,12 @@ import com.google.firebase.storage.UploadTask;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class FireBaseUtil {
     static FirebaseAuth mauth = FirebaseAuth.getInstance();
     static StorageReference storageReference = FirebaseStorage.getInstance().getReference();
 
+    //tạo hoặc update công thức lên firebase
     public static void createOrUpdateRecipe(ItemRecipe recipe) {
         if (recipe.getRecipeImage() != null) {
 
@@ -91,10 +83,50 @@ public class FireBaseUtil {
             createOrUpdateRecipePublish(recipe);
         else
             removeRecipePublish(recipe);
+
+        createOrUpdatePersonRecipePublish(recipe);
+    }
+
+    public static void removeRecipeFirebase(ItemRecipe recipe, Context context) {
+
+        FirebaseDatabase.getInstance().getReference("users")
+                .child(MySharedPreferences.getPrefUser(context).getUserId())
+                .child("myRecipes")
+                .child(recipe.getRecipeId())
+                .removeValue();
+
+        switch (recipe.getRecipeStorage()){
+            case WAITING:
+            case APPROVED: {
+                FirebaseDatabase.getInstance().getReference("pendings")
+                        .child(recipe.getRecipeId())
+                        .removeValue();
+                break;
+            }
+            case PUBLISHED: {
+                FirebaseDatabase.getInstance().getReference("recipes")
+                        .child(recipe.getRecipeId())
+                        .removeValue();
+
+                FirebaseDatabase.getInstance().getReference("pendings")
+                        .child(recipe.getRecipeId())
+                        .removeValue();
+                break;
+            }
+        }
     }
 
     public static void createOrUpdateRecipePublish(ItemRecipe recipe) {
         FirebaseDatabase.getInstance().getReference("recipes")
+                .child(recipe.getRecipeId())
+                .setValue(recipe);
+
+    }
+
+    public static void createOrUpdatePersonRecipePublish(ItemRecipe recipe) {
+        FirebaseDatabase.getInstance().getReference("users")
+                .child(recipe.getRecipeAuthorId())
+                .child("myRecipes")
                 .child(recipe.getRecipeId())
                 .setValue(recipe);
     }

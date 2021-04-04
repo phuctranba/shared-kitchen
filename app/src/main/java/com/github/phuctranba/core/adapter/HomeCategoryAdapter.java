@@ -10,15 +10,14 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.github.phuctranba.core.item.ItemCategory;
+import com.github.phuctranba.core.util.CircleTransform;
+import com.github.phuctranba.sharedkitchen.R;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
-
-import com.github.phuctranba.core.item.ItemCategory;
-import com.github.phuctranba.core.util.CircleTransform;
-import com.github.phuctranba.sharedkitchen.R;
 
 
 public class HomeCategoryAdapter extends RecyclerView.Adapter<HomeCategoryAdapter.ItemRowHolder> {

@@ -8,11 +8,10 @@ import android.widget.ImageView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.github.phuctranba.sharedkitchen.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
-
-import com.github.phuctranba.sharedkitchen.R;
 
 public class ImageStepAdapter extends RecyclerView.Adapter<ImageStepAdapter.ItemRowHolder> {
 

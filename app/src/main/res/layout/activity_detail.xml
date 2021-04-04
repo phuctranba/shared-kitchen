@@ -216,7 +216,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="start"
                                     android:gravity="start"
-                                    android:text="Phạm Hùng"
+                                    android:text="Người dùng"
                                     android:textColor="@color/gray_light"
                                     android:textSize="14sp"
                                     android:textStyle="bold" />

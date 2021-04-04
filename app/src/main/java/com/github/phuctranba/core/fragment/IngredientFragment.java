@@ -7,13 +7,12 @@ import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import java.util.ArrayList;
 
 import com.github.phuctranba.core.adapter.IngredientAdapter;
 import com.github.phuctranba.sharedkitchen.R;
+
+import java.util.ArrayList;
 
 public class IngredientFragment extends Fragment {
     public RecyclerView recyclerView;

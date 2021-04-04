@@ -1,9 +1,9 @@
 package com.github.phuctranba.core.util;
 
 
-import java.io.Serializable;
-
 import com.github.phuctranba.sharedkitchen.BuildConfig;
+
+import java.io.Serializable;
 
 public class Constant implements Serializable {
 

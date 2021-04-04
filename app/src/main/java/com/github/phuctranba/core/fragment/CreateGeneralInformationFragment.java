@@ -3,15 +3,12 @@ package com.github.phuctranba.core.fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -25,7 +22,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.github.phuctranba.core.item.EnumLevelOfDifficult;
 import com.github.phuctranba.core.item.EnumRecipeType;
 import com.github.phuctranba.core.item.EnumStorage;
@@ -34,8 +30,6 @@ import com.github.phuctranba.sharedkitchen.CreateRecipeActivity;
 import com.github.phuctranba.sharedkitchen.R;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -66,6 +60,7 @@ public class CreateGeneralInformationFragment extends Fragment {
         return rootView;
     }
 
+    //Ánh xạ các thành phần
     void Init(View rootView) {
         spnLevelOfDifficult = rootView.findViewById(R.id.spnLevelOfDifficult);
         spnLevelOfDifficult.setAdapter(new ArrayAdapter<EnumLevelOfDifficult>(getActivity(), android.R.layout.simple_spinner_dropdown_item, EnumLevelOfDifficult.values()));
@@ -80,7 +75,9 @@ public class CreateGeneralInformationFragment extends Fragment {
         radioButtonLocal = rootView.findViewById(R.id.rdo_local);
     }
 
+    //Cài đặt các sự kiện click
     void setClick() {
+        //Click thêm ảnh
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,6 +85,7 @@ public class CreateGeneralInformationFragment extends Fragment {
             }
         });
 
+        //Click thêm link video
         videoView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,6 +95,7 @@ public class CreateGeneralInformationFragment extends Fragment {
 
     }
 
+    //Hàm gọi mở trang chọn ảnh
     private void chooseImage() {
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -104,6 +103,7 @@ public class CreateGeneralInformationFragment extends Fragment {
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
     }
 
+    //Hiện dialog thêm link youtube
     public void displayAddVideoDialog() {
         final LayoutInflater inflater = getLayoutInflater();
         final View dialogLayout = inflater.inflate(R.layout.dialog_create_step, null);
@@ -142,7 +142,7 @@ public class CreateGeneralInformationFragment extends Fragment {
         dialog.show();
     }
 
-
+    //Hàm lấy id của video youtube từ link nhập vào
     public static String getYoutubeVideoIdFromUrl(String inUrl) {
         inUrl = inUrl.replace("&feature=youtu.be", "");
         if (inUrl.toLowerCase().contains("youtu.be")) {
@@ -157,6 +157,7 @@ public class CreateGeneralInformationFragment extends Fragment {
         return null;
     }
 
+    //hàm kiểm tra có phải link youtube ko
     public static boolean isYoutubeUrl(String youTubeURl) {
         boolean success;
         String pattern = "^(http(s)?:\\/\\/)?((w){3}.)?youtu(be|.be)?(\\.com)?\\/.+";
@@ -169,6 +170,7 @@ public class CreateGeneralInformationFragment extends Fragment {
         return success;
     }
 
+    //Lưu các tham số vừa điền vào công thức
     public static void setData() {
         if (updateVideo)
             CreateRecipeActivity.recipe.setRecipeVideo(videoUrl);
@@ -179,6 +181,7 @@ public class CreateGeneralInformationFragment extends Fragment {
         CreateRecipeActivity.recipe.setRecipeStorage(radioButtonLocal.isChecked() ? EnumStorage.PERSONAL : EnumStorage.WAITING);
     }
 
+    //Lưu ảnh vào bộ nhớ máy
     public static boolean saveImage(String name) {
         if (updateImage) {
             String path = ImageUtil.saveImageToFile(bitmap, name);
@@ -192,6 +195,7 @@ public class CreateGeneralInformationFragment extends Fragment {
         return true;
     }
 
+    //Load ảnh sau khi chọn ảnh
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

@@ -96,71 +96,12 @@
                     android:id="@+id/user_profile_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Hùng Phạm Tiến"
+                    android:text="Tên người dùng"
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:paddingTop="5dp"
-            android:weightSum="10">
-
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2.5"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/text_count_folower"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="1.5K"
-                    android:textColor="@color/black"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Ng. theo dõi"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2.5"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/text_count_like"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="1.5K"
-                    android:textColor="@color/black"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Lượt thích"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
-            </LinearLayout>
-        </LinearLayout>
-
 
         <View
             android:layout_width="match_parent"
@@ -179,49 +120,6 @@
             android:background="@color/transparent"
             android:gravity="center"
             android:orientation="vertical">
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="280dp"
-                android:layout_height="wrap_content"
-                android:foreground="?attr/selectableItemBackground"
-                card_view:cardBackgroundColor="@color/white"
-                card_view:cardCornerRadius="6dp"
-                card_view:cardElevation="3dp"
-                card_view:cardPreventCornerOverlap="false"
-                card_view:cardUseCompatPadding="true">
-
-                <TextView
-                    android:id="@+id/button_fav"
-                    android:layout_width="280dp"
-                    android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:drawableEnd="@drawable/ic_next"
-                    android:focusable="true"
-                    android:padding="15dp"
-                    android:text="@string/menu_favorite" />
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="280dp"
-                android:layout_height="wrap_content"
-                android:foreground="?attr/selectableItemBackground"
-                card_view:cardBackgroundColor="@color/white"
-                card_view:cardCornerRadius="6dp"
-                card_view:cardElevation="3dp"
-                card_view:cardPreventCornerOverlap="false"
-                card_view:cardUseCompatPadding="true">
-
-                <TextView
-                    android:id="@+id/button_follows"
-                    android:layout_width="280dp"
-                    android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:drawableEnd="@drawable/ic_next"
-                    android:focusable="true"
-                    android:padding="15dp"
-                    android:text="@string/followers" />
-
-            </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
                 android:layout_width="280dp"

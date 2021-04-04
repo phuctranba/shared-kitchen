@@ -2,37 +2,31 @@ package com.github.phuctranba.core.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.github.ornolfr.ratingview.RatingView;
 import com.github.phuctranba.core.item.EnumStorage;
+import com.github.phuctranba.core.item.ItemRecipe;
+import com.github.phuctranba.core.util.FireBaseUtil;
 import com.github.phuctranba.sharedkitchen.BrowseDetailActivity;
+import com.github.phuctranba.sharedkitchen.R;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import com.github.phuctranba.core.item.ItemRecipe;
-import com.github.phuctranba.core.util.DatabaseHelper;
-import com.github.phuctranba.core.util.JsonUtils;
-import com.github.phuctranba.sharedkitchen.DetailActivity;
-import com.github.phuctranba.sharedkitchen.R;
 
 public class YourRecipeAdapter extends EmptyRecyclerView.Adapter<YourRecipeAdapter.ItemRowHolder> {
 
@@ -61,12 +55,12 @@ public class YourRecipeAdapter extends EmptyRecyclerView.Adapter<YourRecipeAdapt
         holder.txtType.setText(recipe.getRecipeType().toString());
         holder.txtStorage.setText(recipe.getRecipeStorage().toString());
         Picasso.get().load(iconTypeStorage(recipe.getRecipeStorage())).placeholder(R.drawable.ic_app).into(holder.imageType);
-
-        if(recipe.getRecipeImage()!=null){
-            Picasso.get().load(new File(recipe.getRecipeImage())).placeholder(R.drawable.ic_app).into(holder.image);
-        }else {
-            Picasso.get().load(R.drawable.ic_app).into(holder.image);
-        }
+        Picasso.get().load(recipe.getRecipeImage()).placeholder(R.drawable.ic_app).into(holder.image);
+//        if(recipe.getRecipeImage()!=null){
+//            Picasso.get().load(new File(recipe.getRecipeImage())).placeholder(R.drawable.ic_app).into(holder.image);
+//        }else {
+//            Picasso.get().load(R.drawable.ic_app).into(holder.image);
+//        }
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,6 +70,37 @@ public class YourRecipeAdapter extends EmptyRecyclerView.Adapter<YourRecipeAdapt
                 mContext.startActivity(intent_detail);
             }
         });
+
+        holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                // setup the alert builder
+                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                builder.setTitle("Xóa công thức");
+                builder.setMessage("Bạn có muốn xóa công thức?");
+
+                // add the buttons
+                builder.setPositiveButton("Xóa", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        FireBaseUtil.removeRecipeFirebase(recipe, mContext);
+                        showToast("Đã xóa công thức!");
+                    }
+                });
+
+                builder.setNeutralButton("Hủy", null);
+
+                // create and show the alert dialog
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
+                return false;
+            }
+        });
+    }
+
+    private void showToast(String content) {
+        Toast.makeText(mContext, content, Toast.LENGTH_SHORT).show();
     }
 
     @Override

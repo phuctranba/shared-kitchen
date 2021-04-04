@@ -13,15 +13,8 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.github.ornolfr.ratingview.RatingView;
 import com.github.phuctranba.core.item.ItemRecipe;
-import com.github.phuctranba.core.util.Common;
-import com.github.phuctranba.core.util.Constant;
-import com.github.phuctranba.core.util.DatabaseHelper;
-import com.github.phuctranba.core.util.JsonUtils;
 import com.github.phuctranba.sharedkitchen.BrowseDetailActivity;
-import com.github.phuctranba.sharedkitchen.DetailActivity;
-import com.github.phuctranba.sharedkitchen.MyApplication;
 import com.github.phuctranba.sharedkitchen.R;
 import com.squareup.picasso.Picasso;
 

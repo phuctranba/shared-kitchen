@@ -1,19 +1,15 @@
 package com.github.phuctranba.core.fragment;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -22,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -29,11 +26,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
 
-import com.bumptech.glide.Glide;
-import com.github.phuctranba.core.adapter.HomeVideoAdapter;
+import com.github.phuctranba.core.adapter.HomeAdapter;
+import com.github.phuctranba.core.item.ItemRecipe;
+import com.github.phuctranba.core.listener.RecyclerTouchListener;
 import com.github.phuctranba.core.util.DatabaseHelper;
+import com.github.phuctranba.core.util.EnchantedViewPager;
 import com.github.phuctranba.core.util.MySharedPreferences;
-import com.google.firebase.auth.FirebaseAuth;
+import com.github.phuctranba.sharedkitchen.BrowseDetailActivity;
+import com.github.phuctranba.sharedkitchen.DetailActivity;
+import com.github.phuctranba.sharedkitchen.MainActivity;
+import com.github.phuctranba.sharedkitchen.MyApplication;
+import com.github.phuctranba.sharedkitchen.ProfileEditActivity;
+import com.github.phuctranba.sharedkitchen.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,41 +46,22 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
-
-import com.github.phuctranba.core.adapter.HomeAdapter;
-import com.github.phuctranba.core.adapter.HomeCategoryAdapter;
-import com.github.phuctranba.core.item.ItemCategory;
-import com.github.phuctranba.core.item.ItemRecipe;
-import com.github.phuctranba.core.listener.RecyclerTouchListener;
-import com.github.phuctranba.core.util.Common;
-import com.github.phuctranba.core.util.Constant;
-import com.github.phuctranba.core.util.EnchantedViewPager;
-import com.github.phuctranba.core.util.JsonUtils;
-import com.github.phuctranba.sharedkitchen.DetailActivity;
-import com.github.phuctranba.sharedkitchen.MainActivity;
-import com.github.phuctranba.sharedkitchen.MyApplication;
-import com.github.phuctranba.sharedkitchen.ProfileEditActivity;
-import com.github.phuctranba.sharedkitchen.R;
-import com.github.phuctranba.sharedkitchen.SearchActivity;
 
 public class HomeFragment extends Fragment {
 
     ScrollView mScrollView;
     ProgressBar mProgressBar;
     ArrayList<ItemRecipe> mSliderList;
-    RecyclerView mCabinetView, mLatestView, mVideoView;
+    RecyclerView mCabinetView, mLatestView;
     HomeAdapter cabinetAdapter, newestAdapter;
-    ArrayList<ItemRecipe> mCabinetList, mNewestList, mVideoList;
-    Button btnCabinets, btnLatest, btnVideo;
+    ArrayList<ItemRecipe> mCabinetList, mNewestList;
+    Button btnCabinets, btnLatest;
     EnchantedViewPager mViewPager;
     CustomViewPagerAdapter mAdapter;
-    HomeVideoAdapter homeVideoAdapter;
     MyApplication myApplication;
     List<ItemRecipe> yourRecipeList;
     DatabaseHelper databaseHelper;
@@ -89,32 +74,21 @@ public class HomeFragment extends Fragment {
         setHasOptionsMenu(true);
 
         Init(rootView);
+        setResult();
+        updateNewestRecipes();
         updateUserData();
 
 
-//        Thêm sự kiện khi chạm, thực thi RecyclerTouchListener.ClickListener
+//        Thêm sự kiện khi chạm, thực thi
         mCabinetView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), mCabinetView, new RecyclerTouchListener.ClickListener() {
             /**
-             * Thực thi sự kiện onclick, chuyển sang màn hình subcategory
+             * Thực thi sự kiện onclick, chuyển sang màn hình BrowseDetailActivity
              * */
             @Override
             public void onClick(View view, final int position) {
-
-//                String categoryName = mCabinetList.get(position).getCategoryName();
-//                Bundle bundle = new Bundle();
-//                bundle.putString("name", categoryName);
-//                bundle.putString("Id", mCabinetList.get(position).getCategoryId());
-//
-//                FragmentManager fm = getFragmentManager();
-//                SubCategoryFragment subCategoryFragment = new SubCategoryFragment();
-//                subCategoryFragment.setArguments(bundle);
-//                assert fm != null;
-//                FragmentTransaction ft = fm.beginTransaction();
-//                ft.hide(HomeFragment.this);
-//                ft.add(R.id.fragment1, subCategoryFragment, categoryName);
-//                ft.addToBackStack(categoryName);
-//                ft.commit();
-//                ((MainActivity) requireActivity()).setToolbarTitle(categoryName);
+                Intent intent_detail = new Intent(getActivity(), BrowseDetailActivity.class);
+                intent_detail.putExtra("RECIPE", mCabinetList.get(position));
+                getActivity().startActivity(intent_detail);
 
             }
 
@@ -124,54 +98,29 @@ public class HomeFragment extends Fragment {
             }
         }));
 
-        btnCabinets.setOnClickListener(new View.OnClickListener() {
+        mLatestView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), mCabinetView, new RecyclerTouchListener.ClickListener() {
+            /**
+             * Thực thi sự kiện onclick, chuyển sang màn hình BrowseDetailActivity
+             * */
             @Override
-            public void onClick(View view) {
-                ((MainActivity) requireActivity()).highLightNavigation(3);
-                String categoryName = getString(R.string.home_category);
-                FragmentManager fm = getFragmentManager();
-                CategoryFragment f1 = new CategoryFragment();
-                assert fm != null;
-                FragmentTransaction ft = fm.beginTransaction();
-                ft.replace(R.id.fragment1, f1, categoryName);
-                ft.commit();
-                ((MainActivity) requireActivity()).setToolbarTitle(categoryName);
-            }
-        });
+            public void onClick(View view, final int position) {
+                Intent intent_detail = new Intent(getActivity(), BrowseDetailActivity.class);
+                intent_detail.putExtra("RECIPE", mNewestList.get(position));
+                getActivity().startActivity(intent_detail);
 
-        btnLatest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ((MainActivity) requireActivity()).highLightNavigation(1);
-                String categoryName = getString(R.string.home_latest);
-                FragmentManager fm = getFragmentManager();
-                LatestFragment f1 = new LatestFragment();
-                assert fm != null;
-                FragmentTransaction ft = fm.beginTransaction();
-                ft.replace(R.id.fragment1, f1, categoryName);
-                ft.commit();
-                ((MainActivity) requireActivity()).setToolbarTitle(categoryName);
             }
-        });
 
-        btnVideo.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                ((MainActivity) requireActivity()).highLightNavigation(2);
-                String categoryName = getString(R.string.menu_most);
-                FragmentManager fm = getFragmentManager();
-                MostViewFragment f1 = new MostViewFragment();
-                assert fm != null;
-                FragmentTransaction ft = fm.beginTransaction();
-                ft.replace(R.id.fragment1, f1, categoryName);
-                ft.commit();
-                ((MainActivity) requireActivity()).setToolbarTitle(categoryName);
+            public void onLongClick(View view, int position) {
+
             }
-        });
+        }));
 
         return rootView;
     }
 
+
+    //Ánh xạ các thành phần
     void Init(View rootView) {
 
         yourRecipeList = new ArrayList<>();
@@ -182,13 +131,8 @@ public class HomeFragment extends Fragment {
         mProgressBar = rootView.findViewById(R.id.progressBar);
 
         mCabinetView = rootView.findViewById(R.id.rv_kitchen_cabinets);
-        btnCabinets = rootView.findViewById(R.id.btn_kitchen_cabinets);
 
         mLatestView = rootView.findViewById(R.id.rv_latest_recipe);
-        btnLatest = rootView.findViewById(R.id.btn_latest_recipe);
-
-        mVideoView = rootView.findViewById(R.id.rv_video);
-        btnVideo = rootView.findViewById(R.id.btn_video);
 
         mViewPager = rootView.findViewById(R.id.viewPager);
         mViewPager.useScale();
@@ -197,11 +141,7 @@ public class HomeFragment extends Fragment {
         myApplication = MyApplication.getAppInstance();
 
         mSliderList = new ArrayList<>();
-        mSliderList.add(new ItemRecipe());
-        mSliderList.add(new ItemRecipe());
-        mSliderList.add(new ItemRecipe());
         mCabinetList = new ArrayList<>();
-        mVideoList = new ArrayList<>();
         mNewestList = new ArrayList<>();
         mAdapter = new CustomViewPagerAdapter();
 
@@ -217,12 +157,6 @@ public class HomeFragment extends Fragment {
         mLatestView.setLayoutManager(layoutManager_cat);
         mLatestView.setFocusable(false);
         mLatestView.setNestedScrollingEnabled(false);
-
-        mVideoView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager_most = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        mVideoView.setLayoutManager(layoutManager_most);
-        mVideoView.setFocusable(false);
-        mVideoView.setNestedScrollingEnabled(false);
     }
 
     @Override
@@ -231,7 +165,7 @@ public class HomeFragment extends Fragment {
         ((MainActivity) getActivity()).highLightNavigation(0);
     }
 
-
+        //adapter để xử lý slide vuốt ngang bên trên
     private class CustomViewPagerAdapter extends PagerAdapter {
         private LayoutInflater inflater;
 
@@ -250,6 +184,7 @@ public class HomeFragment extends Fragment {
             return view.equals(object);
         }
 
+        //Xử lý chi tiết slide
         @Override
         public Object instantiateItem(ViewGroup container, final int position) {
             View imageLayout = inflater.inflate(R.layout.row_slider_item, container, false);
@@ -258,9 +193,9 @@ public class HomeFragment extends Fragment {
             TextView text = imageLayout.findViewById(R.id.text_title);
             TextView text_cat = imageLayout.findViewById(R.id.text_cat_title);
             LinearLayout lytParent = imageLayout.findViewById(R.id.rootLayout);
-//
-//            text.setText(mSliderList.get(position).getRecipeName());
-//            text_cat.setText(mSliderList.get(position).getRecipeCategoryName());
+
+            text.setText(mSliderList.get(position).getRecipeName());
+            text_cat.setText(mSliderList.get(position).getRecipeType().toString());
 
             Picasso.get().load(mSliderList.get(position).getRecipeImage()).placeholder(R.drawable.ic_app).into(image);
 
@@ -268,8 +203,8 @@ public class HomeFragment extends Fragment {
             lytParent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent_detail = new Intent(getActivity(), DetailActivity.class);
-                    intent_detail.putExtra("Id", mSliderList.get(position).getRecipeId());
+                    Intent intent_detail = new Intent(getActivity(), BrowseDetailActivity.class);
+                    intent_detail.putExtra("RECIPE", mSliderList.get(position));
                     getActivity().startActivity(intent_detail);
                 }
             });
@@ -283,22 +218,12 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    public void showToast(String msg) {
-        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
-    }
 
     private void setResult() {
         if (getActivity() != null) {
-            if (!mSliderList.isEmpty()) {
                 mViewPager.setAdapter(mAdapter);
-                if (mSliderList.size() >= 3) {
-                    mViewPager.setCurrentItem(1);
-                }
+//                    mViewPager.setCurrentItem(1);
 
-            }
-
-            homeVideoAdapter = new HomeVideoAdapter(getActivity(), mVideoList);
-            mVideoView.setAdapter(homeVideoAdapter);
 
             newestAdapter = new HomeAdapter(getActivity(), mNewestList);
             mLatestView.setAdapter(newestAdapter);
@@ -315,47 +240,23 @@ public class HomeFragment extends Fragment {
         inflater.inflate(R.menu.menu_profile, menu);
     }
 
+    //Xủ lý sự kiện ấn menu góc trên bên phải
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
 
-            case R.id.menu_profile:
-//                if (MyApp.getIsLogin()) {
-                Intent intent_edit = new Intent(getActivity(), ProfileEditActivity.class);
-                getActivity().startActivityForResult(intent_edit, MainActivity.REQUEST_PROFILE_EDIT);
-//                startActivity(intent_edit);
-//                } else {
-//                    final PrettyDialog dialog = new PrettyDialog(requireActivity());
-//                    dialog.setTitle(getString(R.string.dialog_warning))
-//                            .setTitleColor(R.color.dialog_text)
-//                            .setMessage(getString(R.string.login_require))
-//                            .setMessageColor(R.color.dialog_text)
-//                            .setAnimationEnabled(false)
-//                            .setIcon(R.drawable.pdlg_icon_close, R.color.dialog_color, new PrettyDialogCallback() {
-//                                @Override
-//                                public void onClick() {
-//                                    dialog.dismiss();
-//                                }
-//                            })
-//                            .addButton(getString(R.string.dialog_ok), R.color.dialog_white_text, R.color.dialog_color, new PrettyDialogCallback() {
-//                                @Override
-//                                public void onClick() {
-//                                    dialog.dismiss();
-//                                    Intent intent_login = new Intent(getActivity(), SignInActivity.class);
-//                                    intent_login.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                                    startActivity(intent_login);
-//                                }
-//                            })
-//                            .addButton(getString(R.string.dialog_no), R.color.dialog_white_text, R.color.dialog_color, new PrettyDialogCallback() {
-//                                @Override
-//                                public void onClick() {
-//                                    dialog.dismiss();
-//                                }
-//                            });
-//                    dialog.setCancelable(false);
-//                    dialog.show();
-//                }
+            case R.id.menu_profile: {
+                Intent intent = new Intent(getActivity(), ProfileEditActivity.class);
+                startActivity(intent);
                 break;
+            }
+            //Tìm kiếm
+//            case R.id.search:{
+//                Intent intent = new Intent(getActivity(), SearchActivity.class);
+//                intent.putExtra("LIST",mNewestList);
+//                startActivity(intent);
+//                break;
+//            }
 
             default:
                 return super.onOptionsItemSelected(menuItem);
@@ -363,23 +264,60 @@ public class HomeFragment extends Fragment {
         return true;
     }
 
-    private void updateUserData(){
-        List<ItemRecipe> recipesUpdate = new ArrayList<>();
-
+    //Load những công thức được public mới nhất
+    private void updateNewestRecipes() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
-        Query query = reference.child("pendings").orderByChild("recipeAuthorId").equalTo(MySharedPreferences.getPrefUser(getActivity()).getUserId());
+        //Chỉnh sửa chỗ nào để tùy chọn dữ liệu muốn lấy về
+        Query query = reference.child("recipes");
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    //Load được, có dữ liệu thì tiến hành for để xử lý
+                    mNewestList.clear();
+                    for (DataSnapshot item : dataSnapshot.getChildren()) {
+                        ItemRecipe recipe = item.getValue(ItemRecipe.class);
+                        //Thêm vào danh sách mới nhất
+                        mNewestList.add(recipe);
+                    }
+
+                    mSliderList.addAll(mNewestList);
+                    Comparator<ItemRecipe> compareByDate = (ItemRecipe o1, ItemRecipe o2) -> o1.getRecipeTimeCreate().compareTo( o2.getRecipeTimeCreate() );
+
+                    Collections.sort(mNewestList, compareByDate.reversed());
+                    //Cập nhật giao diện danh sách mới nhất
+//                    mViewPager.setCurrentItem(1);
+                    mAdapter.notifyDataSetChanged();
+                    newestAdapter.notifyDataSetChanged();
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    //Load những công thức của cá nhân người dùng
+    private void updateUserData() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+
+        Query query = reference.child("users").child(MySharedPreferences.getPrefUser(getActivity()).getUserId()).child("myRecipes");
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-
+                    mCabinetList.clear();
                     for (DataSnapshot item : dataSnapshot.getChildren()) {
                         ItemRecipe recipe = item.getValue(ItemRecipe.class);
-                        recipesUpdate.add(recipe);
+                        mCabinetList.add(recipe);
                     }
 
-                    databaseHelper.updateListRecipe(recipesUpdate);
+                    cabinetAdapter.notifyDataSetChanged();
+                    databaseHelper.updateListRecipe(mCabinetList);
                 }
             }
 

@@ -10,14 +10,13 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
-
 import com.github.phuctranba.core.item.ItemUser;
 import com.github.phuctranba.core.util.CircleTransform;
 import com.github.phuctranba.core.util.DatabaseHelper;
 import com.github.phuctranba.sharedkitchen.R;
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 
 public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ItemRowHolder> {

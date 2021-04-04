@@ -1,10 +1,6 @@
 package com.github.phuctranba.core.fragment;
 
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
-import android.graphics.drawable.BitmapDrawable;
-import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,26 +9,17 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.github.phuctranba.core.adapter.CreateIngredientAdapter;
 import com.github.phuctranba.core.adapter.CreateStepAdapter;
-import com.github.phuctranba.core.item.EnumStorage;
 import com.github.phuctranba.core.item.ItemIngredient;
-import com.github.phuctranba.core.util.ImageUtil;
 import com.github.phuctranba.sharedkitchen.CreateRecipeActivity;
 import com.github.phuctranba.sharedkitchen.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,6 +48,7 @@ public class CreateStepsFragment extends Fragment {
         return rootView;
     }
 
+    //Ánh xạ các thành phần
     void Init(View rootview) {
         listViewIngredients = rootview.findViewById(R.id.listview_ingredients);
         listViewStep = rootview.findViewById(R.id.listview_step);
@@ -78,7 +66,10 @@ public class CreateStepsFragment extends Fragment {
         listViewStep.setAdapter(createStepAdapter);
     }
 
+    //Cài đặt click
     void setClick() {
+
+        //Khi click vào 1 dòng nguyên liệu
         listViewIngredients.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -86,6 +77,7 @@ public class CreateStepsFragment extends Fragment {
             }
         });
 
+        //Khi click vào 1 dòng bước làm
         listViewStep.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -93,6 +85,7 @@ public class CreateStepsFragment extends Fragment {
             }
         });
 
+        //Khi click nút thêm nguyên liệu
         addIngredient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,6 +93,7 @@ public class CreateStepsFragment extends Fragment {
             }
         });
 
+        //Khi click nút thêm bước làm
         addStep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,6 +102,7 @@ public class CreateStepsFragment extends Fragment {
         });
     }
 
+    //hiển thị dialog chỉnh sủa hoặc thêm nguyên liệu
     public void displayEditIngredientDialog(int position, boolean isnew) {
         final LayoutInflater inflater = getLayoutInflater();
         final View dialogLayout = inflater.inflate(R.layout.dialog_create_ingredient, null);
@@ -168,6 +163,7 @@ public class CreateStepsFragment extends Fragment {
         dialog.show();
     }
 
+    //Hiển thị dialog chỉnh sửa hoặc thêm bước
     public void displayEditStepDialog(int position, boolean isnew) {
         final LayoutInflater inflater = getLayoutInflater();
         final View dialogLayout = inflater.inflate(R.layout.dialog_create_step, null);
@@ -217,6 +213,7 @@ public class CreateStepsFragment extends Fragment {
         dialog.show();
     }
 
+    //Lưu các bước và nguyên liệu vào công thức
     public static void setData() {
         CreateRecipeActivity.recipe.setRecipeSteps(listStep);
         CreateRecipeActivity.recipe.setRecipeIngredient(listIngredient);

@@ -10,13 +10,12 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.github.phuctranba.core.item.ItemCategory;
+import com.github.phuctranba.sharedkitchen.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Locale;
-
-import com.github.phuctranba.core.item.ItemCategory;
-import com.github.phuctranba.sharedkitchen.R;
 
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ItemRowHolder> {

@@ -1,22 +1,16 @@
 package com.github.phuctranba.sharedkitchen;
 
-import androidx.annotation.NonNull;
+import android.os.Bundle;
+import android.view.MenuItem;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
-import android.os.Bundle;
-import android.util.Log;
-import android.view.MenuItem;
 
 import com.github.phuctranba.core.adapter.BrowseRecipeViewAdapter;
 import com.github.phuctranba.core.adapter.EmptyRecyclerView;
 import com.github.phuctranba.core.item.ItemRecipe;
-import com.github.phuctranba.core.util.FireBaseUtil;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;

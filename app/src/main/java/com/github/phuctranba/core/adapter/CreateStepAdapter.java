@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.github.phuctranba.core.item.ItemIngredient;
 import com.github.phuctranba.sharedkitchen.R;
 
 import java.util.List;

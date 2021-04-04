@@ -29,28 +29,20 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.github.phuctranba.core.fragment.HomeFragment;
+import com.github.phuctranba.core.fragment.SettingFragment;
 import com.github.phuctranba.core.util.DatabaseHelper;
 import com.github.phuctranba.core.util.ImageUtil;
+import com.github.phuctranba.core.util.JsonUtils;
 import com.github.phuctranba.core.util.MySharedPreferences;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.squareup.picasso.Picasso;
+
+import java.io.File;
 
 import libs.mjn.prettydialog.PrettyDialog;
 import libs.mjn.prettydialog.PrettyDialogCallback;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
-import com.github.phuctranba.core.fragment.CategoryFragment;
-import com.github.phuctranba.core.fragment.FavoritesFragment;
-import com.github.phuctranba.core.fragment.HomeFragment;
-import com.github.phuctranba.core.fragment.LatestFragment;
-import com.github.phuctranba.core.fragment.MostViewFragment;
-import com.github.phuctranba.core.fragment.SavedFragment;
-import com.github.phuctranba.core.fragment.SettingFragment;
-import com.github.phuctranba.core.fragment.YourRecipeFragment;
-import com.github.phuctranba.core.util.CircleTransform;
-import com.github.phuctranba.core.util.JsonUtils;
-
-import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -206,14 +198,12 @@ public class MainActivity extends AppCompatActivity {
                             }
                             case R.id.nav_kitchen_cabinets: {
                                 mDrawerLayout.closeDrawers();
-                                Intent intent_login = new Intent(MainActivity.this, MyRecipeActivity.class);
-                                startActivity(intent_login);
+                                Intent intent = new Intent(MainActivity.this, MyRecipeActivity.class);
+                                startActivity(intent);
                                 break;
                             }
                             case R.id.nav_menu: {
-                                MostViewFragment mostViewFragment = new MostViewFragment();
-                                loadFrag(mostViewFragment, getString(R.string.menu_most), fragmentManager);
-                                mDrawerLayout.closeDrawers();
+
                                 break;
                             }
                             case R.id.nav_setting: {
@@ -333,27 +323,6 @@ public class MainActivity extends AppCompatActivity {
         navigationView.getMenu().getItem(position).setChecked(true);
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_PROFILE_EDIT) {
-            if (resultCode == ProfileEditActivity.RESPONSE_FAV_RECIPE) {
-                FavoritesFragment favoriteFragment = new FavoritesFragment();
-                loadFrag(favoriteFragment, getString(R.string.menu_favorite), fragmentManager);
-                mDrawerLayout.closeDrawers();
-            }
-            if (resultCode == ProfileEditActivity.RESPONSE_LOGOUT) {
-                Logout();
-                mDrawerLayout.closeDrawers();
-            }
-            if (resultCode == ProfileEditActivity.RESPONSE_YOUR_RECIPE) {
-                YourRecipeFragment yourRecipeFragment = new YourRecipeFragment();
-                loadFrag(yourRecipeFragment, getString(R.string.menu_your_recipe), fragmentManager);
-                mDrawerLayout.closeDrawers();
-            }
-        }
-    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

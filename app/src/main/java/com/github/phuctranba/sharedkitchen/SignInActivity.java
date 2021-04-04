@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -20,6 +19,7 @@ import androidx.core.app.ActivityCompat;
 import com.github.phuctranba.core.item.ItemRecipe;
 import com.github.phuctranba.core.item.ItemUser;
 import com.github.phuctranba.core.util.DatabaseHelper;
+import com.github.phuctranba.core.util.JsonUtils;
 import com.github.phuctranba.core.util.MySharedPreferences;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -37,15 +37,12 @@ import com.mobsandgeeks.saripaar.annotation.Email;
 import com.mobsandgeeks.saripaar.annotation.Length;
 import com.mobsandgeeks.saripaar.annotation.Password;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
 import libs.mjn.prettydialog.PrettyDialog;
 import libs.mjn.prettydialog.PrettyDialogCallback;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
-
-import com.github.phuctranba.core.util.JsonUtils;
 
 public class SignInActivity extends AppCompatActivity implements Validator.ValidationListener {
 
@@ -223,7 +220,7 @@ public class SignInActivity extends AppCompatActivity implements Validator.Valid
                     }
                     databaseHelper.addListRecipe(recipeList);
                 }
-                
+
                 pDialog.dismiss();
                 ActivityCompat.finishAffinity(SignInActivity.this);
                 Intent i = new Intent(SignInActivity.this, MainActivity.class);
