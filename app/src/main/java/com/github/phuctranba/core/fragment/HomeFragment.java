@@ -38,6 +38,7 @@ import com.github.phuctranba.sharedkitchen.MainActivity;
 import com.github.phuctranba.sharedkitchen.MyApplication;
 import com.github.phuctranba.sharedkitchen.ProfileEditActivity;
 import com.github.phuctranba.sharedkitchen.R;
+import com.github.phuctranba.sharedkitchen.SearchActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -244,19 +245,12 @@ public class HomeFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
-
-            case R.id.menu_profile: {
-                Intent intent = new Intent(getActivity(), ProfileEditActivity.class);
+            case R.id.search:{
+                Intent intent = new Intent(getActivity(), SearchActivity.class);
+                intent.putExtra("LIST",mNewestList);
                 startActivity(intent);
                 break;
             }
-            //Tìm kiếm
-//            case R.id.search:{
-//                Intent intent = new Intent(getActivity(), SearchActivity.class);
-//                intent.putExtra("LIST",mNewestList);
-//                startActivity(intent);
-//                break;
-//            }
 
             default:
                 return super.onOptionsItemSelected(menuItem);
@@ -283,7 +277,9 @@ public class HomeFragment extends Fragment {
                         mNewestList.add(recipe);
                     }
 
-                    mSliderList.addAll(mNewestList);
+                    mSliderList.add(mNewestList.get(1));
+                    mSliderList.add(mNewestList.get(3));
+                    mSliderList.add(mNewestList.get(5));
                     Comparator<ItemRecipe> compareByDate = (ItemRecipe o1, ItemRecipe o2) -> o1.getRecipeTimeCreate().compareTo( o2.getRecipeTimeCreate() );
 
                     Collections.sort(mNewestList, compareByDate.reversed());

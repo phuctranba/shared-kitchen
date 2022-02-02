@@ -38,6 +38,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_RECIPE_STORAGE = "storage";
     public static final String COLUMN_RECIPE_TIME_CREATE = "time_create";
     public static final String COLUMN_RECIPE_AUTHOR_ID = "author_id";
+    public static final String COLUMN_RECIPE_FAV = "fav";
 
     public static final String COLUMN_STEP_ID = "id";
     public static final String COLUMN_STEP_ORDER = "order_step";
@@ -68,7 +69,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + COLUMN_RECIPE_TYPE + " TEXT,"
                 + COLUMN_RECIPE_STORAGE + " TEXT,"
                 + COLUMN_RECIPE_TIME_CREATE + " INTEGER,"
-                + COLUMN_RECIPE_AUTHOR_ID + " TEXT"
+                + COLUMN_RECIPE_AUTHOR_ID + " TEXT,"
+                + COLUMN_RECIPE_FAV + " INTEGER"
                 + ")";
         db.execSQL(CREATE_RECIPE_TABLE);
 
@@ -121,6 +123,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 values.put(COLUMN_RECIPE_VIDEO, recipe.getRecipeVideo());
             values.put(COLUMN_RECIPE_TIME_CREATE, recipe.getRecipeTimeCreate().getTime());
             values.put(COLUMN_RECIPE_AUTHOR_ID, recipe.getRecipeAuthorId());
+            values.put(COLUMN_RECIPE_FAV, recipe.isFav()?1:0);
 
             sqLiteDatabase.insert(TABLE_RECIPE, null, values);
         }
@@ -152,6 +155,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             if (recipe.getRecipeVideo() != null)
                 values.put(COLUMN_RECIPE_VIDEO, recipe.getRecipeVideo());
             values.put(COLUMN_RECIPE_TIME_CREATE, recipe.getRecipeTimeCreate().getTime());
+            values.put(COLUMN_RECIPE_FAV, recipe.isFav()?1:0);
 
             sqLiteDatabase.update(TABLE_RECIPE, values, COLUMN_RECIPE_ID + " = ?",
                     new String[]{String.valueOf(recipe.getRecipeId())});
@@ -187,6 +191,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             values.put(COLUMN_RECIPE_VIDEO, recipe.getRecipeVideo());
         values.put(COLUMN_RECIPE_TIME_CREATE, recipe.getRecipeTimeCreate().getTime());
         values.put(COLUMN_RECIPE_AUTHOR_ID, recipe.getRecipeAuthorId());
+        values.put(COLUMN_RECIPE_FAV, recipe.isFav()?1:0);
 
         long value = sqLiteDatabase.insert(TABLE_RECIPE, null, values);
         sqLiteDatabase.close();
@@ -220,6 +225,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 itemRecipe.setRecipeStorage(EnumStorage.valueOf(cursor.getString(8)));
                 itemRecipe.setRecipeTimeCreate(new Date(cursor.getLong(9)));
                 itemRecipe.setRecipeAuthorId(cursor.getString(10));
+                itemRecipe.setFav(cursor.getInt(11)==1);
 
                 itemRecipe.setRecipeSteps(getStepsByRecipe(itemRecipe.getRecipeId()));
                 itemRecipe.setRecipeIngredient(getIngredientsByRecipe(itemRecipe.getRecipeId()));

@@ -37,8 +37,8 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:contentDescription="@string/app_name"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/place_holder_medium" />
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_app" />
 
                     <View
                         android:layout_width="match_parent"

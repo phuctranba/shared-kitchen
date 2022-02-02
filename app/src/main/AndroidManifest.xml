@@ -30,7 +30,6 @@
         <activity android:name=".BrowseDetailActivity" />
         <activity android:name=".ChangePasswordActivity" />
         <activity android:name=".PrivacyActivity" />
-        <activity android:name="com.github.phuctranba.core.fragment.SubCategoryFragment" />
         <activity android:name=".SearchActivity" />
         <activity android:name=".ProfileEditActivity" />
         <activity android:name=".DetailActivity" />

@@ -19,6 +19,7 @@ public class ItemRecipe implements Serializable {
     private EnumRecipeType RecipeType;
     private EnumStorage RecipeStorage;
     private Date RecipeTimeCreate;
+    private boolean Fav;
 
     public String getRecipeAuthorId() {
         return RecipeAuthorId;
@@ -50,6 +51,14 @@ public class ItemRecipe implements Serializable {
 
     public void setRecipeLevelOfDifficult(EnumLevelOfDifficult recipeLevelOfDifficult) {
         RecipeLevelOfDifficult = recipeLevelOfDifficult;
+    }
+
+    public boolean isFav() {
+        return Fav;
+    }
+
+    public void setFav(boolean fav) {
+        Fav = fav;
     }
 
     public String getRecipeAuthor() {

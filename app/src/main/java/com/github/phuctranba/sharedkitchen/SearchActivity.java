@@ -7,8 +7,10 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -16,6 +18,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.phuctranba.core.adapter.RecipeViewAdapter;
+import com.github.phuctranba.core.item.ItemIngredient;
 import com.github.phuctranba.core.item.ItemRecipe;
 import com.github.phuctranba.core.util.JsonUtils;
 
@@ -32,6 +35,8 @@ public class SearchActivity extends AppCompatActivity {
     private LinearLayout lyt_not_found;
     String search;
     JsonUtils jsonUtils;
+    boolean searchByName = true;
+    Switch aSwitch;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -57,6 +62,7 @@ public class SearchActivity extends AppCompatActivity {
         listValues = new ArrayList<>();
         listValues.addAll(mListItem);
 
+        aSwitch = findViewById(R.id.swicth);
         editText = findViewById(R.id.edittext);
         lyt_not_found = findViewById(R.id.lyt_not_found);
         recyclerView = findViewById(R.id.vertical_courses_list);
@@ -64,6 +70,13 @@ public class SearchActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new GridLayoutManager(SearchActivity.this, 1));
         recyclerView.setFocusable(false);
         recyclerView.setNestedScrollingEnabled(false);
+
+        aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                searchByName = b;
+            }
+        });
 
         editText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -76,8 +89,16 @@ public class SearchActivity extends AppCompatActivity {
                 if(!charSequence.equals("") ) {
                     listValues.clear();
                     for(ItemRecipe itemRecipe : mListItem){
-                        if(itemRecipe.getRecipeName().toLowerCase().contains(charSequence.toString().trim().toLowerCase())){
-                            listValues.add(itemRecipe);
+                        if(searchByName){
+                            if(itemRecipe.getRecipeName().toLowerCase().contains(charSequence.toString().trim().toLowerCase())){
+                                listValues.add(itemRecipe);
+                            }
+                        } else {
+                            for (ItemIngredient itemIngredient : itemRecipe.getRecipeIngredient()){
+                                if(itemIngredient.getIngredientName().toLowerCase().contains(charSequence.toString().trim().toLowerCase())){
+                                    listValues.add(itemRecipe);
+                                }
+                            }
                         }
                     }
                     latestAdapter.notifyDataSetChanged();

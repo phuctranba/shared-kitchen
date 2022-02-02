@@ -2,15 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-<!--    <item-->
-<!--        android:id="@+id/search"-->
-<!--        android:title="@string/search"-->
-<!--        app:showAsAction="always"-->
-<!--        android:icon="@drawable/ic_search"/>-->
-
     <item
-        android:id="@+id/menu_profile"
-        android:icon="@drawable/ic_menu_profile"
+        android:id="@+id/search"
         android:title="@string/search"
-        app:showAsAction="always" />
+        app:showAsAction="always"
+        android:icon="@drawable/ic_search"/>
+
+<!--    <item-->
+<!--        android:id="@+id/menu_profile"-->
+<!--        android:icon="@drawable/ic_menu_profile"-->
+<!--        android:title="@string/search"-->
+<!--        app:showAsAction="always" />-->
 </menu>

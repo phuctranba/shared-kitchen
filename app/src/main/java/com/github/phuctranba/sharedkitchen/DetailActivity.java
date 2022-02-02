@@ -3,6 +3,7 @@ package com.github.phuctranba.sharedkitchen;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,11 +31,13 @@ import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class DetailActivity extends AppCompatActivity {
 
-    private ImageView imageView, img_user_avata;
+    private ImageView imageView, img_fav;
     private TextView textName, textTime, textLevelDif, textAuthor, textType, textRequire;
     private ItemRecipe recipe;
     private DatabaseHelper databaseHelper;
@@ -96,6 +99,7 @@ public class DetailActivity extends AppCompatActivity {
         recipe = (ItemRecipe) getIntent().getSerializableExtra("RECIPE");
 
         textName = findViewById(R.id.textName);
+        img_fav = findViewById(R.id.fav);
         textLevelDif = findViewById(R.id.textLevelDif);
         textType = findViewById(R.id.textType);
         textAuthor = findViewById(R.id.textAuthor);
@@ -133,6 +137,20 @@ public class DetailActivity extends AppCompatActivity {
                     ViewGroup.LayoutParams.WRAP_CONTENT));
             linearIngredient.addView(v);
         }
+
+        img_fav.setImageDrawable(getResources().getDrawable(recipe.isFav()?R.drawable.fave_hov:R.drawable.fav_list));
+
+        img_fav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("phuc", "onClick: hello");
+                recipe.setFav(!recipe.isFav());
+                img_fav.setImageDrawable(getResources().getDrawable(recipe.isFav()?R.drawable.fave_hov:R.drawable.fav_list));
+                List<ItemRecipe> recipes = new ArrayList<>();
+                recipes.add(recipe);
+                databaseHelper.updateListRecipe(recipes);
+            }
+        });
     }
 
     private String convertDateToString(Date date) {

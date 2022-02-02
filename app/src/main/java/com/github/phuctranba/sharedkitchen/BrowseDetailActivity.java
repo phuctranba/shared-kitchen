@@ -3,6 +3,7 @@ package com.github.phuctranba.sharedkitchen;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,6 +23,7 @@ import com.github.phuctranba.core.adapter.IngredientAdapter;
 import com.github.phuctranba.core.adapter.RecipeStepAdapter;
 import com.github.phuctranba.core.item.EnumStorage;
 import com.github.phuctranba.core.item.ItemRecipe;
+import com.github.phuctranba.core.util.DatabaseHelper;
 import com.github.phuctranba.core.util.FireBaseUtil;
 import com.github.phuctranba.core.util.MySharedPreferences;
 import com.google.android.material.appbar.AppBarLayout;
@@ -30,11 +32,13 @@ import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class BrowseDetailActivity extends AppCompatActivity {
 
-    private ImageView imageView;
+    private ImageView imageView, img_fav;
     private TextView textName, textTime, textLevelDif, textAuthor, textType, textRequire;
     private ItemRecipe recipe;
     private RecipeStepAdapter recipeStepAdapter;
@@ -42,6 +46,7 @@ public class BrowseDetailActivity extends AppCompatActivity {
     private LinearLayout linearLayoutStep, linearIngredient;
     private int scrollRange = -1;
     private boolean isShow = false;
+    private DatabaseHelper databaseHelper;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -88,8 +93,9 @@ public class BrowseDetailActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void Init() {
+        databaseHelper = new DatabaseHelper(BrowseDetailActivity.this);
         recipe = (ItemRecipe) getIntent().getSerializableExtra("RECIPE");
-
+        img_fav = findViewById(R.id.fav);
         textName = findViewById(R.id.textName);
         textLevelDif = findViewById(R.id.textLevelDif);
         textType = findViewById(R.id.textType);
@@ -128,6 +134,20 @@ public class BrowseDetailActivity extends AppCompatActivity {
                     ViewGroup.LayoutParams.WRAP_CONTENT));
             linearIngredient.addView(v);
         }
+
+        img_fav.setImageDrawable(getResources().getDrawable(recipe.isFav()?R.drawable.fave_hov:R.drawable.fav_list));
+
+        img_fav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("phuc", "onClick: hello");
+                recipe.setFav(!recipe.isFav());
+                img_fav.setImageDrawable(getResources().getDrawable(recipe.isFav()?R.drawable.fave_hov:R.drawable.fav_list));
+                List<ItemRecipe> recipes = new ArrayList<>();
+                recipes.add(recipe);
+                databaseHelper.updateListRecipe(recipes);
+            }
+        });
     }
 
     private String convertDateToString(Date date) {

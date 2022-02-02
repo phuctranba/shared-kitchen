@@ -14,12 +14,23 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true" />
 
-    <EditText
-        android:id="@+id/edittext"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Tìm kiếm theo tên"
-        android:layout_margin="10dp"/>
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/edittext"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:hint="Tìm kiếm theo tên"
+            android:layout_margin="10dp"/>
+        <Switch
+            android:checked="true"
+            android:id="@+id/swicth"
+            android:text="Tên/Nguyên liệu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/vertical_courses_list"

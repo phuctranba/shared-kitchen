@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
         android:background="@drawable/border_add_edittxt"
-        android:hint="@string/add_dialog_ingredient_name"
+        android:hint="Bước làm"
         android:inputType="textMultiLine"
         android:lines="4"
         android:paddingHorizontal="20dp"
